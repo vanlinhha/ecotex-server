@@ -20,7 +20,7 @@ Route::post('register', 'Cores\Rest\UserController@register');
 Route::post('login', 'Cores\Rest\UserController@authenticate');
 Route::get('open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile']);
 
-Route::group(['middleware' => ['jwt.verify', 'permission:read-profile']], function() {
+Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', 'Cores\Rest\UserController@getAuthenticatedUser');
     Route::get('closed', 'DataController@closed');
 });
