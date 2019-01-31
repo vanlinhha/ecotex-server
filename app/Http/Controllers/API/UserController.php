@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cores\Rest;
+namespace App\Http\Controllers\API;
 
 use App\Models\Cores\Cores_user;
 use Illuminate\Http\Request;

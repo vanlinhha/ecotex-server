@@ -23,3 +23,7 @@
 //});
 //require 'cores.php';
 //require 'sipas.php';
+
+
+
+//Route::resource('pets', 'PetsController');

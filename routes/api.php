@@ -14,13 +14,16 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/403', function (){
-    return response()->json(['errors' => 'Bạn không có quyền thực hiện chức năng này', 'status' => 403], 403);
+    return response()->json(['errors' => 'Bạn không có quyền thực hiện chức năng này', 'status' => 403, 'data' => []], 403);
 });
-Route::post('register', 'Cores\Rest\UserController@register');
-Route::post('login', 'Cores\Rest\UserController@authenticate');
+Route::post('register', 'UserController@register');
+Route::post('login', 'UserController@authenticate');
 Route::get('open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::get('user', 'Cores\Rest\UserController@getAuthenticatedUser');
+    Route::get('user', 'UserController@getAuthenticatedUser');
     Route::get('closed', 'DataController@closed');
 });
+
+
+Route::resource('pets', 'PetsAPIController');

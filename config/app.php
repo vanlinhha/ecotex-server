@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost/ecotex'),
 
     /*
     |--------------------------------------------------------------------------
@@ -172,6 +172,13 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+
+        Collective\Html\HtmlServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        \InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
+        \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
+        Appointer\Swaggervel\SwaggervelServiceProvider::class
     ],
 
     /*
@@ -227,6 +234,9 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Laratrust'   => Laratrust\LaratrustFacade::class,
+        'Form'      => Collective\Html\FormFacade::class,
+        'Html'      => Collective\Html\HtmlFacade::class,
+        'Flash'     => Laracasts\Flash\Flash::class,
 
 
     ],
