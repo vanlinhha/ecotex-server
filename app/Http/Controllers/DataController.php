@@ -10,10 +10,8 @@ class DataController
 {
     public function open()
     {
-        $user = JWTAuth::parseToken()->authenticate();
-        dd(JWTAuth::user());
-        $data = "This data is open and can be accessed without the client being authenticated";
-        return response()->json(compact('user'));
+        $data = __('test');
+        return $data;
 //        return response()->json(compact('data'),200);
 
     }

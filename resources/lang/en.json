@@ -1,0 +1,5 @@
+{
+  "test" : "Welcome to En!",
+  "invalid_credentials" : "Invalid email or password!",
+  "could_not_create_token" : "Could not create token!"
+}

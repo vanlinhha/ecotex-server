@@ -19,13 +19,13 @@ class UserController extends RestController
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
+                return response()->json(['error' => __('invalid_credentials')], 404);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json(['error' => __('could_not_create_token')], 500);
         }
 
-        return response()->json(compact('token'));
+        return response()->json(compact('token'), 201, []);
     }
 
     public function register(Request $request)

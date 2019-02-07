@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Par Index'),
+    'name' => env('APP_NAME', 'Ecotex Server'),
 
     /*
     |--------------------------------------------------------------------------
@@ -160,10 +160,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         
         Barryvdh\Debugbar\ServiceProvider::class,
-        
-        
-        #myAppConfigProvider
-        App\Providers\MyAppConfigProvider::class,
+
         /**
          * LaravelFilemanager
          */

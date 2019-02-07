@@ -1,0 +1,8 @@
+{
+  "Welcome to Website!" : "Chào mừng tới websites!",
+  "test" : "Kiểm   tra",
+  "invalid_credentials" : "Tài khoản hoặc mật khẩu không đúng!",
+  "could_not_create_token" : "Không thể tạo token",
+  "" : ""
+
+}

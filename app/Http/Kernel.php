@@ -37,10 +37,12 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\Locale::class
         ],
         'api' => [
             'throttle:60,1',
             'bindings',
+            'locale'
         ],
     ];
 
@@ -60,11 +62,11 @@ class Kernel extends HttpKernel
         'guest'         => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed'        => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'      => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-//        'role'          => \App\Http\Middleware\CheckRole::class, //Kiểm tra phân quyền
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'role' => \Laratrust\Middleware\LaratrustRole::class,
         'permission' => \Laratrust\Middleware\LaratrustPermission::class,
         'ability' => \Laratrust\Middleware\LaratrustAbility::class,
+        'locale' => \App\Http\Middleware\Locale::class,
     ];
 
 }
