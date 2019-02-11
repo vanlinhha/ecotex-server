@@ -6,7 +6,7 @@ use Eloquent as Model;
 
 /**
  * @SWG\Definition(
- *      definition="Pets",
+ *      definition="ProductGroups",
  *      required={"name"},
  *      @SWG\Property(
  *          property="id",
@@ -20,9 +20,10 @@ use Eloquent as Model;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="category",
- *          description="category",
- *          type="string"
+ *          property="parent_id",
+ *          description="parent_id",
+ *          type="integer",
+ *          format="int32"
  *      ),
  *      @SWG\Property(
  *          property="created_at",
@@ -38,16 +39,16 @@ use Eloquent as Model;
  *      )
  * )
  */
-class Pets extends Model
+class ProductGroups extends Model
 {
 
-    public $table = 'pets';
+    public $table = 'product_groups';
     
 
 
     public $fillable = [
         'name',
-        'category'
+        'parent_id'
     ];
 
     /**
@@ -57,7 +58,7 @@ class Pets extends Model
      */
     protected $casts = [
         'name' => 'string',
-        'category' => 'string'
+        'parent_id' => 'integer'
     ];
 
     /**
@@ -66,8 +67,7 @@ class Pets extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
-        'category' => 'min:3'
+        'name' => 'required'
     ];
 
     

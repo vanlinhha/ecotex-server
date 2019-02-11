@@ -2,20 +2,70 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Cores\Cores_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\RestController;
-use App\User;
+use App\Models\Users;
 
 class UserController extends RestController
 {
+
+    /**
+     *
+     * @return Response
+     *
+     * @SWG\Post(
+     *      path="/login",
+     *      summary="Authenticate user",
+     *      tags={"Authenticate"},
+     *      description="Authenticate user",
+     *      produces={"application/json"},
+     *
+     *     @SWG\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="Email",
+     *         type="string",
+     *         required=true
+     *     ),
+     *     @SWG\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="Password",
+     *         type="string",
+     *         required=true
+     *     ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful authenticated",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="token",
+     *                  type="string"
+     *              ),
+     *          )
+     *      ),
+     *     @SWG\Response(
+     *          response=404,
+     *          description="Invalid credential",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="error",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('user_email', 'password');
+        $credentials = $request->only('email', 'password');
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
@@ -28,21 +78,84 @@ class UserController extends RestController
         return response()->json(compact('token'), 201, []);
     }
 
+    /**
+     *
+     * @return Response
+     *
+     * @SWG\Post(
+     *      path="/register",
+     *      summary="Register user",
+     *      tags={"Authenticate"},
+     *      description="Register user",
+     *      produces={"application/json"},
+     *
+     *     @SWG\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="Email",
+     *         type="string",
+     *         required=true,
+     *      @SWG\Schema(ref="#/definitions/Users")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="Password",
+     *         type="string",
+     *         required=true,
+     *      @SWG\Schema(ref="#/definitions/Users")
+     *     ),
+     *     @SWG\Parameter(
+     *         name="password_confirmation",
+     *         in="query",
+     *         description="Password confirmation",
+     *         type="string",
+     *         required=true,
+     *      @SWG\Schema(ref="#/definitions/Users")
+     *     ),
+     *
+     *      @SWG\Response(
+     *          response=201,
+     *          description="successful registered",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="token",
+     *                  type="string"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="string"
+     *              ),
+     *          )
+     *      ),
+     *     @SWG\Response(
+     *          response=422,
+     *          description="Invalid Information",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="error",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_name'     => 'required|string|max:255',
-            'user_email'    => 'required|string|email|max:255|unique:users',
+            'email'    => 'string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors()->toJson(), 422);
         }
 
-        $user = User::create([
-            'user_name'     => $request->post('user_name'),
-            'user_email'    => $request->post('user_email'),
+        $user = Users::create([
+            'email'    =>    $request->post('email'),
             'password' => Hash::make($request->post('password')),
         ]);
 

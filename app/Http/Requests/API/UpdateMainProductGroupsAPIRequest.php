@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Pets;
+use App\Models\MainProductGroups;
+use InfyOm\Generator\Request\APIRequest;
 
-class UpdatePetsRequest extends FormRequest
+class UpdateMainProductGroupsAPIRequest extends APIRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,6 +24,6 @@ class UpdatePetsRequest extends FormRequest
      */
     public function rules()
     {
-        return Pets::$rules;
+        return MainProductGroups::$rules;
     }
 }

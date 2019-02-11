@@ -7,13 +7,13 @@
     "host": "localhost/ecotex",
     "basePath": "/api/v1",
     "paths": {
-        "/pets": {
+        "/main_product_groups": {
             "get": {
                 "tags": [
-                    "Pets"
+                    "MainProductGroups"
                 ],
-                "summary": "Get a listing of the Pets.",
-                "description": "Get all Pets",
+                "summary": "Get a listing of the MainProductGroups.",
+                "description": "Get all MainProductGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -28,7 +28,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Pets"
+                                        "$ref": "#/definitions/MainProductGroups"
                                     }
                                 },
                                 "message": {
@@ -42,10 +42,10 @@
             },
             "post": {
                 "tags": [
-                    "Pets"
+                    "MainProductGroups"
                 ],
-                "summary": "Store a newly created Pets in storage",
-                "description": "Store Pets",
+                "summary": "Store a newly created MainProductGroups in storage",
+                "description": "Store MainProductGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -53,10 +53,10 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Pets that should be stored",
+                        "description": "MainProductGroups that should be stored",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Pets"
+                            "$ref": "#/definitions/MainProductGroups"
                         }
                     }
                 ],
@@ -69,7 +69,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Pets"
+                                    "$ref": "#/definitions/MainProductGroups"
                                 },
                                 "message": {
                                     "type": "string"
@@ -81,13 +81,13 @@
                 }
             }
         },
-        "/pets/{id}": {
+        "/main_product_groups/{id}": {
             "get": {
                 "tags": [
-                    "Pets"
+                    "MainProductGroups"
                 ],
-                "summary": "Display the specified Pets",
-                "description": "Get Pets",
+                "summary": "Display the specified MainProductGroups",
+                "description": "Get MainProductGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -95,7 +95,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Pets",
+                        "description": "id of MainProductGroups",
                         "required": true,
                         "type": "integer"
                     }
@@ -109,7 +109,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Pets"
+                                    "$ref": "#/definitions/MainProductGroups"
                                 },
                                 "message": {
                                     "type": "string"
@@ -122,10 +122,10 @@
             },
             "put": {
                 "tags": [
-                    "Pets"
+                    "MainProductGroups"
                 ],
-                "summary": "Update the specified Pets in storage",
-                "description": "Update Pets",
+                "summary": "Update the specified MainProductGroups in storage",
+                "description": "Update MainProductGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -133,17 +133,17 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Pets",
+                        "description": "id of MainProductGroups",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Pets that should be updated",
+                        "description": "MainProductGroups that should be updated",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Pets"
+                            "$ref": "#/definitions/MainProductGroups"
                         }
                     }
                 ],
@@ -156,7 +156,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Pets"
+                                    "$ref": "#/definitions/MainProductGroups"
                                 },
                                 "message": {
                                     "type": "string"
@@ -169,10 +169,10 @@
             },
             "delete": {
                 "tags": [
-                    "Pets"
+                    "MainProductGroups"
                 ],
-                "summary": "Remove the specified Pets from storage",
-                "description": "Delete Pets",
+                "summary": "Remove the specified MainProductGroups from storage",
+                "description": "Delete MainProductGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -180,7 +180,533 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Pets",
+                        "description": "id of MainProductGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/product_groups": {
+            "get": {
+                "tags": [
+                    "ProductGroups"
+                ],
+                "summary": "Get a listing of the ProductGroups.",
+                "description": "Get all ProductGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductGroups"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ProductGroups"
+                ],
+                "summary": "Store a newly created ProductGroups in storage",
+                "description": "Store ProductGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "ProductGroups that should be stored",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parent_id",
+                        "in": "query",
+                        "description": "ProductGroups that should be stored",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/product_groups/{id}": {
+            "get": {
+                "tags": [
+                    "ProductGroups"
+                ],
+                "summary": "Display the specified ProductGroups",
+                "description": "Get ProductGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ProductGroups"
+                ],
+                "summary": "Update the specified ProductGroups in storage",
+                "description": "Update ProductGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductGroups",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "ProductGroups that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ProductGroups"
+                ],
+                "summary": "Remove the specified ProductGroups from storage",
+                "description": "Delete ProductGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authenticate"
+                ],
+                "summary": "Authenticate user",
+                "description": "Authenticate user",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful authenticated",
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid credential",
+                        "schema": {
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Authenticate"
+                ],
+                "summary": "Register user",
+                "description": "Register user",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "Password confirmation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "successful registered",
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid Information",
+                        "schema": {
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a listing of the Users.",
+                "description": "Get all Users",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Users"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store a newly created Users in storage",
+                "description": "Store Users",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Users that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Users"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Display the specified Users",
+                "description": "Get Users",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Users",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Users"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update the specified Users in storage",
+                "description": "Update Users",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Users",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Users"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Remove the specified Users from storage",
+                "description": "Delete Users",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Users",
                         "required": true,
                         "type": "integer"
                     }
@@ -208,7 +734,45 @@
         }
     },
     "definitions": {
-        "Pets": {
+        "MainProductGroups": {
+            "required": [
+                "user_id",
+                "product_group_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_id": {
+                    "description": "user_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_group_id": {
+                    "description": "product_group_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "percent": {
+                    "description": "percent",
+                    "type": "number",
+                    "format": "float"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "ProductGroups": {
             "required": [
                 "name"
             ],
@@ -222,8 +786,146 @@
                     "description": "name",
                     "type": "string"
                 },
-                "category": {
-                    "description": "category",
+                "parent_id": {
+                    "description": "parent_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Users": {
+            "required": [
+                "email",
+                "type",
+                "first_name",
+                "last_name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "email": {
+                    "description": "email",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "password",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "type",
+                    "type": "string"
+                },
+                "first_name": {
+                    "description": "first_name",
+                    "type": "string"
+                },
+                "last_name": {
+                    "description": "last_name",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "phone",
+                    "type": "string"
+                },
+                "country": {
+                    "description": "country",
+                    "type": "string"
+                },
+                "company_name": {
+                    "description": "company_name",
+                    "type": "string"
+                },
+                "brief_name": {
+                    "description": "brief_name",
+                    "type": "string"
+                },
+                "company_address": {
+                    "description": "company_address",
+                    "type": "string"
+                },
+                "website": {
+                    "description": "website",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "description",
+                    "type": "string"
+                },
+                "is_paid": {
+                    "description": "is_paid",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "address": {
+                    "description": "address",
+                    "type": "string"
+                },
+                "identity_card": {
+                    "description": "identity_card",
+                    "type": "string"
+                },
+                "establishment_year": {
+                    "description": "establishment_year",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "business_registration_number": {
+                    "description": "business_registration_number",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "form_of_ownership": {
+                    "description": "form_of_ownership",
+                    "type": "string"
+                },
+                "number_of_employees": {
+                    "description": "number_of_employees",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "floor_area": {
+                    "description": "floor_area",
+                    "type": "number",
+                    "format": "double"
+                },
+                "area_of_factory": {
+                    "description": "area_of_factory",
+                    "type": "number",
+                    "format": "double"
+                },
+                "commercial_service_type": {
+                    "description": "commercial_service_type",
+                    "type": "string"
+                },
+                "revenue_per_year": {
+                    "description": "revenue_per_year",
+                    "type": "number",
+                    "format": "double"
+                },
+                "pieces_per_year": {
+                    "description": "pieces_per_year",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "compliance": {
+                    "description": "compliance",
+                    "type": "string"
+                },
+                "activation_code": {
+                    "description": "activation_code",
                     "type": "string"
                 },
                 "created_at": {

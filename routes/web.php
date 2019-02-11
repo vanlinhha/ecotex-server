@@ -26,4 +26,11 @@
 
 
 
-//Route::resource('pets', 'PetsController');
+//
+
+//Route::resource('users', 'UsersController');
+
+
+//Route::resource('users', 'UsersController');
+
+//Route::resource('productGroups', 'ProductGroupsController');

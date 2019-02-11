@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreatePetsAPIRequest;
-use App\Http\Requests\API\UpdatePetsAPIRequest;
-use App\Models\Pets;
-use App\Repositories\PetsRepository;
+use App\Http\Requests\API\CreateMainProductGroupsAPIRequest;
+use App\Http\Requests\API\UpdateMainProductGroupsAPIRequest;
+use App\Models\MainProductGroups;
+use App\Repositories\MainProductGroupsRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -13,18 +13,18 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class PetsController
+ * Class MainProductGroupsController
  * @package App\Http\Controllers\API
  */
 
-class PetsAPIController extends AppBaseController
+class MainProductGroupsAPIController extends AppBaseController
 {
-    /** @var  PetsRepository */
-    private $petsRepository;
+    /** @var  MainProductGroupsRepository */
+    private $mainProductGroupsRepository;
 
-    public function __construct(PetsRepository $petsRepo)
+    public function __construct(MainProductGroupsRepository $mainProductGroupsRepo)
     {
-        $this->petsRepository = $petsRepo;
+        $this->mainProductGroupsRepository = $mainProductGroupsRepo;
     }
 
     /**
@@ -32,10 +32,10 @@ class PetsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/pets",
-     *      summary="Get a listing of the Pets.",
-     *      tags={"Pets"},
-     *      description="Get all Pets",
+     *      path="/main_product_groups",
+     *      summary="Get a listing of the MainProductGroups.",
+     *      tags={"MainProductGroups"},
+     *      description="Get all MainProductGroups",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -49,7 +49,7 @@ class PetsAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Pets")
+     *                  @SWG\Items(ref="#/definitions/MainProductGroups")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -61,29 +61,29 @@ class PetsAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->petsRepository->pushCriteria(new RequestCriteria($request));
-        $this->petsRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $pets = $this->petsRepository->all();
+        $this->mainProductGroupsRepository->pushCriteria(new RequestCriteria($request));
+        $this->mainProductGroupsRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $mainProductGroups = $this->mainProductGroupsRepository->all();
 
-        return $this->sendResponse($pets->toArray(), 'Pets retrieved successfully');
+        return $this->sendResponse($mainProductGroups->toArray(), 'Main Product Groups retrieved successfully');
     }
 
     /**
-     * @param CreatePetsAPIRequest $request
+     * @param CreateMainProductGroupsAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/pets",
-     *      summary="Store a newly created Pets in storage",
-     *      tags={"Pets"},
-     *      description="Store Pets",
+     *      path="/main_product_groups",
+     *      summary="Store a newly created MainProductGroups in storage",
+     *      tags={"MainProductGroups"},
+     *      description="Store MainProductGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Pets that should be stored",
+     *          description="MainProductGroups that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Pets")
+     *          @SWG\Schema(ref="#/definitions/MainProductGroups")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -96,7 +96,7 @@ class PetsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Pets"
+     *                  ref="#/definitions/MainProductGroups"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -106,13 +106,13 @@ class PetsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreatePetsAPIRequest $request)
+    public function store(CreateMainProductGroupsAPIRequest $request)
     {
         $input = $request->all();
 
-        $pets = $this->petsRepository->create($input);
+        $mainProductGroups = $this->mainProductGroupsRepository->create($input);
 
-        return $this->sendResponse($pets->toArray(), 'Pets saved successfully');
+        return $this->sendResponse($mainProductGroups->toArray(), 'Main Product Groups saved successfully');
     }
 
     /**
@@ -120,14 +120,14 @@ class PetsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/pets/{id}",
-     *      summary="Display the specified Pets",
-     *      tags={"Pets"},
-     *      description="Get Pets",
+     *      path="/main_product_groups/{id}",
+     *      summary="Display the specified MainProductGroups",
+     *      tags={"MainProductGroups"},
+     *      description="Get MainProductGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Pets",
+     *          description="id of MainProductGroups",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -143,7 +143,7 @@ class PetsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Pets"
+     *                  ref="#/definitions/MainProductGroups"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -155,30 +155,30 @@ class PetsAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Pets $pets */
-        $pets = $this->petsRepository->findWithoutFail($id);
+        /** @var MainProductGroups $mainProductGroups */
+        $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($id);
 
-        if (empty($pets)) {
-            return $this->sendError('Pets not found');
+        if (empty($mainProductGroups)) {
+            return $this->sendError('Main Product Groups not found');
         }
 
-        return $this->sendResponse($pets->toArray(), 'Pets retrieved successfully');
+        return $this->sendResponse($mainProductGroups->toArray(), 'Main Product Groups retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdatePetsAPIRequest $request
+     * @param UpdateMainProductGroupsAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/pets/{id}",
-     *      summary="Update the specified Pets in storage",
-     *      tags={"Pets"},
-     *      description="Update Pets",
+     *      path="/main_product_groups/{id}",
+     *      summary="Update the specified MainProductGroups in storage",
+     *      tags={"MainProductGroups"},
+     *      description="Update MainProductGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Pets",
+     *          description="id of MainProductGroups",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -186,9 +186,9 @@ class PetsAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Pets that should be updated",
+     *          description="MainProductGroups that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Pets")
+     *          @SWG\Schema(ref="#/definitions/MainProductGroups")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -201,7 +201,7 @@ class PetsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Pets"
+     *                  ref="#/definitions/MainProductGroups"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -211,20 +211,20 @@ class PetsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdatePetsAPIRequest $request)
+    public function update($id, UpdateMainProductGroupsAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Pets $pets */
-        $pets = $this->petsRepository->findWithoutFail($id);
+        /** @var MainProductGroups $mainProductGroups */
+        $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($id);
 
-        if (empty($pets)) {
-            return $this->sendError('Pets not found');
+        if (empty($mainProductGroups)) {
+            return $this->sendError('Main Product Groups not found');
         }
 
-        $pets = $this->petsRepository->update($input, $id);
+        $mainProductGroups = $this->mainProductGroupsRepository->update($input, $id);
 
-        return $this->sendResponse($pets->toArray(), 'Pets updated successfully');
+        return $this->sendResponse($mainProductGroups->toArray(), 'MainProductGroups updated successfully');
     }
 
     /**
@@ -232,14 +232,14 @@ class PetsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/pets/{id}",
-     *      summary="Remove the specified Pets from storage",
-     *      tags={"Pets"},
-     *      description="Delete Pets",
+     *      path="/main_product_groups/{id}",
+     *      summary="Remove the specified MainProductGroups from storage",
+     *      tags={"MainProductGroups"},
+     *      description="Delete MainProductGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Pets",
+     *          description="id of MainProductGroups",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -267,15 +267,15 @@ class PetsAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Pets $pets */
-        $pets = $this->petsRepository->findWithoutFail($id);
+        /** @var MainProductGroups $mainProductGroups */
+        $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($id);
 
-        if (empty($pets)) {
-            return $this->sendError('Pets not found');
+        if (empty($mainProductGroups)) {
+            return $this->sendError('Main Product Groups not found');
         }
 
-        $pets->delete();
+        $mainProductGroups->delete();
 
-        return $this->sendResponse($id, 'Pets deleted successfully');
+        return $this->sendResponse($id, 'Main Product Groups deleted successfully');
     }
 }

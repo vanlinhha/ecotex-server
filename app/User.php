@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Models\Cores\Cores_user;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laratrust\Traits\LaratrustUserTrait;
+
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'user_name', 'user_email', 'password',
+        'user_name', 'email', 'password',
     ];
 
     /**
@@ -39,15 +39,5 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
-    /**
-     * Kiểm tra quyền có hợp lệ hay không
-     * @param type $role
-     * @return type
-     */
-//    public function hasRole($role)
-//    {
-//        return Cores_user::makeInstance()->permission($role);
-//    }
 
 }

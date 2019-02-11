@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreatePetsTable extends Migration
+class CreateProductGroupsTable extends Migration
 {
 
     /**
@@ -13,10 +13,10 @@ class CreatePetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pets', function (Blueprint $table) {
+        Schema::create('product_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('category');
+            $table->integer('parent_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreatePetsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pets');
+        Schema::drop('product_groups');
     }
 }

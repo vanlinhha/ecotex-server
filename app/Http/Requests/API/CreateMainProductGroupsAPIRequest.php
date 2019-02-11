@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\Pets;
+use App\Models\MainProductGroups;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdatePetsAPIRequest extends APIRequest
+class CreateMainProductGroupsAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class UpdatePetsAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Pets::$rules;
+        return MainProductGroups::$rules;
     }
 }

@@ -26,4 +26,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 });
 
 
-Route::resource('pets', 'PetsAPIController');
+Route::resource('users', 'usersAPIController');
+
+
+Route::resource('product_groups', 'ProductGroupsAPIController');
+
+Route::resource('main_product_groups', 'MainProductGroupsAPIController');
