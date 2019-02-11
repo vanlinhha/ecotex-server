@@ -34,3 +34,5 @@
 //Route::resource('users', 'UsersController');
 
 //Route::resource('productGroups', 'ProductGroupsController');
+
+Route::resource('mainSegments', 'MainSegmentsController');

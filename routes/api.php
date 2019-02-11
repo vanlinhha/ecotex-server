@@ -32,3 +32,7 @@ Route::resource('users', 'usersAPIController');
 Route::resource('product_groups', 'ProductGroupsAPIController');
 
 Route::resource('main_product_groups', 'MainProductGroupsAPIController');
+
+
+
+Route::resource('main_segments', 'MainSegmentsAPIController');
