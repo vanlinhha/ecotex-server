@@ -35,4 +35,4 @@
 
 //Route::resource('productGroups', 'ProductGroupsController');
 
-Route::resource('mainSegments', 'MainSegmentsController');
+//Route::resource('mainSegments', 'MainSegmentsController');

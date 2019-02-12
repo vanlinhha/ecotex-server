@@ -183,9 +183,34 @@ class UsersAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *     @SWG\Parameter(
+     *          name="email",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
      *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
+     *          name="first_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="last_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="type",
+     *          in="query",
+     *          type="string",
      *          description="Users that should be updated",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/Users")
@@ -289,5 +314,46 @@ class UsersAPIController extends AppBaseController
         }
 
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/users_inactivated",
+     *      summary="Get a listing of the inactivated Users.",
+     *      tags={"Users"},
+     *      description="Get all Users",
+     *      produces={"application/json"},
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @SWG\Items(ref="#/definitions/Users")
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getInactivatedUser(Request $request)
+    {
+        $this->usersRepository->pushCriteria(new RequestCriteria($request));
+        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $users = $this->usersRepository->findWhereNotIn('activation_code', ['1']);
+
+        return $this->sendResponse($users->toArray(), 'Inactivated users retrieved successfully');
     }
 }

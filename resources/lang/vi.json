@@ -3,6 +3,6 @@
   "test" : "Kiểm   tra",
   "invalid_credentials" : "Tài khoản hoặc mật khẩu không đúng!",
   "could_not_create_token" : "Không thể tạo token",
-  "" : ""
+  "user_not_found" : "Người dùng không tồn tại!"
 
 }

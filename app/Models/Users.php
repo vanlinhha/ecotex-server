@@ -248,7 +248,7 @@ class Users extends Authenticatable implements JWTSubject
      * @var array
      */
     public static $rules = [
-        'email' => 'required',
+        'email' => 'required|email',
         'password' => 'password',
         'type' => 'required',
         'first_name' => 'required',

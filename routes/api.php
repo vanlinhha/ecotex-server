@@ -16,23 +16,24 @@ use Illuminate\Http\Request;
 Route::get('/403', function (){
     return response()->json(['errors' => 'Bạn không có quyền thực hiện chức năng này', 'status' => 403, 'data' => []], 403);
 });
-Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@authenticate');
-Route::get('open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile']);
+Route::post('/sign_up', 'UserController@register');
+Route::get('/log_out', 'UserController@logOut');
+Route::post('/login', 'UserController@authenticate');
+Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::get('user', 'UserController@getAuthenticatedUser');
-    Route::get('closed', 'DataController@closed');
+    Route::get('/user', 'UserController@getAuthenticatedUser');
+    Route::get('/closed', 'DataController@closed');
 });
 
 
 Route::resource('users', 'usersAPIController');
+Route::get('/users_inactivated', 'usersAPIController@getInactivatedUser');
 
 
 Route::resource('product_groups', 'ProductGroupsAPIController');
 
 Route::resource('main_product_groups', 'MainProductGroupsAPIController');
 
-
-
 Route::resource('main_segments', 'MainSegmentsAPIController');
+Route::resource('segment_groups', 'SegmentGroupsAPIController');

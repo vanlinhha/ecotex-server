@@ -51,13 +51,34 @@
                 ],
                 "parameters": [
                     {
-                        "name": "body",
-                        "in": "body",
+                        "name": "user_id",
+                        "in": "query",
                         "description": "MainProductGroups that should be stored",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/MainProductGroups"
-                        }
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "product_group_id",
+                        "in": "query",
+                        "description": "MainProductGroups that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainProductGroups"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "percent",
+                        "in": "query",
+                        "description": "MainProductGroups that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainProductGroups"
+                        },
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -609,6 +630,206 @@
                 }
             }
         },
+        "/segment_groups": {
+            "get": {
+                "tags": [
+                    "SegmentGroups"
+                ],
+                "summary": "Get a listing of the SegmentGroups.",
+                "description": "Get all SegmentGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/SegmentGroups"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "SegmentGroups"
+                ],
+                "summary": "Store a newly created SegmentGroups in storage",
+                "description": "Store SegmentGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "SegmentGroups that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/SegmentGroups"
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/SegmentGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/segment_groups/{id}": {
+            "get": {
+                "tags": [
+                    "SegmentGroups"
+                ],
+                "summary": "Display the specified SegmentGroups",
+                "description": "Get SegmentGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of SegmentGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/SegmentGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "SegmentGroups"
+                ],
+                "summary": "Update the specified SegmentGroups in storage",
+                "description": "Update SegmentGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of SegmentGroups",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "SegmentGroups that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/SegmentGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/SegmentGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "SegmentGroups"
+                ],
+                "summary": "Remove the specified SegmentGroups from storage",
+                "description": "Delete SegmentGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of SegmentGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "tags": [
@@ -661,7 +882,7 @@
                 }
             }
         },
-        "/register": {
+        "/sign_up": {
             "post": {
                 "tags": [
                     "Authenticate"
@@ -863,13 +1084,44 @@
                         "type": "integer"
                     },
                     {
-                        "name": "body",
-                        "in": "body",
+                        "name": "email",
+                        "in": "query",
                         "description": "Users that should be updated",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/Users"
-                        }
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -920,6 +1172,40 @@
                                 },
                                 "data": {
                                     "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/users_inactivated": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a listing of the inactivated Users.",
+                "description": "Get all Users",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Users"
+                                    }
                                 },
                                 "message": {
                                     "type": "string"
@@ -1027,6 +1313,32 @@
                     "description": "parent_id",
                     "type": "integer",
                     "format": "int32"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "SegmentGroups": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
                 },
                 "created_at": {
                     "description": "created_at",

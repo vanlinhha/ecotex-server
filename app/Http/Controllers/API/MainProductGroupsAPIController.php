@@ -79,8 +79,25 @@ class MainProductGroupsAPIController extends AppBaseController
      *      description="Store MainProductGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
+     *          name="user_id",
+     *          in="query",
+     *          type="string",
+     *          description="MainProductGroups that should be stored",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/MainProductGroups")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="product_group_id",
+     *          in="query",
+     *          type="string",
+     *          description="MainProductGroups that should be stored",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/MainProductGroups")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="percent",
+     *          in="query",
+     *          type="string",
      *          description="MainProductGroups that should be stored",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/MainProductGroups")

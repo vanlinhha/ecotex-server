@@ -55,4 +55,8 @@ class UsersRepository extends BaseRepository
     {
         return Users::class;
     }
+
+    public function getInactivatedUser(){
+
+    }
 }
