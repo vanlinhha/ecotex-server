@@ -426,6 +426,205 @@
                 }
             }
         },
+        "/main_targets": {
+            "get": {
+                "tags": [
+                    "MainTargets"
+                ],
+                "summary": "Get a listing of the MainTargets.",
+                "description": "Get all MainTargets",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/MainTargets"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MainTargets"
+                ],
+                "summary": "Store a newly created MainTargets in storage",
+                "description": "Store MainTargets",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainTargets that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainTargets"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainTargets"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/main_targets/{id}": {
+            "get": {
+                "tags": [
+                    "MainTargets"
+                ],
+                "summary": "Display the specified MainTargets",
+                "description": "Get MainTargets",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainTargets",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainTargets"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "MainTargets"
+                ],
+                "summary": "Update the specified MainTargets in storage",
+                "description": "Update MainTargets",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainTargets",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainTargets that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainTargets"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainTargets"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MainTargets"
+                ],
+                "summary": "Remove the specified MainTargets from storage",
+                "description": "Delete MainTargets",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainTargets",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/product_groups": {
             "get": {
                 "tags": [
@@ -605,6 +804,205 @@
                         "name": "id",
                         "in": "path",
                         "description": "id of ProductGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/role_types": {
+            "get": {
+                "tags": [
+                    "RoleTypes"
+                ],
+                "summary": "Get a listing of the RoleTypes.",
+                "description": "Get all RoleTypes",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/RoleTypes"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "RoleTypes"
+                ],
+                "summary": "Store a newly created RoleTypes in storage",
+                "description": "Store RoleTypes",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "RoleTypes that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RoleTypes"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/RoleTypes"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/role_types/{id}": {
+            "get": {
+                "tags": [
+                    "RoleTypes"
+                ],
+                "summary": "Display the specified RoleTypes",
+                "description": "Get RoleTypes",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of RoleTypes",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/RoleTypes"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "RoleTypes"
+                ],
+                "summary": "Update the specified RoleTypes in storage",
+                "description": "Update RoleTypes",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of RoleTypes",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "RoleTypes that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RoleTypes"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/RoleTypes"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "RoleTypes"
+                ],
+                "summary": "Remove the specified RoleTypes from storage",
+                "description": "Delete RoleTypes",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of RoleTypes",
                         "required": true,
                         "type": "integer"
                     }
@@ -830,6 +1228,205 @@
                 }
             }
         },
+        "/target_groups": {
+            "get": {
+                "tags": [
+                    "TargetGroups"
+                ],
+                "summary": "Get a listing of the TargetGroups.",
+                "description": "Get all TargetGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/TargetGroups"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "TargetGroups"
+                ],
+                "summary": "Store a newly created TargetGroups in storage",
+                "description": "Store TargetGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "TargetGroups that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/TargetGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/TargetGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/target_groups/{id}": {
+            "get": {
+                "tags": [
+                    "TargetGroups"
+                ],
+                "summary": "Display the specified TargetGroups",
+                "description": "Get TargetGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of TargetGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/TargetGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "TargetGroups"
+                ],
+                "summary": "Update the specified TargetGroups in storage",
+                "description": "Update TargetGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of TargetGroups",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "TargetGroups that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/TargetGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/TargetGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "TargetGroups"
+                ],
+                "summary": "Remove the specified TargetGroups from storage",
+                "description": "Delete TargetGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of TargetGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "tags": [
@@ -969,10 +1566,47 @@
                         "schema": {
                             "properties": {
                                 "success": {
+                                    "description": "Log out",
                                     "type": "boolean"
                                 },
                                 "data": {
+                                    "description": "Log out",
                                     "type": "string"
+                                },
+                                "message": {
+                                    "description": "Log out",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/getAllRoles": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a listing of the Roles.",
+                "description": "Get all Roles",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Users"
+                                    }
                                 },
                                 "message": {
                                     "type": "string"
@@ -1153,6 +1787,76 @@
                             "$ref": "#/definitions/Users"
                         },
                         "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "brief_name",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_address",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "website",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1326,6 +2030,44 @@
                 }
             }
         },
+        "MainTargets": {
+            "required": [
+                "user_id",
+                "target_group_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_id": {
+                    "description": "user_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "target_group_id": {
+                    "description": "target_group_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "percent": {
+                    "description": "percent",
+                    "type": "number",
+                    "format": "float"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "ProductGroups": {
             "required": [
                 "name"
@@ -1357,7 +2099,65 @@
                 }
             }
         },
+        "RoleTypes": {
+            "required": [
+                "role_id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "role_id": {
+                    "description": "role_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "SegmentGroups": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "TargetGroups": {
             "required": [
                 "name"
             ],

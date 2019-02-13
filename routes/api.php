@@ -20,20 +20,27 @@ Route::post('/sign_up', 'UserController@register');
 Route::delete('/log_out', 'UserController@logOut');
 Route::post('/login', 'UserController@authenticate');
 Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile']);
-
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/user', 'UserController@getAuthenticatedUser');
     Route::get('/closed', 'DataController@closed');
 });
 
-
 Route::resource('users', 'usersAPIController');
-Route::get('/users_inactivated', 'usersAPIController@getInactivatedUser');
 
+// Get all roles of system
+Route::get('/roles', 'UserController@getAllRoles');
+//Get all inactivated users
+Route::get('/users_inactivated', 'usersAPIController@getInactivatedUser');
 
 Route::resource('product_groups', 'ProductGroupsAPIController');
 
 Route::resource('main_product_groups', 'MainProductGroupsAPIController');
 
 Route::resource('main_segments', 'MainSegmentsAPIController');
+
 Route::resource('segment_groups', 'SegmentGroupsAPIController');
+
+Route::resource('role_types', 'RoleTypesAPIController');
+
+Route::resource('target_groups', 'TargetGroupsAPIController');
+Route::resource('main_targets', 'MainTargetsAPIController');

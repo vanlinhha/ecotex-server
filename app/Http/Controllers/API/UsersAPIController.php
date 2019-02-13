@@ -215,6 +215,62 @@ class UsersAPIController extends AppBaseController
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/Users")
      *      ),
+     *     @SWG\Parameter(
+     *          name="phone",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="country",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="company_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="brief_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="company_address",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="website",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="description",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -352,7 +408,7 @@ class UsersAPIController extends AppBaseController
     {
         $this->usersRepository->pushCriteria(new RequestCriteria($request));
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $users = $this->usersRepository->findWhereNotIn('is_activated', ['1']);
+        $users = $this->usersRepository->findWhereNotIn('is_activated', ['1', 1]);
 
         return $this->sendResponse($users->toArray(), 'Inactivated users retrieved successfully');
     }

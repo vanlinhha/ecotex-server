@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -76,8 +77,14 @@ class UserController extends RestController
             return response()->json(['error' => __('could_not_create_token')], 500);
         }
         $user = JWTAuth::user();
+        if ($user->roles()->get(['id'])->count()) {
+            $roles = $user->roles()->get()[0]['id'];
+        } else {
+            $roles = 0;
+        }
+        $user['role_id'] = $roles;
 
-        return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user, 'message' => 'Log in successfully']], 201, []);
+        return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user], 'message' => 'Log in successfully'], 201, []);
     }
 
 
@@ -180,7 +187,7 @@ class UserController extends RestController
 
         $token = JWTAuth::fromUser($user);
 
-        return response()->json(['success' => true, 'data' => ['token' => $token], 'message' => "Created user successfully"], 201);
+        return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user], 'message' => "Created user successfully"], 201);
     }
 
     public function getAuthenticatedUser()
@@ -214,8 +221,7 @@ class UserController extends RestController
     }
 
     /**
-     * @param int $id
-     * @return Response
+     * Log out
      *
      * @SWG\Delete(
      *      path="/log_out",
@@ -251,7 +257,41 @@ class UserController extends RestController
 
         JWTAuth::parseToken()->invalidate();
         return response()->json(['success' => true, 'message' => 'Log out successfully'], 200, []);
+    }
 
+    /**
+     *
+     * @SWG\Get(
+     *      path="/getAllRoles",
+     *      summary="Get a listing of the Roles.",
+     *      tags={"Users"},
+     *      description="Get all Roles",
+     *      produces={"application/json"},
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @SWG\Items(ref="#/definitions/Users")
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getAllRoles()
+    {
+        return response()->json(['success' => true, 'data' => Role::all(), 'message' => 'Roles retrieved successfully'], 200);
 
     }
 }

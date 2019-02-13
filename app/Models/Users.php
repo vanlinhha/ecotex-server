@@ -240,7 +240,7 @@ class Users extends Authenticatable implements JWTSubject
         'activation_code' => 'string'
     ];
 
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'pivot', 'created_at', 'updated_at'];
 
     /**
      * Validation rules
@@ -263,6 +263,7 @@ class Users extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
 
     
 }
