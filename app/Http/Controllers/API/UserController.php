@@ -116,13 +116,85 @@ class UserController extends RestController
      *      @SWG\Schema(ref="#/definitions/Users")
      *     ),
      *     @SWG\Parameter(
-     *         name="password_confirmation",
-     *         in="query",
-     *         description="Password confirmation",
-     *         type="string",
-     *         required=true,
-     *      @SWG\Schema(ref="#/definitions/Users")
-     *     ),
+     *          name="first_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=true,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="last_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=true,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="type",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="phone",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="country",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="company_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="brief_name",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="company_address",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="website",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="description",
+     *          in="query",
+     *          type="string",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
      *
      *      @SWG\Response(
      *          response=201,
@@ -157,7 +229,7 @@ class UserController extends RestController
     {
         $validator = Validator::make($request->all(), [
             'email'      => 'string|email|max:255|unique:users',
-            'password'   => 'required|string|min:6|confirmed',
+            'password'   => 'required|string|min:6',
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
         ]);

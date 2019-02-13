@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateUsersAPIRequest;
 use App\Http\Requests\API\UpdateUsersAPIRequest;
 use App\Models\Users;
+use App\Repositories\MainProductGroupsRepository;
+use App\Repositories\MainSegmentsRepository;
+use App\Repositories\MainTargetsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -16,7 +19,6 @@ use Response;
  * Class UsersController
  * @package App\Http\Controllers\API
  */
-
 class UsersAPIController extends AppBaseController
 {
     /** @var  UsersRepository */
@@ -28,8 +30,6 @@ class UsersAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
-     * @return Response
      *
      * @SWG\Get(
      *      path="/users",
@@ -59,19 +59,38 @@ class UsersAPIController extends AppBaseController
      *      )
      * )
      */
-    public function index(Request $request)
+    public function index(Request $request, MainProductGroupsRepository $mainProductGroupsRepository, MainTargetsRepository $mainTargetsRepository, MainSegmentsRepository $mainSegmentsRepository)
     {
+//        dd($request->main_product_groups);
         $this->usersRepository->pushCriteria(new RequestCriteria($request));
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $users = $this->usersRepository->all();
+        if (trim($request->textSearch) != "") {
+            $users = $this->usersRepository->findWhere([['company_name', 'like', "%" . $request->textSearch . "%"]]);
+            return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+        }
+
+        if (count($request->main_product_groups)) {
+            $main_product_group_IDs = array_map('intval', $request->main_product_groups);
+            $user_IDs               = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs, ['user_id'])->pluck('user_id')->all();
+        }
+        if (count($request->main_target_groups)) {
+            $main_target_group_IDs = array_map('intval', $request->main_target_groups);
+            $user_IDs2             = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
+        }
+
+        if (count($request->main_segment_groups)) {
+            $main_segment_group_IDs = array_map('intval', $request->main_segment_groups);
+            $user_IDs3             = $mainSegmentsRepository->findWhereIn('segment_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+        }
+
+
+        $list_user_IDs = array_merge($user_IDs, $user_IDs2, $user_IDs3);
+        $users         = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
 
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
     }
 
     /**
-     * @param CreateUsersAPIRequest $request
-     * @return Response
-     *
      * @SWG\Post(
      *      path="/users",
      *      summary="Store a newly created Users in storage",
@@ -377,7 +396,7 @@ class UsersAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/users_inactivated",
+     *      path="/inactivated_users",
      *      summary="Get a listing of the inactivated Users.",
      *      tags={"Users"},
      *      description="Get all Users",

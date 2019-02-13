@@ -1511,10 +1511,100 @@
                         "type": "string"
                     },
                     {
-                        "name": "password_confirmation",
+                        "name": "first_name",
                         "in": "query",
-                        "description": "Password confirmation",
+                        "description": "Users that should be updated",
                         "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "brief_name",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_address",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "website",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
                         "schema": {
                             "$ref": "#/definitions/Users"
                         },
@@ -1918,7 +2008,7 @@
                 }
             }
         },
-        "/users_inactivated": {
+        "/inactivated_users": {
             "get": {
                 "tags": [
                     "Users"

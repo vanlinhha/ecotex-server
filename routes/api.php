@@ -25,12 +25,12 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/closed', 'DataController@closed');
 });
 
-Route::resource('users', 'usersAPIController');
+Route::resource('users', 'UsersAPIController');
 
 // Get all roles of system
 Route::get('/roles', 'UserController@getAllRoles');
 //Get all inactivated users
-Route::get('/users_inactivated', 'usersAPIController@getInactivatedUser');
+Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
 
 Route::resource('product_groups', 'ProductGroupsAPIController');
 
@@ -43,4 +43,5 @@ Route::resource('segment_groups', 'SegmentGroupsAPIController');
 Route::resource('role_types', 'RoleTypesAPIController');
 
 Route::resource('target_groups', 'TargetGroupsAPIController');
+
 Route::resource('main_targets', 'MainTargetsAPIController');
