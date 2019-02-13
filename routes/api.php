@@ -17,7 +17,7 @@ Route::get('/403', function (){
     return response()->json(['errors' => 'Bạn không có quyền thực hiện chức năng này', 'status' => 403, 'data' => []], 403);
 });
 Route::post('/sign_up', 'UserController@register');
-Route::get('/log_out', 'UserController@logOut');
+Route::delete('/log_out', 'UserController@logOut');
 Route::post('/login', 'UserController@authenticate');
 Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile']);
 

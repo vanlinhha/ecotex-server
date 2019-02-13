@@ -953,6 +953,37 @@
                 }
             }
         },
+        "/log_out": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Remove the specified Users from storage",
+                "description": "Delete Users",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": [

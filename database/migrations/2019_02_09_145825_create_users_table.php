@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('company_address');
             $table->string('website');
             $table->string('description');
-            $table->integer('is_paid');
+            $table->integer('is_paid')->default(0);
             $table->string('address');
             $table->string('identity_card');
             $table->integer('establishment_year');
@@ -41,6 +41,7 @@ class CreateUsersTable extends Migration
             $table->integer('pieces_per_year');
             $table->string('compliance');
             $table->string('activation_code');
+            $table->tinyInteger('is_activated');
             $table->timestamps();
         });
     }

@@ -75,8 +75,9 @@ class UserController extends RestController
         } catch (JWTException $e) {
             return response()->json(['error' => __('could_not_create_token')], 500);
         }
+        $user = JWTAuth::user();
 
-        return response()->json(['success' => true, 'data' => [ 'token' => $token]], 201, []);
+        return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user, 'message' => 'Log in successfully']], 201, []);
     }
 
 
@@ -148,10 +149,10 @@ class UserController extends RestController
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email'    => 'string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'email'      => 'string|email|max:255|unique:users',
+            'password'   => 'required|string|min:6|confirmed',
             'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'last_name'  => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -164,16 +165,16 @@ class UserController extends RestController
 //        });
 
         $user = Users::create([
-            'email'    =>    $request->post('email'),
-            'password' => Hash::make($request->post('password')),
-            'first_name'    =>    $request->post('first_name'),
-            'last_name'    =>    $request->post('last_name'),
-            'phone'    =>    $request->post('phone'),
-            'country'    =>    $request->post('country'),
-            'company_name'    =>    $request->post('company_name'),
-            'company_address'    =>    $request->post('company_address'),
-            'brief_name'    =>    $request->post('brief_name'),
-            'website'    =>    $request->post('website'),
+            'email'           => $request->post('email'),
+            'password'        => Hash::make($request->post('password')),
+            'first_name'      => $request->post('first_name'),
+            'last_name'       => $request->post('last_name'),
+            'phone'           => $request->post('phone'),
+            'country'         => $request->post('country'),
+            'company_name'    => $request->post('company_name'),
+            'company_address' => $request->post('company_address'),
+            'brief_name'      => $request->post('brief_name'),
+            'website'         => $request->post('website'),
         ]);
 
 
@@ -187,16 +188,16 @@ class UserController extends RestController
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['success' => false,  'error' => __('user_not_found')], 404);
+                return response()->json(['success' => false, 'error' => __('user_not_found')], 404);
             }
 
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
-            return response()->json(['success' => false,  'error' => __('token_expired')], $e->getStatusCode());
+            return response()->json(['success' => false, 'error' => __('token_expired')], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
-            return response()->json(['success' => false,  'error' => __('token_invalid')], $e->getStatusCode());
+            return response()->json(['success' => false, 'error' => __('token_invalid')], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
@@ -212,7 +213,45 @@ class UserController extends RestController
         return new self();
     }
 
-    public function logOut(){
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Delete(
+     *      path="/log_out",
+     *      summary="Remove the specified Users from storage",
+     *      tags={"Users"},
+     *      description="Delete Users",
+     *      produces={"application/json"},
+     *
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="string"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+
+    public function logOut()
+    {
+
         JWTAuth::parseToken()->invalidate();
+        return response()->json(['success' => true, 'message' => 'Log out successfully'], 200, []);
+
+
     }
 }

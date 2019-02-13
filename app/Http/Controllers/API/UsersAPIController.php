@@ -352,7 +352,7 @@ class UsersAPIController extends AppBaseController
     {
         $this->usersRepository->pushCriteria(new RequestCriteria($request));
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $users = $this->usersRepository->findWhereNotIn('activation_code', ['1']);
+        $users = $this->usersRepository->findWhereNotIn('is_activated', ['1']);
 
         return $this->sendResponse($users->toArray(), 'Inactivated users retrieved successfully');
     }
