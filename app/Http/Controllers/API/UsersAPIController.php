@@ -64,6 +64,9 @@ class UsersAPIController extends AppBaseController
 //        dd($request->main_product_groups);
         $this->usersRepository->pushCriteria(new RequestCriteria($request));
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $user_IDs = [];
+        $user_IDs2 = [];
+        $user_IDs3 = [];
         if (trim($request->textSearch) != "") {
             $users = $this->usersRepository->findWhere([['company_name', 'like', "%" . $request->textSearch . "%"]]);
             return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
@@ -83,10 +86,13 @@ class UsersAPIController extends AppBaseController
             $user_IDs3             = $mainSegmentsRepository->findWhereIn('segment_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
         }
 
-
         $list_user_IDs = array_merge($user_IDs, $user_IDs2, $user_IDs3);
-        $users         = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
+        if(count($list_user_IDs)){
+            $users         = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
+            return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+        }
 
+        $users = $this->usersRepository->all();
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
     }
 
