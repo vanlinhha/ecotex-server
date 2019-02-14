@@ -2,26 +2,32 @@
 
 return [
     'role_structure' => [
-//        'superadministrator' => [
-//            'users' => 'c,r,u,d',
-//            'acl' => 'c,r,u,d',
-//            'profile' => 'r,u'
-//        ],
-'administrator' => [
+
+        'superadministrator' => [
+            'users' => 'c,r,u,d',
+            'acl' => 'c,r,u,d',
+            'profile' => 'r,u'
+        ],
+
+'buyer' => [
     'users' => 'c,r,u,d',
     'ou' => 'c,r,u,d',
     'acl' => 'c,r,u,d',
 
 ],
 
-'leader' => [
+'supplier' => [
     'users' => 'c,r,u,d',
     'ou' => 'c,r,u,d',
     'acl' => 'c,r,u,d',
 
 ],
 
-'user' => [
+'manufacture' => [
+    'profile' => 'r,u'
+],
+
+'hr' => [
     'profile' => 'r,u'
 ],
     ],
