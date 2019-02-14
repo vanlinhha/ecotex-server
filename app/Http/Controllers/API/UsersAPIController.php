@@ -63,33 +63,33 @@ class UsersAPIController extends AppBaseController
     {
         $this->usersRepository->pushCriteria(new RequestCriteria($request));
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $user_IDs  = [];
-        $user_IDs2 = [];
-        $user_IDs3 = [];
-        if (trim($request->textSearch) != "") {
-            $users = $this->usersRepository->findWhere([['company_name', 'like', "%" . $request->text_search . "%"]]);
-        } elseif (count($request->main_product_groups) || count($request->main_target_groups) || count($request->main_segment_groups)) {
-            if (count($request->main_product_groups)) {
-                $main_product_group_IDs = array_map('intval', $request->main_product_groups);
-                $user_IDs               = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs, ['user_id'])->pluck('user_id')->all();
-            }
-            if (count($request->main_target_groups)) {
-                $main_target_group_IDs = array_map('intval', $request->main_target_groups);
-                $user_IDs2             = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
-            }
 
-            if (count($request->main_segment_groups)) {
-                $main_segment_group_IDs = array_map('intval', $request->main_segment_groups);
-                $user_IDs3              = $mainSegmentsRepository->findWhereIn('segment_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
-            }
+        $text_search   = $request->text_search || "";
+        $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"]])->pluck('id')->all();
 
-            $list_user_IDs = array_merge($user_IDs, $user_IDs2, $user_IDs3);
-            if (count($list_user_IDs)) {
-                $users = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
-            }
-        } else {
-            $users = $this->usersRepository->all();
+        if (isset($request->main_product_groups) && $request->main_product_groups[0] != null) {
+            $main_product_group_IDs = array_map('intval', $request->main_product_groups);
+            $user_IDs               = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
+            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs);
+
         }
+
+
+        if (isset($request->main_target_groups) && $request->main_target_groups[0] != null) {
+            $main_target_group_IDs = array_map('intval', $request->main_target_groups);
+            $user_IDs2             = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
+            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
+
+        }
+
+        if (isset($request->main_segment_groups) && $request->main_segment_groups[0] != null) {
+            $main_segment_group_IDs = array_map('intval', $request->main_segment_groups);
+            $user_IDs3              = $mainSegmentsRepository->findWhereIn('segment_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
+        }
+
+        $users = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
+
         foreach ($users as $user) {
             if ($user->roles()->get(['id'])->count()) {
                 $roles = $user->roles()->get()[0]['id'];
@@ -450,18 +450,35 @@ class UsersAPIController extends AppBaseController
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
         $users = $this->usersRepository->findWhereNotIn('is_activated', ['1', 1]);
 
+        foreach ($users as $user) {
+            if ($user->roles()->get(['id'])->count()) {
+                $roles = $user->roles()->get()[0]['id'];
+            } else {
+                $roles = 0;
+            }
+
+            $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
+            $mainTargets       = $user->mainTargets()->pluck('target_group_id');
+            $mainSegments      = $user->mainSegments()->pluck('segment_id');
+
+            $user['role_id']             = $roles;
+            $user['main_product_groups'] = $mainProductGroups;
+            $user['main_segment_groups'] = $mainSegments;
+            $user['main_target_groups']  = $mainTargets;
+        }
+
         return $this->sendResponse($users->toArray(), 'Inactivated users retrieved successfully');
     }
 
-    public function verifyUsers(Request $request){
+    public function verifyUsers(Request $request)
+    {
         $user_ids = json_decode($request->user_ids);
-        if(count($user_ids)){
-            foreach ($user_ids as $user_id){
+        if (count($user_ids)) {
+            foreach ($user_ids as $user_id) {
                 $this->usersRepository->update(['is_activated' => 1], $user_id);
             }
             return $this->sendResponse($user_ids, 'Users verified successfully');
-        }
-        else{
+        } else {
             return $this->sendError('Users not found');
         }
     }
