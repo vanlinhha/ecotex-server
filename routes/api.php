@@ -25,23 +25,23 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/closed', 'DataController@closed');
 });
 
-Route::resource('users', 'UsersAPIController');
+Route::resource('users', 'UsersAPIController')->middleware('jwt.verify');
 
 // Get all roles of system
-Route::get('/roles', 'UserController@getAllRoles');
+Route::get('/roles', 'UserController@getAllRoles')->middleware('jwt.verify');
 //Get all inactivated users
-Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
+Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser')->middleware('jwt.verify');
 
-Route::resource('product_groups', 'ProductGroupsAPIController');
+Route::resource('product_groups', 'ProductGroupsAPIController')->middleware('jwt.verify');
 
-Route::resource('main_product_groups', 'MainProductGroupsAPIController');
+Route::resource('main_product_groups', 'MainProductGroupsAPIController')->middleware('jwt.verify');
 
-Route::resource('main_segments', 'MainSegmentsAPIController');
+Route::resource('main_segments', 'MainSegmentsAPIController')->middleware('jwt.verify');
 
-Route::resource('segment_groups', 'SegmentGroupsAPIController');
+Route::resource('segment_groups', 'SegmentGroupsAPIController')->middleware('jwt.verify');
 
-Route::resource('role_types', 'RoleTypesAPIController');
+Route::resource('role_types', 'RoleTypesAPIController')->middleware('jwt.verify');
 
-Route::resource('target_groups', 'TargetGroupsAPIController');
+Route::resource('target_groups', 'TargetGroupsAPIController')->middleware('jwt.verify');
 
-Route::resource('main_targets', 'MainTargetsAPIController');
+Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.verify');

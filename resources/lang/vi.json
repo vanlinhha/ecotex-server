@@ -3,6 +3,9 @@
   "test" : "Kiểm   tra",
   "invalid_credentials" : "Tài khoản hoặc mật khẩu không đúng!",
   "could_not_create_token" : "Không thể tạo token",
-  "user_not_found" : "Người dùng không tồn tại!"
+  "user_not_found" : "Người dùng không tồn tại!",
+  "Token is Invalid" : "Token không hợp lệ",
+  "Token is Expired" : "Phiên đăng nhập đã hết hạn",
+  "Authorization Token not found" : "Không tìm thấy token"
 
 }
