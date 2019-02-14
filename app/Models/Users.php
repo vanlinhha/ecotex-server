@@ -203,7 +203,8 @@ class Users extends Authenticatable implements JWTSubject
         'revenue_per_year',
         'pieces_per_year',
         'compliance',
-        'activation_code'
+        'activation_code',
+        'is_activated'
     ];
 
     /**

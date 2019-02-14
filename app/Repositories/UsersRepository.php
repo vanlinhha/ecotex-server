@@ -59,4 +59,5 @@ class UsersRepository extends BaseRepository
     public function getInactivatedUser(){
 
     }
+
 }

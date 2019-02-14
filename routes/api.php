@@ -30,7 +30,10 @@ Route::resource('users', 'UsersAPIController');
 // Get all roles of system
 Route::get('/roles', 'UserController@getAllRoles');
 //Get all inactivated users
+
 Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser')->middleware('jwt.verify');
+Route::put('/verify_users', 'UsersAPIController@verifyUsers');
+
 
 Route::resource('product_groups', 'ProductGroupsAPIController');
 
