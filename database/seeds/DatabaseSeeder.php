@@ -23,48 +23,88 @@ class DatabaseSeeder extends Seeder
 //            'user_order'      => 1,
 //            'user_status'     => 1,
 //            'created_at'      => date('Y-m-d H:i:s')
-//        ]);
-//        DB::table('cores_user_metas')->insert(
-//                [
-//                    'user_id'         => '1',
-//                    'user_meta_key'   => 'user_address',
-//                    'user_meta_value' => '75 Phương Mai - Đống Đa - Hà Nội'
-//                ]
-//        );
-//        DB::table('cores_user_metas')->insert(
-//                [
-//                    'user_id'         => '1',
-//                    'user_meta_key'   => 'user_job_title',
-//                    'user_meta_value' => 'Quản trị hệ thống'
-//                ]
-//        );
-//        DB::table('cores_user_metas')->insert(
-//                [
-//                    'user_id'         => '1',
-//                    'user_meta_key'   => 'user_phone',
-//                    'user_meta_value' => '0868605579'
-//                ]
-//        );
-//		DB::table('cores_user_metas')->insert(
-//                [
-//                    'user_id'         => '1',
-//                    'user_meta_key'   => 'permit',
-//                    'user_meta_value' => 'ou'
-//                ]
-//        );
-//		DB::table('cores_user_metas')->insert(
-//                [
-//                    'user_id'         => '1',
-//                    'user_meta_key'   => 'permit',
-//                    'user_meta_value' => 'group'
-//                ]
-//        );
-//		DB::table('cores_user_metas')->insert(
-//                [
-//                    'user_id'         => '1',
-//                    'user_meta_key'   => 'permit',
-//                    'user_meta_value' => 'user'
-//                ]
+//        ]);target có: baby,kids, men, women,
+//segment có : active, casual, formal, workwear
+//product group thì có: dresses, fullbody, Jackets & Coats,skirts
+
+        DB::table('target_groups')->insert(
+            [
+                'name' => 'baby',
+            ]
+        );
+        DB::table('target_groups')->insert(
+            [
+                'name' => 'kids',
+            ]
+        );
+        DB::table('target_groups')->insert(
+            [
+                'name' => 'men',
+            ]
+        );
+        DB::table('target_groups')->insert(
+            [
+                'name' => 'women',
+            ]
+        );
+
+
+        DB::table('segment_groups')->insert(
+            [
+                'name' => 'active',
+            ]
+        );
+        DB::table('segment_groups')->insert(
+            [
+                'name' => 'casual',
+            ]
+        );
+        DB::table('segment_groups')->insert(
+            [
+                'name' => 'formal',
+            ]
+        );
+        DB::table('segment_groups')->insert(
+            [
+                'name' => 'workwear',
+            ]
+        );
+
+
+        DB::table('product_groups')->insert(
+            [
+                'name'      => 'dresses',
+                'parent_id' => 0
+
+            ]
+        );
+        DB::table('product_groups')->insert(
+            [
+                'name'      => 'casual',
+                'parent_id' => 0
+            ]
+        );
+        DB::table('product_groups')->insert(
+            [
+                'name'      => 'fullbody',
+                'parent_id' => 0
+            ]
+        );
+        DB::table('product_groups')->insert(
+            [
+                'name'      => 'Jackets & Coats',
+                'parent_id' => 0
+            ]
+        );
+        DB::table('product_groups')->insert(
+            [
+                'name'      => 'Skirts',
+                'parent_id' => 0
+            ]
+        );
+
+
+
 //        );
         $this->call(LaratrustSeeder::class);
     }
