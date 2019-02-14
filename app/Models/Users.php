@@ -255,6 +255,19 @@ class Users extends Authenticatable implements JWTSubject
         'last_name' => 'required'
     ];
 
+    public function mainProductGroups(){
+        return $this->hasMany(MainProductGroups::class, 'user_id', 'id');
+    }
+
+    public function mainTargets(){
+        return $this->hasMany(MainTargets::class, 'user_id', 'id');
+    }
+
+    public function mainSegments(){
+        return $this->hasMany(MainSegments::class, 'user_id', 'id');
+    }
+
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

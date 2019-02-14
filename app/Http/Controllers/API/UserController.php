@@ -82,7 +82,15 @@ class UserController extends RestController
         } else {
             $roles = 0;
         }
+
+        $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
+        $mainTargets = $user->mainTargets()->pluck('target_group_id');
+        $mainSegments = $user->mainSegments()->pluck('segment_id');
+
         $user['role_id'] = $roles;
+        $user['main_product_groups'] = $mainProductGroups;
+        $user['main_segment_groups'] = $mainSegments;
+        $user['main_target_groups'] = $mainTargets;
 
         return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user], 'message' => 'Log in successfully'], 201, []);
     }
