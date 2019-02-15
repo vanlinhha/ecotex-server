@@ -281,6 +281,9 @@ class UserController extends RestController
             'compliance'                   => $request->post('compliance'),
             'is_activated'                 => 0,
         ]);
+        if(intval($request->role_id)){
+            $user->roles()->attach(intval($request->role_id));
+        }
 
         $user->mainProductGroups()->sync($main_product_group_IDs);
         $user->mainTargets()->sync($main_target_group_IDs);
