@@ -88,12 +88,10 @@ class UsersAPIController extends AppBaseController
 
 
         $users = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
-        $currentPage = Paginator::resolveCurrentPage() - 1;
-        $perPage = isset($request->limit) ? intval($request->limit) : 10;
-//        dd($currentPage * $perPage, $perPage);
-//        $currentPageSearchResults = $users->slice($currentPage * $perPage, $perPage)->all();
-//        dd($currentPageSearchResults);
-        $users = new LengthAwarePaginator($users, count($users), $perPage);
+        $currentPage = Paginator::resolveCurrentPage() -1;
+        $perPage =  10;
+        $currentPageSearchResults = $users->slice($currentPage * $perPage, $perPage)->all();
+        $users = new LengthAwarePaginator($currentPageSearchResults, count($users), $perPage);
 
         foreach ($users as $user) {
             if ($user->roles()->get(['id'])->count()) {
