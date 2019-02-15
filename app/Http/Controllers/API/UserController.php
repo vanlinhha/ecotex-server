@@ -267,6 +267,7 @@ class UserController extends RestController
             'brief_name'                   => $request->post('brief_name'),
             'website'                      => $request->post('website'),
             'description'                  => $request->post('description'),
+            'identity_card'                  => $request->post('identity_card'),
             'is_paid'                      => 0,
             'establishment_year'           => $request->post('establishment_year'),
             'business_registration_number' => $request->post('business_registration_number'),
