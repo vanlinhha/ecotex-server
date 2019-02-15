@@ -84,13 +84,13 @@ class UserController extends RestController
         }
 
         $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
-        $mainTargets = $user->mainTargets()->pluck('target_group_id');
-        $mainSegments = $user->mainSegments()->pluck('segment_id');
+        $mainTargets       = $user->mainTargets()->pluck('target_group_id');
+        $mainSegments      = $user->mainSegments()->pluck('segment_id');
 
-        $user['role_id'] = $roles;
+        $user['role_id']             = $roles;
         $user['main_product_groups'] = $mainProductGroups;
         $user['main_segment_groups'] = $mainSegments;
-        $user['main_target_groups'] = $mainTargets;
+        $user['main_target_groups']  = $mainTargets;
 
         return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user], 'message' => 'Log in successfully'], 201, []);
     }
@@ -262,6 +262,19 @@ class UserController extends RestController
             'company_address' => $request->post('company_address'),
             'brief_name'      => $request->post('brief_name'),
             'website'         => $request->post('website'),
+            'description'         => $request->post('description'),
+            'is_paid'         => 0,
+            'establishment_year'         => $request->post('establishment_year'),
+            'business_registration_number'         => $request->post('business_registration_number'),
+            'form_of_ownership'         => $request->post('form_of_ownership'),
+            'number_of_employees'         => $request->post('number_of_employees'),
+            'floor_area'         => $request->post('floor_area'),
+            'area_of_factory'         => $request->post('area_of_factory'),
+            'commercial_service_type'         => $request->post('commercial_service_type'),
+            'revenue_per_year'         => $request->post('revenue_per_year'),
+            'pieces_per_year'         => $request->post('pieces_per_year'),
+            'compliance'         => $request->post('compliance'),
+            'is_activated'    => 0,
         ]);
 
 
