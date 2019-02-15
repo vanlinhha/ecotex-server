@@ -83,8 +83,8 @@ class MainSegments extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function users()
-    {
-        return $this->belongsTo(\App\Models\Users::class, 'user_id', 'id');
-    }
+//    public function users()
+//    {
+//        return $this->belongsTo(\App\Models\Users::class, 'user_id', 'id');
+//    }
 }

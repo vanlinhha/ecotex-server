@@ -70,5 +70,10 @@ class ProductGroups extends Model
         'name' => 'required'
     ];
 
+    public function users()
+    {
+        return $this->belongsToMany(\App\Models\Users::class, 'main_product_groups')->using(MainProductGroups::class);
+    }
+
     
 }

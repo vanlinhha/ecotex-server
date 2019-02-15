@@ -257,17 +257,16 @@ class Users extends Authenticatable implements JWTSubject
     ];
 
     public function mainProductGroups(){
-        return $this->hasMany(MainProductGroups::class, 'user_id', 'id');
+        return $this->belongsToMany(ProductGroups::class, "main_product_groups", 'user_id', 'product_group_id');
     }
 
     public function mainTargets(){
-        return $this->hasMany(MainTargets::class, 'user_id', 'id');
+        return $this->belongsToMany(TargetGroups::class, 'main_targets', 'user_id','target_group_id');
     }
 
     public function mainSegments(){
-        return $this->hasMany(MainSegments::class, 'user_id', 'id');
+        return $this->belongsToMany(SegmentGroups::class, 'main_segments', 'user_id','segment_id');
     }
-
 
     public function getJWTIdentifier()
     {

@@ -235,6 +235,10 @@ class UserController extends RestController
 
     public function register(Request $request)
     {
+        $main_product_group_IDs = json_decode($request->main_product_groups);
+        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+        $main_target_group_IDs  = json_decode($request->main_target_groups);
+
         $validator = Validator::make($request->all(), [
             'email'      => 'string|email|max:255|unique:users',
             'password'   => 'required|string|min:6',
@@ -252,31 +256,34 @@ class UserController extends RestController
 //        });
 
         $user = Users::create([
-            'email'           => $request->post('email'),
-            'password'        => Hash::make($request->post('password')),
-            'first_name'      => $request->post('first_name'),
-            'last_name'       => $request->post('last_name'),
-            'phone'           => $request->post('phone'),
-            'country'         => $request->post('country'),
-            'company_name'    => $request->post('company_name'),
-            'company_address' => $request->post('company_address'),
-            'brief_name'      => $request->post('brief_name'),
-            'website'         => $request->post('website'),
-            'description'         => $request->post('description'),
-            'is_paid'         => 0,
-            'establishment_year'         => $request->post('establishment_year'),
-            'business_registration_number'         => $request->post('business_registration_number'),
-            'form_of_ownership'         => $request->post('form_of_ownership'),
-            'number_of_employees'         => $request->post('number_of_employees'),
-            'floor_area'         => $request->post('floor_area'),
-            'area_of_factory'         => $request->post('area_of_factory'),
-            'commercial_service_type'         => $request->post('commercial_service_type'),
-            'revenue_per_year'         => $request->post('revenue_per_year'),
-            'pieces_per_year'         => $request->post('pieces_per_year'),
-            'compliance'         => $request->post('compliance'),
-            'is_activated'    => 0,
+            'email'                        => $request->post('email'),
+            'password'                     => Hash::make($request->post('password')),
+            'first_name'                   => $request->post('first_name'),
+            'last_name'                    => $request->post('last_name'),
+            'phone'                        => $request->post('phone'),
+            'country'                      => $request->post('country'),
+            'company_name'                 => $request->post('company_name'),
+            'company_address'              => $request->post('company_address'),
+            'brief_name'                   => $request->post('brief_name'),
+            'website'                      => $request->post('website'),
+            'description'                  => $request->post('description'),
+            'is_paid'                      => 0,
+            'establishment_year'           => $request->post('establishment_year'),
+            'business_registration_number' => $request->post('business_registration_number'),
+            'form_of_ownership'            => $request->post('form_of_ownership'),
+            'number_of_employees'          => $request->post('number_of_employees'),
+            'floor_area'                   => $request->post('floor_area'),
+            'area_of_factory'              => $request->post('area_of_factory'),
+            'commercial_service_type'      => $request->post('commercial_service_type'),
+            'revenue_per_year'             => $request->post('revenue_per_year'),
+            'pieces_per_year'              => $request->post('pieces_per_year'),
+            'compliance'                   => $request->post('compliance'),
+            'is_activated'                 => 0,
         ]);
 
+        $user->mainProductGroups()->sync($main_product_group_IDs);
+        $user->mainTargets()->sync($main_target_group_IDs);
+        $user->mainSegments()->sync($main_segment_group_IDs);
 
         $token = JWTAuth::fromUser($user);
 

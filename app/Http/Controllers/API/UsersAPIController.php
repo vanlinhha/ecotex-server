@@ -86,10 +86,9 @@ class UsersAPIController extends AppBaseController
             $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
         }
 
-
         $users = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
-        $currentPage = Paginator::resolveCurrentPage() -1;
-        $perPage =  10;
+        $currentPage = Paginator::resolveCurrentPage() - 1;
+        $perPage = 10;
         $currentPageSearchResults = $users->slice($currentPage * $perPage, $perPage)->all();
         $users = new LengthAwarePaginator($currentPageSearchResults, count($users), $perPage);
 
@@ -109,6 +108,7 @@ class UsersAPIController extends AppBaseController
             $user['main_segment_groups'] = $mainSegments;
             $user['main_target_groups']  = $mainTargets;
         }
+
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
 
 
