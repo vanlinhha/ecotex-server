@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Response;
 
 /**
@@ -66,20 +68,16 @@ class UsersAPIController extends AppBaseController
 
         $text_search   = $request->text_search || "";
         $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"]])->pluck('id')->all();
-
         if (isset($request->main_product_groups) && $request->main_product_groups[0] != null) {
             $main_product_group_IDs = array_map('intval', $request->main_product_groups);
             $user_IDs               = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
             $list_user_IDs = array_intersect($list_user_IDs, $user_IDs);
-
         }
-
 
         if (isset($request->main_target_groups) && $request->main_target_groups[0] != null) {
             $main_target_group_IDs = array_map('intval', $request->main_target_groups);
             $user_IDs2             = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
             $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
-
         }
 
         if (isset($request->main_segment_groups) && $request->main_segment_groups[0] != null) {
@@ -88,7 +86,14 @@ class UsersAPIController extends AppBaseController
             $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
         }
 
+
         $users = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
+        $currentPage = Paginator::resolveCurrentPage() - 1;
+        $perPage = isset($request->limit) ? intval($request->limit) : 10;
+//        dd($currentPage * $perPage, $perPage);
+//        $currentPageSearchResults = $users->slice($currentPage * $perPage, $perPage)->all();
+//        dd($currentPageSearchResults);
+        $users = new LengthAwarePaginator($users, count($users), $perPage);
 
         foreach ($users as $user) {
             if ($user->roles()->get(['id'])->count()) {
