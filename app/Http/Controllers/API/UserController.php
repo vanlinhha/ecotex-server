@@ -90,7 +90,7 @@ class UserController extends RestController
         $mainSegments      = $user->mainSegments()->pluck('segment_id');
 
         $user['role_id']             = $roles;
-        $user['expired']             = $timeExp;
+        $user['expired_at']             = $timeExp;
         $user['main_product_groups'] = $mainProductGroups;
         $user['main_segment_groups'] = $mainSegments;
         $user['main_target_groups']  = $mainTargets;
