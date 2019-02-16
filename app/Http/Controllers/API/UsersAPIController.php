@@ -108,8 +108,7 @@ class UsersAPIController extends AppBaseController
             $user['main_segment_groups'] = $mainSegments;
             $user['main_target_groups']  = $mainTargets;
         }
-
-        return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+        return $this->sendResponse($users, 'Users retrieved successfully');
 
 
     }

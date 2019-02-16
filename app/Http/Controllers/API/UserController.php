@@ -261,13 +261,15 @@ class UserController extends RestController
             'first_name'                   => $request->post('first_name'),
             'last_name'                    => $request->post('last_name'),
             'phone'                        => $request->post('phone'),
+            'type'                         => $request->post('type'),
             'country'                      => $request->post('country'),
             'company_name'                 => $request->post('company_name'),
             'company_address'              => $request->post('company_address'),
             'brief_name'                   => $request->post('brief_name'),
             'website'                      => $request->post('website'),
             'description'                  => $request->post('description'),
-            'identity_card'                  => $request->post('identity_card'),
+            'identity_card'                => $request->post('identity_card'),
+            'minimum_order_quantity'       => $request->post('minimum_order_quantity'),
             'is_paid'                      => 0,
             'establishment_year'           => $request->post('establishment_year'),
             'business_registration_number' => $request->post('business_registration_number'),
@@ -281,7 +283,7 @@ class UserController extends RestController
             'compliance'                   => $request->post('compliance'),
             'is_activated'                 => 0,
         ]);
-        if(intval($request->role_id)){
+        if (intval($request->role_id)) {
             $user->roles()->attach(intval($request->role_id));
         }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30ae65379721b76d4e7a70a371f40cf6",
+    "content-hash": "6be60fba79a0fa8f93f1f1f94c3877e0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6701,10 +6701,10 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "tymon/jwt-auth": 20,
-        "infyomlabs/laravel-generator": 20,
         "infyomlabs/adminlte-templates": 20,
-        "infyomlabs/swagger-generator": 20
+        "infyomlabs/laravel-generator": 20,
+        "infyomlabs/swagger-generator": 20,
+        "tymon/jwt-auth": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

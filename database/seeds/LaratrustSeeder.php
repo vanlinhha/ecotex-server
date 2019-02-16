@@ -12,6 +12,7 @@ class LaratrustSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker\Factory::create();
         $this->command->info('Truncating User, Role and Permission tables');
         $this->truncateLaratrustTables();
 
@@ -55,37 +56,66 @@ class LaratrustSeeder extends Seeder
 
             for($i = 0;$i < 100; $i++){
                 // Create default user for each role
-                $user = \App\Models\Users::create([
-//                'name' => ucwords(str_replace('_', ' ', $key)),
-                'first_name' => ucwords(str_replace('_', ' ', $key)),
-                'last_name' => ucwords(str_replace('_', ' ', $key)),
-                'email' => $key.'@app.com'.$i,
-                'password' => bcrypt('password'),
-                'phone' => '0123456'. $i,
-                'country' => 'Viet nam'. $i,
-                'company_name' => 'Ecotex' . $i,
-                'brief_name' => 'Eco'. $i,
-                'company_address' => $i . ' ' .' Phuong mai ',
-                'website' => 'Ecotex.com.'. str_random(2),
-                'description' => 'Ecotex. description .'. str_random(12),
-                'is_paid' => random_int(0,1),
-                'address' => 'Ecotex. address .'. str_random(22),
-                'identity_card' => mt_rand(100000000,999999999),
-                'establishment_year' => random_int(2000, 2019),
-                'business_registration_number' => 'Ecotex resgistration '. str_random(5),
-                'form_of_ownership' => '',
-                'number_of_employees' => random_int(15,5000),
-                'floor_area' => random_int(10000, 100000),
-                'area_of_factory' => random_int(100000, 5000000),
-                'commercial_service_type' => str_random(29),
-                'revenue_per_year' => rand(10000, 2000000),
-                'pieces_per_year' => random_int(1,100),
-                'compliance' => str_random(100),
-                'activation_code' => str_random(10),
-                'is_activated' => random_int(0,1),
-//                'remember_token' => str_random(10),
 
-                ]);
+                if($i%2 == 0){
+                    // Create default user for each permission set
+                    $user = \App\Models\Users::create([
+                        'first_name' => $faker->firstName,
+                        'last_name' => $faker->lastName,
+                        'email' => $faker->companyEmail,
+                        'password' => bcrypt('password'),
+                        'type' => 'personal',
+                        'phone' => $faker->phoneNumber,
+                        'country' => $faker->country,
+                        'company_name' => $faker->company,
+                        'brief_name' => $faker->companySuffix,
+                        'company_address' => $faker->address,
+                        'website' => $faker->address,
+                        'description' => $faker->sentence(),
+                        'is_paid' => random_int(0,1),
+                        'minimum_order_quantity' => random_int(1,5),
+
+                        //personal
+                        'address' => $faker->address,
+                        'identity_card' => mt_rand(100000000,999999999),
+
+                    ]);
+                }
+                else{
+                    // Create default user for each permission set
+                    $user = \App\Models\Users::create([
+                        'first_name' => $faker->firstName,
+                        'last_name' => $faker->lastName,
+                        'email' => $faker->companyEmail,
+                        'password' => bcrypt('password'),
+                        'type' => 'enterprise',
+                        'phone' => $faker->phoneNumber,
+                        'country' => $faker->country,
+                        'company_name' => $faker->company,
+                        'brief_name' => $faker->companySuffix,
+                        'company_address' => $faker->address,
+                        'website' => $faker->address,
+                        'description' => $faker->sentence(),
+                        'is_paid' => random_int(0,1),
+                        'minimum_order_quantity' => random_int(1,5),
+
+
+                        //enterprise
+                        'establishment_year' => random_int(2000, 2019),
+                        'business_registration_number' => $faker->creditCardNumber(),
+                        'form_of_ownership' => '',
+                        'number_of_employees' => random_int(15,5000),
+                        'floor_area' => random_int(10000, 100000),
+                        'area_of_factory' => random_int(100000, 5000000),
+                        'commercial_service_type' => str_random(29),
+                        'revenue_per_year' => rand(10000, 2000000),
+                        'pieces_per_year' => random_int(1,100),
+                        'compliance' => str_random(6),
+                        'activation_code' => str_random(10),
+                        'is_activated' => random_int(0,1),
+                    ]);
+                }
+
 
                 DB::table('main_product_groups')->insert(
                     [
@@ -149,22 +179,23 @@ class LaratrustSeeder extends Seeder
                         if($i%2 == 0){
                             // Create default user for each permission set
                             $user = \App\Models\Users::create([
-                                'first_name' => ucwords(str_replace('_', ' ', $key)). $i,
-                                'last_name' => ucwords(str_replace('_', ' ', $key)). $i,
-                                'email' => $key.'@app.com'.$i,
+                                'first_name' => $faker->firstName,
+                                'last_name' => $faker->lastName,
+                                'email' => $faker->companyEmail,
                                 'password' => bcrypt('password'),
                                 'type' => 'personal',
-                                'phone' => '0123456'. $i,
-                                'country' => 'Viet Nam',
-                                'company_name' => 'Ecotex ' . $i,
-                                'brief_name' => 'Eco'. $i,
-                                'company_address' => $i . ' ' .' Phuong mai ',
-                                'website' => 'Ecotex.com.'. str_random(2),
-                                'description' => 'Ecotex. description .'. str_random(12),
+                                'phone' => $faker->phoneNumber,
+                                'country' => $faker->country,
+                                'company_name' => $faker->company,
+                                'brief_name' => $faker->companySuffix,
+                                'company_address' => $faker->address,
+                                'website' => $faker->address,
+                                'description' => $faker->sentence(),
                                 'is_paid' => random_int(0,1),
+                                'minimum_order_quantity' => random_int(1,5),
 
                                 //personal
-                                'address' => '75 Phuong Mai'. str_random(22),
+                                'address' => $faker->address,
                                 'identity_card' => mt_rand(100000000,999999999),
 
                             ]);
@@ -172,24 +203,25 @@ class LaratrustSeeder extends Seeder
                         else{
                             // Create default user for each permission set
                             $user = \App\Models\Users::create([
-                                'first_name' => ucwords(str_replace('_', ' ', $key)). $i,
-                                'last_name' => ucwords(str_replace('_', ' ', $key)). $i,
-                                'email' => $key.'@app.com'.$i,
+                                'first_name' => $faker->firstName,
+                                'last_name' => $faker->lastName,
+                                'email' => $faker->companyEmail,
                                 'password' => bcrypt('password'),
                                 'type' => 'enterprise',
-                                'phone' => '0123456'. $i,
-                                'country' => 'Viet nam'. $i,
-                                'company_name' => 'Ecotex' . $i,
-                                'brief_name' => 'Eco'. $i,
-                                'company_address' => $i . ' ' .' Phuong mai ',
-                                'website' => 'Ecotex.com.'. str_random(2),
-                                'description' => 'Ecotex. description .'. str_random(12),
+                                'phone' => $faker->phoneNumber,
+                                'country' => $faker->country,
+                                'company_name' => $faker->company,
+                                'brief_name' => $faker->companySuffix,
+                                'company_address' => $faker->address,
+                                'website' => $faker->address,
+                                'description' => $faker->sentence(),
                                 'is_paid' => random_int(0,1),
+                                'minimum_order_quantity' => random_int(1,5),
 
 
                                 //enterprise
                                 'establishment_year' => random_int(2000, 2019),
-                                'business_registration_number' => 'Ecotex resgistration '. str_random(5),
+                                'business_registration_number' => $faker->creditCardNumber(),
                                 'form_of_ownership' => '',
                                 'number_of_employees' => random_int(15,5000),
                                 'floor_area' => random_int(10000, 100000),
@@ -267,7 +299,6 @@ class LaratrustSeeder extends Seeder
 
                         $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
                     }
-
 
                 }
 

@@ -48,3 +48,5 @@ Route::resource('role_types', 'RoleTypesAPIController')->middleware('jwt.verify'
 Route::resource('target_groups', 'TargetGroupsAPIController');
 
 Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.verify');
+
+Route::resource('minimum_order_quantities', 'MinimumOrderQuantityAPIController');

@@ -105,6 +105,34 @@ class DatabaseSeeder extends Seeder
 
 
 
+        DB::table('minimum_order_quantities')->insert(
+            [
+                'name' => '100 - 500',
+            ]
+        );
+        DB::table('minimum_order_quantities')->insert(
+            [
+                'name' => '500 - 1000',
+            ]
+        );
+        DB::table('minimum_order_quantities')->insert(
+            [
+                'name' => '1000 - 5000',
+            ]
+        );
+        DB::table('minimum_order_quantities')->insert(
+            [
+                'name' => '5000 - 20000',
+            ]
+        );
+        DB::table('minimum_order_quantities')->insert(
+            [
+                'name' => 'more than 20000',
+            ]
+        );
+
+
+
 //        );
         $this->call(LaratrustSeeder::class);
     }
