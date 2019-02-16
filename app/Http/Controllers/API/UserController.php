@@ -11,6 +11,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\RestController;
 use App\Models\Users;
+use Tymon\JWTAuth\Token;
 
 class UserController extends RestController
 {
@@ -67,6 +68,7 @@ class UserController extends RestController
 
     public function authenticate(Request $request)
     {
+        $timeExp     = time() + (60 * 60 * 24);
         $credentials = $request->only('email', 'password');
 
         try {
@@ -88,6 +90,7 @@ class UserController extends RestController
         $mainSegments      = $user->mainSegments()->pluck('segment_id');
 
         $user['role_id']             = $roles;
+        $user['exp']                 = $timeExp;
         $user['main_product_groups'] = $mainProductGroups;
         $user['main_segment_groups'] = $mainSegments;
         $user['main_target_groups']  = $mainTargets;
