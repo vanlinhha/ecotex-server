@@ -102,7 +102,9 @@ class UsersAPIController extends AppBaseController
             $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
             $mainTargets       = $user->mainTargets()->pluck('target_group_id');
             $mainSegments      = $user->mainSegments()->pluck('segment_id');
+            $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
 
+            $user['role_type_id']        = $role_type_ids;
             $user['role_id']             = $roles;
             $user['main_product_groups'] = $mainProductGroups;
             $user['main_segment_groups'] = $mainSegments;
@@ -462,7 +464,9 @@ class UsersAPIController extends AppBaseController
             $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
             $mainTargets       = $user->mainTargets()->pluck('target_group_id');
             $mainSegments      = $user->mainSegments()->pluck('segment_id');
+            $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
 
+            $user['role_type_id']        = $role_type_ids;
             $user['role_id']             = $roles;
             $user['main_product_groups'] = $mainProductGroups;
             $user['main_segment_groups'] = $mainSegments;

@@ -88,7 +88,9 @@ class UserController extends RestController
         $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
         $mainTargets       = $user->mainTargets()->pluck('target_group_id');
         $mainSegments      = $user->mainSegments()->pluck('segment_id');
+        $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
 
+        $user['role_type_id']        = $role_type_ids;
         $user['role_id']             = $roles;
         $user['expired_at']          = $timeExp;
         $user['main_product_groups'] = $mainProductGroups;

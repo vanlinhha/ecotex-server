@@ -268,6 +268,10 @@ class Users extends Authenticatable implements JWTSubject
         return $this->belongsToMany(SegmentGroups::class, 'main_segments', 'user_id','segment_id');
     }
 
+    public function roleTypes(){
+        return $this->belongsToMany(RoleTypes::class, 'user_role_types', 'user_id','role_type_id');
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -276,6 +280,8 @@ class Users extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+
 
 
     
