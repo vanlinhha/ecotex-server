@@ -381,7 +381,7 @@ class UserController extends RestController
     /**
      *
      * @SWG\Get(
-     *      path="/getAllRoles",
+     *      path="/roles",
      *      summary="Get a listing of the Roles.",
      *      tags={"Users"},
      *      description="Get all Roles",

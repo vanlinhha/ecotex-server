@@ -28,7 +28,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 Route::resource('users', 'UsersAPIController');
 
 // Get all roles of system
-Route::get('/getAllRoles', 'UserController@getAllRoles');
+Route::get('/roles', 'UserController@getAllRoles');
 //Get all inactivated users
 
 Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
@@ -43,7 +43,7 @@ Route::resource('main_segments', 'MainSegmentsAPIController')->middleware('jwt.v
 
 Route::resource('segment_groups', 'SegmentGroupsAPIController');
 
-Route::resource('role_types', 'RoleTypesAPIController')->middleware('jwt.verify');
+Route::resource('role_types', 'RoleTypesAPIController');
 
 Route::resource('target_groups', 'TargetGroupsAPIController');
 
