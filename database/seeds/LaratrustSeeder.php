@@ -16,6 +16,24 @@ class LaratrustSeeder extends Seeder
         $this->command->info('Truncating User, Role and Permission tables');
         $this->truncateLaratrustTables();
 
+        DB::table('users')->insert([
+            'first_name' => $faker->firstName,
+            'last_name' => $faker->lastName,
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('123456'),
+            'type' => 'enterprise',
+            'phone' => $faker->phoneNumber,
+            'country' => $faker->country,
+            'company_name' => $faker->company,
+            'brief_name' => $faker->companySuffix,
+            'company_address' => $faker->address,
+            'website' => $faker->address,
+            'description' => $faker->sentence(),
+            'is_paid' => random_int(0,1),
+            'minimum_order_quantity' => random_int(1,5),
+            'is_activated' => 1,
+        ]);
+
         $config = config('laratrust_seeder.role_structure');
         $userPermission = config('laratrust_seeder.permission_structure');
         $mapPermission = collect(config('laratrust_seeder.permissions_map'));
@@ -63,7 +81,7 @@ class LaratrustSeeder extends Seeder
                         'first_name' => $faker->firstName,
                         'last_name' => $faker->lastName,
                         'email' => $faker->companyEmail,
-                        'password' => bcrypt('password'),
+                        'password' => bcrypt('123456'),
                         'type' => 'personal',
                         'phone' => $faker->phoneNumber,
                         'country' => $faker->country,
@@ -87,7 +105,7 @@ class LaratrustSeeder extends Seeder
                         'first_name' => $faker->firstName,
                         'last_name' => $faker->lastName,
                         'email' => $faker->companyEmail,
-                        'password' => bcrypt('password'),
+                        'password' => bcrypt('123456'),
                         'type' => 'enterprise',
                         'phone' => $faker->phoneNumber,
                         'country' => $faker->country,

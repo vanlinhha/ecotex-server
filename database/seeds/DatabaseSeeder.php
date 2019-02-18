@@ -13,17 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        DB::table('users')->insert([
-//            'id'              => '1',
-//            'user_name'       => 'admin',
-//            'user_login_name' => 'admin',
-//            'user_email'      => 'admin@gmail.com',
-//            'user_is_admin'   => 1,
-//            'password'        => bcrypt('123456'),
-//            'user_order'      => 1,
-//            'user_status'     => 1,
-//            'created_at'      => date('Y-m-d H:i:s')
-//        ]);target có: baby,kids, men, women,
+//        $faker = Faker\Factory::create();
+
+//target có: baby,kids, men, women,
 //segment có : active, casual, formal, workwear
 //product group thì có: dresses, fullbody, Jackets & Coats,skirts
 

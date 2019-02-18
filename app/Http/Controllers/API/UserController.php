@@ -97,7 +97,7 @@ class UserController extends RestController
         $user['main_segment_groups'] = $mainSegments;
         $user['main_target_groups']  = $mainTargets;
 
-        return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user], 'message' => 'Log in successfully'], 201, []);
+        return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user, 'expired_at' => $timeExp], 'message' => 'Log in successfully'], 201, []);
     }
 
 
