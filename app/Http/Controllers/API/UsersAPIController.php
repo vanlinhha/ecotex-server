@@ -66,7 +66,7 @@ class UsersAPIController extends AppBaseController
         $this->usersRepository->pushCriteria(new RequestCriteria($request));
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
 
-        $text_search   = $request->text_search || "";
+        $text_search   = $request->text_search ? $request->text_search : "";
         $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"]])->pluck('id')->all();
         if (isset($request->main_product_groups) && $request->main_product_groups[0] != null) {
             $main_product_group_IDs = array_map('intval', $request->main_product_groups);
