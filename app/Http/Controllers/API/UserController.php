@@ -68,7 +68,7 @@ class UserController extends RestController
 
     public function authenticate(Request $request)
     {
-        $timeExp     = time() + (60 * 60 * 24);
+        $timeExp     =  time() + ( 24 * 60 * 60);
         $credentials = $request->only('email', 'password');
 
         try {
@@ -92,7 +92,6 @@ class UserController extends RestController
 
         $user['role_type_id']        = $role_type_ids;
         $user['role_id']             = $roles;
-        $user['expired_at']          = $timeExp;
         $user['main_product_groups'] = $mainProductGroups;
         $user['main_segment_groups'] = $mainSegments;
         $user['main_target_groups']  = $mainTargets;
