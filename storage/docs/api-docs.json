@@ -1730,6 +1730,16 @@
                         "type": "string"
                     },
                     {
+                        "name": "role_id",
+                        "in": "query",
+                        "description": "Users that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "integer"
+                    },
+                    {
                         "name": "type",
                         "in": "query",
                         "description": "Users that should be updated",
@@ -2485,6 +2495,39 @@
                 "name": {
                     "description": "name",
                     "type": "string"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "UserRoleTypes": {
+            "required": [
+                "user_id",
+                "role_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_id": {
+                    "description": "user_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "role_id": {
+                    "description": "role_id",
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "created_at": {
                     "description": "created_at",

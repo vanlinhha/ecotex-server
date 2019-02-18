@@ -145,6 +145,14 @@ class UserController extends RestController
      *          @SWG\Schema(ref="#/definitions/Users")
      *      ),
      *     @SWG\Parameter(
+     *          name="role_id",
+     *          in="query",
+     *          type="integer",
+     *          description="Users that should be updated",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Users")
+     *      ),
+     *     @SWG\Parameter(
      *          name="type",
      *          in="query",
      *          type="string",
@@ -265,6 +273,7 @@ class UserController extends RestController
             'password'                     => Hash::make($request->post('password')),
             'first_name'                   => $request->post('first_name'),
             'last_name'                    => $request->post('last_name'),
+            'role_id'                      => $request->post('role_id'),
             'phone'                        => $request->post('phone'),
             'type'                         => $request->post('type'),
             'country'                      => $request->post('country'),
