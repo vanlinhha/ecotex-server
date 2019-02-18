@@ -68,7 +68,7 @@ class UserController extends RestController
 
     public function authenticate(Request $request)
     {
-        $timeExp     =  time() + ( 24 * 60 * 60);
+        $timeExp     =  (time() + ( 24 * 60 * 60)) * 1000;
         $credentials = $request->only('email', 'password');
 
         try {
