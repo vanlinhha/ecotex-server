@@ -272,6 +272,10 @@ class Users extends Authenticatable implements JWTSubject
         return $this->belongsToMany(RoleTypes::class, 'user_role_types', 'user_id','role_type_id');
     }
 
+    public function getInfo(){
+
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

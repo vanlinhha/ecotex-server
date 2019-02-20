@@ -32,6 +32,7 @@ Route::get('/roles', 'UserController@getAllRoles');
 //Get all inactivated users
 
 Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
+Route::get('/all_users', 'UsersAPIController@getAllUser');
 Route::put('/verify_users', 'UsersAPIController@verifyUsers');
 
 

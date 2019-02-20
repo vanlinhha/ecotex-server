@@ -13,7 +13,7 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method Users findWithoutFail($id, $columns = ['*'])
  * @method Users find($id, $columns = ['*'])
  * @method Users first($columns = ['*'])
-*/
+ */
 class UsersRepository extends BaseRepository
 {
     /**
@@ -56,8 +56,43 @@ class UsersRepository extends BaseRepository
         return Users::class;
     }
 
-    public function getInactivatedUser(){
+    public function getInactivatedUser()
+    {
 
+    }
+
+    public function findWhereInAndPaginate($field, array $values, $group_by, $direction, $limit, $columns = ['*'])
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $this->model = $this->model->whereIn($field, $values)->orderBy($group_by, $direction);
+
+//        $this->model = $this->model;
+        $limit       = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
+        $results     = $this->model->paginate($limit, $columns);
+        $results->appends(app('request')->query());
+
+        $this->resetModel();
+
+        return $this->parserResult($results);
+    }
+
+    public function findWhereAndPaginate(array $where, $group_by, $direction, $limit = null, $columns = ['*'], $method = "paginate")
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $this->applyConditions($where);
+
+        $limit       = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
+        $this->model = $this->model->orderBy($group_by, $direction);
+        $results     = $this->model->{$method}($limit, $columns);
+        $results->appends(app('request')->query());
+
+        $this->resetModel();
+
+        return $this->parserResult($results);
     }
 
 }

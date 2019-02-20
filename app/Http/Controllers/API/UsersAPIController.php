@@ -35,7 +35,7 @@ class UsersAPIController extends AppBaseController
      *
      * @SWG\Get(
      *      path="/users",
-     *      summary="Get a listing of the Users.",
+     *      summary="Get a listing of activated Users.",
      *      tags={"Users"},
      *      description="Get all Users",
      *      produces={"application/json"},
@@ -63,56 +63,40 @@ class UsersAPIController extends AppBaseController
      */
     public function index(Request $request, MainProductGroupsRepository $mainProductGroupsRepository, MainTargetsRepository $mainTargetsRepository, MainSegmentsRepository $mainSegmentsRepository)
     {
-        $this->usersRepository->pushCriteria(new RequestCriteria($request));
-        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
+//        $this->usersRepository->pushCriteria(new RequestCriteria($request));
+//        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
 
         $text_search   = $request->text_search ? $request->text_search : "";
-        $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"]])->pluck('id')->all();
+        $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
+
         if (isset($request->main_product_groups) && $request->main_product_groups[0] != null) {
             $main_product_group_IDs = array_map('intval', $request->main_product_groups);
             $user_IDs               = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
-            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs);
+            $list_user_IDs          = array_intersect($list_user_IDs, $user_IDs);
         }
 
         if (isset($request->main_target_groups) && $request->main_target_groups[0] != null) {
             $main_target_group_IDs = array_map('intval', $request->main_target_groups);
             $user_IDs2             = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
-            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
+            $list_user_IDs         = array_intersect($list_user_IDs, $user_IDs2);
         }
 
         if (isset($request->main_segment_groups) && $request->main_segment_groups[0] != null) {
             $main_segment_group_IDs = array_map('intval', $request->main_segment_groups);
             $user_IDs3              = $mainSegmentsRepository->findWhereIn('segment_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
-            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
+            $list_user_IDs          = array_intersect($list_user_IDs, $user_IDs3);
         }
 
-        $users = $this->usersRepository->findWhereIn('id', $list_user_IDs, ['*']);
-        $currentPage = Paginator::resolveCurrentPage() - 1;
-        $perPage = 10;
-        $currentPageSearchResults = $users->slice($currentPage * $perPage, $perPage)->all();
-        $users = new LengthAwarePaginator($currentPageSearchResults, count($users), $perPage);
+        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $direction = (is_null($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
+
+        $users = $this->usersRepository->findWhereInAndPaginate('id', $list_user_IDs, $order_by, $direction, $limit, ['*']);
 
         foreach ($users as $user) {
-            if ($user->roles()->get(['id'])->count()) {
-                $roles = $user->roles()->get()[0]['id'];
-            } else {
-                $roles = 0;
-            }
-
-            $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
-            $mainTargets       = $user->mainTargets()->pluck('target_group_id');
-            $mainSegments      = $user->mainSegments()->pluck('segment_id');
-            $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
-
-            $user['role_type_id']        = $role_type_ids;
-            $user['role_id']             = $roles;
-            $user['main_product_groups'] = $mainProductGroups;
-            $user['main_segment_groups'] = $mainSegments;
-            $user['main_target_groups']  = $mainTargets;
+            $this->getInfo($user);
         }
         return $this->sendResponse($users, 'Users retrieved successfully');
-
-
     }
 
     /**
@@ -150,6 +134,27 @@ class UsersAPIController extends AppBaseController
      *      )
      * )
      */
+
+    public function getInfo(&$user)
+    {
+        if ($user->roles()->get(['id'])->count()) {
+            $roles = $user->roles()->get()[0]['id'];
+        } else {
+            $roles = 0;
+        }
+
+        $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
+        $mainTargets       = $user->mainTargets()->pluck('target_group_id');
+        $mainSegments      = $user->mainSegments()->pluck('segment_id');
+        $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
+
+        $user['role_type_id']        = $role_type_ids;
+        $user['role_id']             = $roles;
+        $user['main_product_groups'] = $mainProductGroups;
+        $user['main_segment_groups'] = $mainSegments;
+        $user['main_target_groups']  = $mainTargets;
+    }
+
     public function store(CreateUsersAPIRequest $request)
     {
         $input = $request->all();
@@ -417,8 +422,6 @@ class UsersAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
-     * @return Response
      *
      * @SWG\Get(
      *      path="/inactivated_users",
@@ -450,27 +453,63 @@ class UsersAPIController extends AppBaseController
      */
     public function getInactivatedUser(Request $request)
     {
+        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $direction = is_null($request->direction) ? 'asc' : $request->direction;
+
         $this->usersRepository->pushCriteria(new RequestCriteria($request));
         $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $users = $this->usersRepository->findWhereNotIn('is_activated', ['1', 1]);
+        $users = $this->usersRepository->findWhereInAndPaginate('is_activated', [0], $order_by, $direction, $limit, ['*']);
 
         foreach ($users as $user) {
-            if ($user->roles()->get(['id'])->count()) {
-                $roles = $user->roles()->get()[0]['id'];
-            } else {
-                $roles = 0;
-            }
+            $this->getInfo($user);
+        }
 
-            $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
-            $mainTargets       = $user->mainTargets()->pluck('target_group_id');
-            $mainSegments      = $user->mainSegments()->pluck('segment_id');
-            $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
+        return $this->sendResponse($users->toArray(), 'Inactivated users retrieved successfully');
+    }
 
-            $user['role_type_id']        = $role_type_ids;
-            $user['role_id']             = $roles;
-            $user['main_product_groups'] = $mainProductGroups;
-            $user['main_segment_groups'] = $mainSegments;
-            $user['main_target_groups']  = $mainTargets;
+    /**
+     *
+     * @SWG\Get(
+     *      path="/all_users",
+     *      summary="Get a listing of all Users.",
+     *      tags={"Users"},
+     *      description="Get all Users",
+     *      produces={"application/json"},
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @SWG\Items(ref="#/definitions/Users")
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getAllUser(Request $request)
+    {
+        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $direction = is_null($request->direction) ? 'asc' : $request->direction;
+
+        $this->usersRepository->pushCriteria(new RequestCriteria($request));
+        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $users = $this->usersRepository->findWhereAndPaginate([], $order_by, $direction, $limit, ['*']);
+
+        foreach ($users as $user) {
+            $this->getInfo($user);
         }
 
         return $this->sendResponse($users->toArray(), 'Inactivated users retrieved successfully');
