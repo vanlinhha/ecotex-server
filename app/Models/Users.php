@@ -204,7 +204,8 @@ class Users extends Authenticatable implements JWTSubject
         'pieces_per_year',
         'compliance',
         'activation_code',
-        'is_activated'
+        'is_activated',
+        'minimum_order_quantity'
     ];
 
     /**
@@ -230,6 +231,7 @@ class Users extends Authenticatable implements JWTSubject
         'identity_card' => 'string',
         'establishment_year' => 'integer',
         'business_registration_number' => 'integer',
+        'minimum_order_quantity' => 'integer',
         'form_of_ownership' => 'string',
         'number_of_employees' => 'integer',
         'floor_area' => 'double',

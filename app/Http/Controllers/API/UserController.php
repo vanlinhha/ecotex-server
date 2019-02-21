@@ -68,7 +68,7 @@ class UserController extends RestController
 
     public function authenticate(Request $request)
     {
-        $timeExp     =  (time() + ( 24 * 60 * 60)) * 1000;
+        $timeExp     = (time() + (24 * 60 * 60)) * 1000;
         $credentials = $request->only('email', 'password');
 
         try {
@@ -250,6 +250,7 @@ class UserController extends RestController
         $main_product_group_IDs = json_decode($request->main_product_groups);
         $main_segment_group_IDs = json_decode($request->main_segment_groups);
         $main_target_group_IDs  = json_decode($request->main_target_groups);
+        $role_types             = json_decode($request->role_types);
 
         $validator = Validator::make($request->all(), [
             'email'      => 'string|email|max:255|unique:users',
@@ -303,6 +304,7 @@ class UserController extends RestController
         $user->mainProductGroups()->sync($main_product_group_IDs);
         $user->mainTargets()->sync($main_target_group_IDs);
         $user->mainSegments()->sync($main_segment_group_IDs);
+        $user->roleTypes()->sync($role_types);
 
         $token = JWTAuth::fromUser($user);
 

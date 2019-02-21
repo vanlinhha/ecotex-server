@@ -39,6 +39,94 @@ class UsersAPIController extends AppBaseController
      *      tags={"Users"},
      *      description="Get all Users",
      *      produces={"application/json"},
+     *
+     *     @SWG\Parameter(
+     *          name="text_search",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="main_product_groups[]",
+     *          type="array",
+     *          required=false,
+     *          in="query",
+     *          @SWG\Items(
+     *             type="integer",
+     *         ),
+     *         collectionFormat="multi"
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="main_target_groups[]",
+     *          type="array",
+     *          required=false,
+     *          in="query",
+     *          @SWG\Items(
+     *             type="integer",
+     *         ),
+     *         collectionFormat="multi"
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="main_segment_groups[]",
+     *          type="array",
+     *          required=false,
+     *          in="query",
+     *          @SWG\Items(
+     *             type="integer",
+     *         ),
+     *         collectionFormat="multi"
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="roles[]",
+     *          type="array",
+     *          required=false,
+     *          in="query",
+     *          @SWG\Items(
+     *             type="integer",
+     *         ),
+     *         collectionFormat="multi"
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="limit",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="page",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="order_by",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="direction",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="paginate",
+     *          type="boolean",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -66,6 +154,12 @@ class UsersAPIController extends AppBaseController
 //        $this->usersRepository->pushCriteria(new RequestCriteria($request));
 //        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
 
+        if (isset($request->paginate)) {
+            $paginate = $request->paginate == false || $request->paginate == 'false' ? false : true;
+        } else {
+            $paginate = true;
+        }
+
         $text_search   = $request->text_search ? $request->text_search : "";
         $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
 
@@ -91,7 +185,7 @@ class UsersAPIController extends AppBaseController
         $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = (is_null($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
 
-        $users = $this->usersRepository->findWhereInAndPaginate('id', $list_user_IDs, $order_by, $direction, $limit, ['*']);
+        $users = $this->usersRepository->findWhereInAndPaginate('id', $list_user_IDs, $order_by, $direction, $limit, $paginate, ['*']);
 
         foreach ($users as $user) {
             $this->getInfo($user);
@@ -165,8 +259,6 @@ class UsersAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @return Response
      *
      * @SWG\Get(
      *      path="/users/{id}",
@@ -215,9 +307,6 @@ class UsersAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateUsersAPIRequest $request
-     * @return Response
      *
      * @SWG\Put(
      *      path="/users/{id}",
@@ -358,8 +447,6 @@ class UsersAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @return Response
      *
      * @SWG\Delete(
      *      path="/users/{id}",
@@ -429,6 +516,42 @@ class UsersAPIController extends AppBaseController
      *      tags={"Users"},
      *      description="Get all Users",
      *      produces={"application/json"},
+     *
+     *     @SWG\Parameter(
+     *          name="limit",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="page",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="order_by",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="direction",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="paginate",
+     *          type="boolean",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -453,13 +576,19 @@ class UsersAPIController extends AppBaseController
      */
     public function getInactivatedUser(Request $request)
     {
+        if (isset($request->paginate)) {
+            $paginate = $request->paginate == false || $request->paginate == 'false' ? false : true;
+        } else {
+            $paginate = true;
+        }
+
         $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
         $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = is_null($request->direction) ? 'asc' : $request->direction;
 
-        $this->usersRepository->pushCriteria(new RequestCriteria($request));
-        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $users = $this->usersRepository->findWhereInAndPaginate('is_activated', [0], $order_by, $direction, $limit, ['*']);
+//        $this->usersRepository->pushCriteria(new RequestCriteria($request));
+//        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $users = $this->usersRepository->findWhereInAndPaginate('is_activated', [0], $order_by, $direction, $limit, $paginate, ['*']);
 
         foreach ($users as $user) {
             $this->getInfo($user);
@@ -476,6 +605,42 @@ class UsersAPIController extends AppBaseController
      *      tags={"Users"},
      *      description="Get all Users",
      *      produces={"application/json"},
+     *
+     *     @SWG\Parameter(
+     *          name="limit",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="page",
+     *          type="integer",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="order_by",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="direction",
+     *          type="string",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
+     *     @SWG\Parameter(
+     *          name="paginate",
+     *          type="boolean",
+     *          required=false,
+     *          in="query",
+     *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -504,9 +669,15 @@ class UsersAPIController extends AppBaseController
         $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = is_null($request->direction) ? 'asc' : $request->direction;
 
-        $this->usersRepository->pushCriteria(new RequestCriteria($request));
-        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $users = $this->usersRepository->findWhereAndPaginate([], $order_by, $direction, $limit, ['*']);
+        if (isset($request->paginate)) {
+            $paginate = $request->paginate == false || $request->paginate == 'false' ? false : true;
+        } else {
+            $paginate = true;
+        }
+
+//        $this->usersRepository->pushCriteria(new RequestCriteria($request));
+//        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $users = $this->usersRepository->findWhereAndPaginate([], $order_by, $direction, $limit, $paginate, ['*']);
 
         foreach ($users as $user) {
             $this->getInfo($user);

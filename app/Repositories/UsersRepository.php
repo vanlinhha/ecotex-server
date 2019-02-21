@@ -56,42 +56,50 @@ class UsersRepository extends BaseRepository
         return Users::class;
     }
 
-    public function getInactivatedUser()
-    {
-
-    }
-
-    public function findWhereInAndPaginate($field, array $values, $group_by, $direction, $limit, $columns = ['*'])
+    public function findWhereInAndPaginate($field, array $values, $group_by, $direction, $limit, $paginate = true, $columns = ['*'])
     {
         $this->applyCriteria();
         $this->applyScope();
 
         $this->model = $this->model->whereIn($field, $values)->orderBy($group_by, $direction);
 
-//        $this->model = $this->model;
-        $limit       = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
-        $results     = $this->model->paginate($limit, $columns);
-        $results->appends(app('request')->query());
+        if ($paginate != true) {
+            $results = $this->model->get($columns);
+            $this->resetScope();
+        } else {
+            $limit   = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
+            $results = $this->model->paginate($limit, $columns);
+            $results->appends(app('request')->query());
+        }
 
         $this->resetModel();
 
         return $this->parserResult($results);
     }
 
-    public function findWhereAndPaginate(array $where, $group_by, $direction, $limit = null, $columns = ['*'], $method = "paginate")
+    public function findWhereAndPaginate(array $where, $group_by, $direction, $limit = null, $paginate = true, $columns = ['*'], $method = "paginate")
     {
-        $this->applyCriteria();
-        $this->applyScope();
-
         $this->applyConditions($where);
 
-        $limit       = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
-        $this->model = $this->model->orderBy($group_by, $direction);
-        $results     = $this->model->{$method}($limit, $columns);
-        $results->appends(app('request')->query());
+        if ($paginate != true) {
+            if ($this->model instanceof Builder) {
+                $results = $this->model->get($columns);
+            } else {
+                $results = $this->model->all($columns);
+            }
+            $this->resetScope();
+        } else {
+
+            $this->applyCriteria();
+            $this->applyScope();
+
+            $limit       = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
+            $this->model = $this->model->orderBy($group_by, $direction);
+            $results     = $this->model->{$method}($limit, $columns);
+            $results->appends(app('request')->query());
+        }
 
         $this->resetModel();
-
         return $this->parserResult($results);
     }
 
