@@ -286,4 +286,90 @@ class ProductGroupsAPIController extends AppBaseController
 
         return $this->sendResponse($id, 'Product Groups deleted successfully');
     }
+
+    /**
+     *
+     * @SWG\Get(
+     *      path="/parent_product_groups",
+     *      summary="Display the all parent ProductGroups",
+     *      tags={"ProductGroups"},
+     *      description="Get all parent ProductGroups",
+     *      produces={"application/json"},
+     *
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/ProductGroups"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function showParentProductGroups(Request $request)
+    {
+        $this->productGroupsRepository->pushCriteria(new RequestCriteria($request));
+        $this->productGroupsRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $productGroups = $this->productGroupsRepository->findWhere([['parent_id', '=', 0]], ['*']);
+
+        return $this->sendResponse($productGroups->toArray(), 'Product Groups retrieved successfully');
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/product_groups/{id}",
+     *      summary="Display the specified ProductGroups",
+     *      tags={"ProductGroups"},
+     *      description="Get ProductGroups",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="id of ProductGroups",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/ProductGroups"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getChildrenProductCategory($id)
+    {
+        $productGroups = $this->productGroupsRepository->findWhere([['parent_id', '=', $id]], ['*']);
+
+        return $this->sendResponse($productGroups->toArray(), 'Product Groups retrieved successfully');
+    }
+
+
 }

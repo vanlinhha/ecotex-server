@@ -693,9 +693,32 @@ class UsersAPIController extends AppBaseController
             foreach ($user_ids as $user_id) {
                 $this->usersRepository->update(['is_activated' => 1], $user_id);
             }
-            return $this->sendResponse($user_ids, 'Users verified successfully');
+            return $this->sendResponse($user_ids, 'Users verified successfully!');
         } else {
             return $this->sendError('Users not found');
         }
+    }
+
+    public function verify(Request $request)
+    {
+        $user = $this->usersRepository->findWithoutFail($request->user_id);
+        if(!$user){
+            return $this->sendError('Users not found!');
+        }
+        if(trim($user->activation_code) == ""){
+            return $this->sendError('Users already activated!');
+        }
+        if (trim($user->activation_code) === trim($request->activation_code)) {
+            $this->usersRepository->update(['activation_code' => ""], $request->user_id);
+            return $this->sendResponse($request->user_id, 'Users activated successfully!');
+        } else {
+            return $this->sendError('Users activated unsuccessfully!');
+        }
+
+    }
+
+    public function resendActivationCode(Request $request)
+    {
+        $user = $this->usersRepository->findWithoutFail($request->user_id);
     }
 }

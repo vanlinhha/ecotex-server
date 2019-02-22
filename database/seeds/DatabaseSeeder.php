@@ -15,86 +15,152 @@ class DatabaseSeeder extends Seeder
     {
 //        $faker = Faker\Factory::create();
 
-//target có: baby,kids, men, women,
-//segment có : active, casual, formal, workwear
-//product group thì có: dresses, fullbody, Jackets & Coats,skirts
 
         DB::table('target_groups')->insert(
             [
                 'name' => 'baby',
-            ]
-        );
-        DB::table('target_groups')->insert(
+            ],
+
             [
                 'name' => 'kids',
-            ]
-        );
-        DB::table('target_groups')->insert(
+            ],
             [
                 'name' => 'men',
-            ]
-        );
-        DB::table('target_groups')->insert(
+            ],
             [
                 'name' => 'women',
             ]
+
         );
 
 
-        DB::table('segment_groups')->insert(
-            [
-                'name' => 'active',
+        DB::table('segment_groups')->insert([
+                [
+                    'name' => 'active',
+                ],
+
+                [
+                    'name' => 'casual',
+                ],
+                [
+                    'name' => 'formal',
+                ],
+                [
+                    'name' => 'workwear',
+                ]
             ]
+
         );
-        DB::table('segment_groups')->insert(
-            [
-                'name' => 'casual',
-            ]
-        );
-        DB::table('segment_groups')->insert(
-            [
-                'name' => 'formal',
-            ]
-        );
-        DB::table('segment_groups')->insert(
-            [
-                'name' => 'workwear',
+
+        DB::table('product_groups')->insert([
+                [
+                    'name'      => 'Áo',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Quần',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Váy',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Đồ lót',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Vest & jacket',
+                    'parent_id' => 0
+                ],
+                [
+                    'name'      => 'Phụ kiện',
+                    'parent_id' => 0
+                ]
             ]
         );
 
+        DB::table('product_groups')->insert([
+                [
+                    'name'      => 'Áo thun dài tay',
+                    'parent_id' => 1
+                ],
 
-        DB::table('product_groups')->insert(
-            [
-                'name'      => 'dresses',
-                'parent_id' => 0
+                [
+                    'name'      => 'Áo len',
+                    'parent_id' => 1
+                ],
 
-            ]
-        );
-        DB::table('product_groups')->insert(
-            [
-                'name'      => 'casual',
-                'parent_id' => 0
-            ]
-        );
-        DB::table('product_groups')->insert(
-            [
-                'name'      => 'fullbody',
-                'parent_id' => 0
-            ]
-        );
-        DB::table('product_groups')->insert(
-            [
-                'name'      => 'Jackets & Coats',
-                'parent_id' => 0
-            ]
-        );
-        DB::table('product_groups')->insert(
-            [
-                'name'      => 'Skirts',
-                'parent_id' => 0
+                [
+                    'name'      => 'Áo khoác',
+                    'parent_id' => 1
+                ],
+
+                [
+                    'name'      => 'Áo blazer',
+                    'parent_id' => 1
+                ],
+
+                [
+                    'name'      => 'Áo Polo',
+                    'parent_id' => 1
+                ],
+                [
+                    'name'      => 'Áo Thun ',
+                    'parent_id' => 1
+                ]
             ]
         );
 
+        DB::table('product_groups')->insert([
+                [
+                    'name'      => 'Quần Âu ',
+                    'parent_id' => 2
+                ],
+
+                [
+                    'name'      => 'Quần Kaki',
+                    'parent_id' => 2
+                ],
+
+                [
+                    'name'      => 'Quần Thể thao',
+                    'parent_id' => 2
+                ],
+
+                [
+                    'name'      => 'Quần Short',
+                    'parent_id' => 2
+                ]
+            ]
+        );
+
+        DB::table('product_groups')->insert([
+                [
+                    'name'      => 'Thắt lưng',
+                    'parent_id' => 6
+                ],
+
+                [
+                    'name'      => 'Ví nam',
+                    'parent_id' => 6
+                ],
+
+                [
+                    'name'      => 'Ví nữ ',
+                    'parent_id' => 6
+                ],
+
+                [
+                    'name'      => 'Cà vạt ',
+                    'parent_id' => 6
+                ]
+            ]
+        );
 
 
         DB::table('minimum_order_quantities')->insert(
@@ -122,7 +188,6 @@ class DatabaseSeeder extends Seeder
                 'name' => 'more than 20000',
             ]
         );
-
 
 
 //        );

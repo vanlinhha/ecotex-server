@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
+use Eloquent\NestedAttributes\Traits\HasNestedAttributesTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -174,6 +175,7 @@ class Users extends Authenticatable implements JWTSubject
 {
     use LaratrustUserTrait;
     use Notifiable;
+    use HasNestedAttributesTrait;
 
     public $table = 'users';
 
@@ -207,6 +209,7 @@ class Users extends Authenticatable implements JWTSubject
         'is_activated',
         'minimum_order_quantity'
     ];
+
 
     /**
      * The attributes that should be casted to native types.
@@ -258,6 +261,13 @@ class Users extends Authenticatable implements JWTSubject
         'last_name' => 'required'
     ];
 
+    protected $nested = ['mainSegments', 'comments', 'brands'];
+
+
+    public function brands(){
+        return $this->hasMany(Brand::class, 'user_id', 'id');
+    }
+
     public function mainProductGroups(){
         return $this->belongsToMany(ProductGroups::class, "main_product_groups", 'user_id', 'product_group_id');
     }
@@ -287,8 +297,4 @@ class Users extends Authenticatable implements JWTSubject
         return [];
     }
 
-
-
-
-    
 }
