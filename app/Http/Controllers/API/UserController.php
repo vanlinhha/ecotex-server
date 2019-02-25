@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -433,6 +434,40 @@ class UserController extends RestController
     public function getAllRoles()
     {
         return response()->json(['success' => true, 'data' => Role::all(), 'message' => 'Roles retrieved successfully'], 200);
+    }
 
+    /**
+     *
+     * @SWG\Get(
+     *      path="/permissions",
+     *      summary="Get a listing of the Permissions.",
+     *      tags={"Users"},
+     *      description="Get all Permissions",
+     *      produces={"application/json"},
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @SWG\Items(ref="#/definitions/Users")
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getAllPermissions ()
+    {
+        return response()->json(['success' => true, 'data' => Permission::all(), 'message' => 'Permissions retrieved successfully'], 200);
     }
 }

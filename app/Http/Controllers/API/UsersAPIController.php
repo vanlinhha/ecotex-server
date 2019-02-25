@@ -321,91 +321,10 @@ class UsersAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
-     *     @SWG\Parameter(
-     *          name="email",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
      *      @SWG\Parameter(
-     *          name="first_name",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="last_name",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="type",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="phone",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="country",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="company_name",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="brief_name",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="company_address",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="website",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
-     *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Users")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="description",
-     *          in="query",
-     *          type="string",
-     *          description="Users that should be updated",
+     *          name="body",
+     *          in="body",
+     *          description="User that should be updated",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/Users")
      *      ),
@@ -420,7 +339,7 @@ class UsersAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Users"
+     *                  ref="#/definitions/Services"
      *              ),
      *              @SWG\Property(
      *                  property="message",

@@ -327,11 +327,9 @@ class ProductGroupsAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @return Response
      *
      * @SWG\Get(
-     *      path="/product_groups/{id}",
+     *      path="/product_groups/{id}/children",
      *      summary="Display the specified ProductGroups",
      *      tags={"ProductGroups"},
      *      description="Get ProductGroups",

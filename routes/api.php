@@ -29,6 +29,7 @@ Route::resource('users', 'UsersAPIController');
 
 // Get all roles of system
 Route::get('/roles', 'UserController@getAllRoles');
+Route::get('/permissions', 'UserController@getAllPermissions');
 //Get all inactivated users
 
 Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
@@ -53,3 +54,5 @@ Route::resource('target_groups', 'TargetGroupsAPIController');
 Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.verify');
 
 Route::resource('minimum_order_quantities', 'MinimumOrderQuantityAPIController');
+
+Route::resource('services', 'ServicesAPIController');
