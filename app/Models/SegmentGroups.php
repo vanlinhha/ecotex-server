@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Eloquent as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @SWG\Definition(
@@ -35,10 +36,11 @@ use Eloquent as Model;
  */
 class SegmentGroups extends Model
 {
+    use SoftDeletes;
 
     public $table = 'segment_groups';
-    
 
+    protected $dates = ['deleted_at'];
 
     public $fillable = [
         'name'
@@ -62,5 +64,7 @@ class SegmentGroups extends Model
         'name' => 'required'
     ];
 
-    
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
+
+
 }

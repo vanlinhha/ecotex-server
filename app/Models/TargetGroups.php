@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Eloquent as Model;
 
 /**
@@ -36,9 +37,10 @@ use Eloquent as Model;
 class TargetGroups extends Model
 {
 
+    use SoftDeletes;
     public $table = 'target_groups';
-    
 
+    protected $dates = ['deleted_at'];
 
     public $fillable = [
         'name'
@@ -62,7 +64,7 @@ class TargetGroups extends Model
         'name' => 'required'
     ];
 
-    protected $hidden = ['updated_at', 'created_at'];
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
 
-    
+
 }

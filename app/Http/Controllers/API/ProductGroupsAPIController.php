@@ -28,8 +28,6 @@ class ProductGroupsAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
-     * @return Response
      *
      * @SWG\Get(
      *      path="/product_groups",
@@ -290,7 +288,7 @@ class ProductGroupsAPIController extends AppBaseController
     /**
      *
      * @SWG\Get(
-     *      path="/parent_product_groups",
+     *      path="/product_groups/all_parent",
      *      summary="Display the all parent ProductGroups",
      *      tags={"ProductGroups"},
      *      description="Get all parent ProductGroups",
@@ -329,18 +327,12 @@ class ProductGroupsAPIController extends AppBaseController
     /**
      *
      * @SWG\Get(
-     *      path="/product_groups/{id}/children",
+     *      path="/product_groups/parent_with_children",
      *      summary="Display the specified ProductGroups",
      *      tags={"ProductGroups"},
      *      description="Get ProductGroups",
      *      produces={"application/json"},
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of ProductGroups",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -362,11 +354,18 @@ class ProductGroupsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function getChildrenProductCategory($id)
+    public function getProductCategoryByParent()
     {
-        $productGroups = $this->productGroupsRepository->findWhere([['parent_id', '=', $id]], ['*']);
+        $productGroups = $this->productGroupsRepository->findWhere([['parent_id', '=', 0]], ['id'])->pluck('id');
+        $arr_data = [];
 
-        return $this->sendResponse($productGroups->toArray(), 'Product Groups retrieved successfully');
+        foreach ($productGroups as $productGroup){
+            $children = $this->productGroupsRepository->findWhere([['parent_id', '=', $productGroup]])->pluck('id');
+            $arr_data[$productGroup] = $children;
+
+        }
+
+        return $this->sendResponse($arr_data, 'Product Groups retrieved successfully');
     }
 
 

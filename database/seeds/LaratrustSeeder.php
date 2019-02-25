@@ -43,11 +43,38 @@ class LaratrustSeeder extends Seeder
         foreach ($config as $key => $modules) {
 
             // Create a new role
-            $role        = \App\Role::create([
+            $role = \App\Role::create([
                 'name'        => $key,
                 //                'display_name' => ucwords(str_replace('_', ' ', $key)),
                 'description' => ucwords(str_replace('_', ' ', $key))
             ]);
+
+            if ($key == 'manufacture') {
+                DB::table('role_types')->insert([
+                        [
+                            'role_id' => $role->id,
+                            'name' => 'Cut & Make',
+                        ],
+
+                        [
+                            'role_id' => $role->id,
+                            'name' => 'Partial subcontractor',
+                        ],
+
+                        [
+                            'role_id' => $role->id,
+                            'name' => 'PLV (job processing)',
+                        ],
+
+                        [
+                            'role_id' => $role->id,
+                            'name' => 'Ready-made garment manufacture',
+                        ],
+                    ]
+
+                );
+            }
+
             $permissions = [];
 
             $this->command->info('Creating Role ' . strtoupper($key));

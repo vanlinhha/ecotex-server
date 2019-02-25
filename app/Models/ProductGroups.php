@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Eloquent as Model;
 
 /**
@@ -41,9 +42,11 @@ use Eloquent as Model;
  */
 class ProductGroups extends Model
 {
-
+    use SoftDeletes;
     public $table = 'product_groups';
-    
+
+
+    protected $dates = ['deleted_at'];
 
 
     public $fillable = [
@@ -57,7 +60,7 @@ class ProductGroups extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string',
+        'name'      => 'string',
         'parent_id' => 'integer'
     ];
 
@@ -70,10 +73,12 @@ class ProductGroups extends Model
         'name' => 'required'
     ];
 
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
+
     public function users()
     {
         return $this->belongsToMany(\App\Models\Users::class, 'main_product_groups')->using(MainProductGroups::class);
     }
 
-    
+
 }

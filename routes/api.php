@@ -37,7 +37,8 @@ Route::get('/all_users', 'UsersAPIController@getAllUser');
 Route::put('/verify_users', 'UsersAPIController@verifyUsers');
 Route::get('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
 
-Route::get('/parent_product_groups/', 'ProductGroupsAPIController@showParentProductGroups');
+Route::get('/product_groups/all_parent/', 'ProductGroupsAPIController@showParentProductGroups');
+Route::get('/product_groups/parent_with_children/', 'ProductGroupsAPIController@getProductCategoryByParent');
 
 Route::resource('product_groups', 'ProductGroupsAPIController');
 

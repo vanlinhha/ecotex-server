@@ -16,19 +16,20 @@ class DatabaseSeeder extends Seeder
 //        $faker = Faker\Factory::create();
 
 
-        DB::table('target_groups')->insert(
-            [
-                'name' => 'baby',
-            ],
+        DB::table('target_groups')->insert([
+                [
+                    'name' => 'baby',
+                ],
 
-            [
-                'name' => 'kids',
-            ],
-            [
-                'name' => 'men',
-            ],
-            [
-                'name' => 'women',
+                [
+                    'name' => 'kids',
+                ],
+                [
+                    'name' => 'men',
+                ],
+                [
+                    'name' => 'women',
+                ]
             ]
 
         );

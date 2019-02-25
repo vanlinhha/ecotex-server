@@ -18,6 +18,7 @@ class CreateProductGroupsTable extends Migration
             $table->string('name');
             $table->integer('parent_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

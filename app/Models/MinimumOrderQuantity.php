@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Eloquent as Model;
 
 /**
@@ -35,10 +36,10 @@ use Eloquent as Model;
  */
 class MinimumOrderQuantity extends Model
 {
-
+    use SoftDeletes;
     public $table = 'minimum_order_quantities';
-    
 
+    protected $dates = ['deleted_at'];
 
     public $fillable = [
         'name'
@@ -62,5 +63,7 @@ class MinimumOrderQuantity extends Model
         'name' => 'required'
     ];
 
-    
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
+
+
 }
