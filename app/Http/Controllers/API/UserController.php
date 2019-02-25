@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -65,6 +66,8 @@ class UserController extends RestController
      *      )
      * )
      */
+
+    protected $user;
 
     public function authenticate(Request $request)
     {
@@ -263,11 +266,6 @@ class UserController extends RestController
             return response()->json(['error' => __($validator->errors()->toJson()), 'success' => false], 422);
         }
 
-//        Mail::send('welcome', ['key' => 'value'], function($message)
-//        {
-//            $message->to('havanlinh1996@gmail.com.com', 'John Smith')->subject('Welcome!');
-//        });
-
         $user = Users::create([
             'email'                        => $request->post('email'),
             'password'                     => Hash::make($request->post('password')),
@@ -295,8 +293,29 @@ class UserController extends RestController
             'revenue_per_year'             => $request->post('revenue_per_year'),
             'pieces_per_year'              => $request->post('pieces_per_year'),
             'compliance'                   => $request->post('compliance'),
+            'activation_code'              => str_random(20),
             'is_activated'                 => 0,
+            //            'brands'                       => [
+            //                [
+            //                    'id'   => 1,
+            //                    'name' => 'better 1',
+            //                ],
+            //
+            //                [
+            //                    'id'      => 2,
+            //                    'name'    => 'brand 2',
+            //                    '_destroy' => true,
+            //                ]]
         ]);
+
+        $this->user = $user;
+
+        Mail::raw('Sign up successfully, click on this link to complete your registration, ' . env('APP_CLIENT_BASE_PATH') . '/verify/' . $this->user->id . '/' . $this->user->activation_code . ' .Thank you!', function ($mail) {
+            $mail->to($this->user->email)
+                ->from('support@ecotexvietnam.com', 'Ecotex')
+                ->subject('One more step to join us, ' . $this->user->first_name . '!');
+        });
+
         if (intval($request->role_id)) {
             $user->roles()->attach(intval($request->role_id));
         }
@@ -340,6 +359,8 @@ class UserController extends RestController
     {
         return new self();
     }
+
+
 
     /**
      * Log out
@@ -413,6 +434,40 @@ class UserController extends RestController
     public function getAllRoles()
     {
         return response()->json(['success' => true, 'data' => Role::all(), 'message' => 'Roles retrieved successfully'], 200);
+    }
 
+    /**
+     *
+     * @SWG\Get(
+     *      path="/permissions",
+     *      summary="Get a listing of the Permissions.",
+     *      tags={"Users"},
+     *      description="Get all Permissions",
+     *      produces={"application/json"},
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @SWG\Items(ref="#/definitions/Users")
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getAllPermissions ()
+    {
+        return response()->json(['success' => true, 'data' => Permission::all(), 'message' => 'Permissions retrieved successfully'], 200);
     }
 }
