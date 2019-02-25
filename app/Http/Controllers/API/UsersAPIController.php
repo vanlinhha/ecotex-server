@@ -11,6 +11,7 @@ use App\Repositories\MainTargetsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Hash;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Illuminate\Pagination\Paginator;
@@ -358,6 +359,12 @@ class UsersAPIController extends AppBaseController
 
         if (empty($users)) {
             return $this->sendError('Users not found');
+        }
+        if(trim($input['password']) != ''){
+            $input['password'] = bcrypt($input['password']);
+        }
+        else{
+            unset($input['password']);
         }
 
         $users = $this->usersRepository->update($input, $id);
