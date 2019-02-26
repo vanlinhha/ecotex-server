@@ -361,7 +361,6 @@ class UserController extends RestController
     }
 
 
-
     /**
      * Log out
      *
@@ -466,8 +465,94 @@ class UserController extends RestController
      *      )
      * )
      */
-    public function getAllPermissions ()
+    public function getAllPermissions()
     {
         return response()->json(['success' => true, 'data' => Permission::all(), 'message' => 'Permissions retrieved successfully'], 200);
     }
+
+    /**
+     *
+     * @SWG\Put(
+     *      path="/users/brands/{id}",
+     *      summary="Update brands for company",
+     *      tags={"Users"},
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="id of Users",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="string"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+
+    public function updateBrands($id, Request $request)
+    {
+        Users::findOrFail($id)->update([
+            'brands' => $request->brands
+        ]);
+    }
+
+    /**
+     *
+     * @SWG\Put(
+     *      path="/users/main_segments/{id}",
+     *      summary="Update brands for company",
+     *      tags={"Users"},
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="id of Users",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="string"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+
+    public function updateMainSegments($id, Request $request)
+    {
+
+    }
+
+
 }

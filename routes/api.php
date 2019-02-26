@@ -57,3 +57,9 @@ Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.ver
 Route::resource('minimum_order_quantities', 'MinimumOrderQuantityAPIController');
 
 Route::resource('services', 'ServicesAPIController');
+
+Route::resource('countries', 'CountriesAPIController');
+
+Route::put('/users/brands/{id}', 'UserController@updateBrands');
+
+Route::put('/users/main_segments/{id}', 'UserController@updateMainSegments');
