@@ -647,4 +647,6 @@ class UsersAPIController extends AppBaseController
     {
         $user = $this->usersRepository->findWithoutFail($request->user_id);
     }
+
+
 }

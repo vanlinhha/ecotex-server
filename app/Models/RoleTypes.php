@@ -71,5 +71,6 @@ class RoleTypes extends Model
         'name' => 'required'
     ];
 
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
     
 }

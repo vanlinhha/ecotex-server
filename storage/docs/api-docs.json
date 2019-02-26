@@ -206,6 +206,205 @@
                 }
             }
         },
+        "/countries": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get a listing of the Countries.",
+                "description": "Get all Countries",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Countries"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Store a newly created Countries in storage",
+                "description": "Store Countries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Countries that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Countries"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Countries"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/countries/{id}": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Display the specified Countries",
+                "description": "Get Countries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Countries",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Countries"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Update the specified Countries in storage",
+                "description": "Update Countries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Countries",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Countries that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Countries"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Countries"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Remove the specified Countries from storage",
+                "description": "Delete Countries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Countries",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/main_product_groups": {
             "get": {
                 "tags": [
@@ -600,6 +799,205 @@
                         "name": "id",
                         "in": "path",
                         "description": "id of MainSegments",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/main_services": {
+            "get": {
+                "tags": [
+                    "MainServices"
+                ],
+                "summary": "Get a listing of the MainServices.",
+                "description": "Get all MainServices",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/MainServices"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MainServices"
+                ],
+                "summary": "Store a newly created MainServices in storage",
+                "description": "Store MainServices",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainServices that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainServices"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainServices"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/main_services/{id}": {
+            "get": {
+                "tags": [
+                    "MainServices"
+                ],
+                "summary": "Display the specified MainServices",
+                "description": "Get MainServices",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainServices",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainServices"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "MainServices"
+                ],
+                "summary": "Update the specified MainServices in storage",
+                "description": "Update MainServices",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainServices",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainServices that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainServices"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainServices"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MainServices"
+                ],
+                "summary": "Remove the specified MainServices from storage",
+                "description": "Delete MainServices",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainServices",
                         "required": true,
                         "type": "integer"
                     }
@@ -1227,13 +1625,44 @@
                 }
             }
         },
-        "/parent_product_groups": {
+        "/product_groups/all_parent": {
+            "get": {
+                "tags": [
+                    "ProductGroups"
+                ],
+                "summary": "Display the all parent ProductGroups",
+                "description": "Get all parent ProductGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/product_groups/parent_with_children": {
             "get": {
                 "tags": [
                     "ProductGroups"
                 ],
                 "summary": "Display the specified ProductGroups",
-                "description": "Get all parent ProductGroups",
+                "description": "Get ProductGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -1632,6 +2061,205 @@
                         "name": "id",
                         "in": "path",
                         "description": "id of SegmentGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/services": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get a listing of the Services.",
+                "description": "Get all Services",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Services"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Store a newly created Services in storage",
+                "description": "Store Services",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Services that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Services"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Services"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/services/{id}": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Display the specified Services",
+                "description": "Get Services",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Services",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Services"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Update the specified Services in storage",
+                "description": "Update Services",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Services",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Services that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Services"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Services"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Remove the specified Services from storage",
+                "description": "Delete Services",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Services",
                         "required": true,
                         "type": "integer"
                     }
@@ -2147,6 +2775,88 @@
                 }
             }
         },
+        "/permissions": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a listing of the Permissions.",
+                "description": "Get all Permissions",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Users"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/brands/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update brands for company",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Users",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "brands",
+                        "in": "body",
+                        "description": "ID of the order that needs to be deleted",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": [
@@ -2356,114 +3066,13 @@
                         "type": "integer"
                     },
                     {
-                        "name": "email",
-                        "in": "query",
-                        "description": "Users that should be updated",
+                        "name": "body",
+                        "in": "body",
+                        "description": "User that should be updated",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "first_name",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "last_name",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "phone",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "country",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "company_name",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "brief_name",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "company_address",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "website",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
-                    },
-                    {
-                        "name": "description",
-                        "in": "query",
-                        "description": "Users that should be updated",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -2475,7 +3084,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Users"
+                                    "$ref": "#/definitions/Services"
                                 },
                                 "message": {
                                     "type": "string"
@@ -2691,6 +3300,32 @@
                 }
             }
         },
+        "Countries": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "MainProductGroups": {
             "required": [
                 "user_id",
@@ -2754,6 +3389,39 @@
                     "description": "percent",
                     "type": "number",
                     "format": "float"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "MainServices": {
+            "required": [
+                "user_id",
+                "service_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_id": {
+                    "description": "user_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "service_id": {
+                    "description": "service_id",
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "created_at": {
                     "description": "created_at",
@@ -2907,6 +3575,39 @@
                 "name": {
                     "description": "name",
                     "type": "string"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "Services": {
+            "required": [
+                "role_id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "role_id": {
+                    "description": "role_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "created_at": {
                     "description": "created_at",

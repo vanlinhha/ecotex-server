@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateMainTargetsAPIRequest;
-use App\Http\Requests\API\UpdateMainTargetsAPIRequest;
-use App\Models\MainTargets;
-use App\Models\Users;
-use App\Repositories\MainTargetsRepository;
+use App\Http\Requests\API\CreateMainServicesAPIRequest;
+use App\Http\Requests\API\UpdateMainServicesAPIRequest;
+use App\Models\MainServices;
+use App\Repositories\MainServicesRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -14,18 +13,18 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class MainTargetsController
+ * Class MainServicesController
  * @package App\Http\Controllers\API
  */
 
-class MainTargetsAPIController extends AppBaseController
+class MainServicesAPIController extends AppBaseController
 {
-    /** @var  MainTargetsRepository */
-    private $mainTargetsRepository;
+    /** @var  MainServicesRepository */
+    private $mainServicesRepository;
 
-    public function __construct(MainTargetsRepository $mainTargetsRepo)
+    public function __construct(MainServicesRepository $mainServicesRepo)
     {
-        $this->mainTargetsRepository = $mainTargetsRepo;
+        $this->mainServicesRepository = $mainServicesRepo;
     }
 
     /**
@@ -33,10 +32,10 @@ class MainTargetsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/main_targets",
-     *      summary="Get a listing of the MainTargets.",
-     *      tags={"MainTargets"},
-     *      description="Get all MainTargets",
+     *      path="/main_services",
+     *      summary="Get a listing of the MainServices.",
+     *      tags={"MainServices"},
+     *      description="Get all MainServices",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -50,7 +49,7 @@ class MainTargetsAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/MainTargets")
+     *                  @SWG\Items(ref="#/definitions/MainServices")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -62,29 +61,29 @@ class MainTargetsAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->mainTargetsRepository->pushCriteria(new RequestCriteria($request));
-        $this->mainTargetsRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $mainTargets = $this->mainTargetsRepository->all();
+        $this->mainServicesRepository->pushCriteria(new RequestCriteria($request));
+        $this->mainServicesRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $mainServices = $this->mainServicesRepository->all();
 
-        return $this->sendResponse($mainTargets->toArray(), 'Main Targets retrieved successfully');
+        return $this->sendResponse($mainServices->toArray(), 'Main Services retrieved successfully');
     }
 
     /**
-     * @param CreateMainTargetsAPIRequest $request
+     * @param CreateMainServicesAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/main_targets",
-     *      summary="Store a newly created MainTargets in storage",
-     *      tags={"MainTargets"},
-     *      description="Store MainTargets",
+     *      path="/main_services",
+     *      summary="Store a newly created MainServices in storage",
+     *      tags={"MainServices"},
+     *      description="Store MainServices",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="MainTargets that should be stored",
+     *          description="MainServices that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/MainTargets")
+     *          @SWG\Schema(ref="#/definitions/MainServices")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -97,7 +96,7 @@ class MainTargetsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/MainTargets"
+     *                  ref="#/definitions/MainServices"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -107,13 +106,13 @@ class MainTargetsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateMainTargetsAPIRequest $request)
+    public function store(CreateMainServicesAPIRequest $request)
     {
         $input = $request->all();
 
-        $mainTargets = $this->mainTargetsRepository->create($input);
+        $mainServices = $this->mainServicesRepository->create($input);
 
-        return $this->sendResponse($mainTargets->toArray(), 'Main Targets saved successfully');
+        return $this->sendResponse($mainServices->toArray(), 'Main Services saved successfully');
     }
 
     /**
@@ -121,14 +120,14 @@ class MainTargetsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/main_targets/{id}",
-     *      summary="Display the specified MainTargets",
-     *      tags={"MainTargets"},
-     *      description="Get MainTargets",
+     *      path="/main_services/{id}",
+     *      summary="Display the specified MainServices",
+     *      tags={"MainServices"},
+     *      description="Get MainServices",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of MainTargets",
+     *          description="id of MainServices",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -144,7 +143,7 @@ class MainTargetsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/MainTargets"
+     *                  ref="#/definitions/MainServices"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -156,30 +155,30 @@ class MainTargetsAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var MainTargets $mainTargets */
-        $mainTargets = $this->mainTargetsRepository->findWithoutFail($id);
+        /** @var MainServices $mainServices */
+        $mainServices = $this->mainServicesRepository->findWithoutFail($id);
 
-        if (empty($mainTargets)) {
-            return $this->sendError('Main Targets not found');
+        if (empty($mainServices)) {
+            return $this->sendError('Main Services not found');
         }
 
-        return $this->sendResponse($mainTargets->toArray(), 'Main Targets retrieved successfully');
+        return $this->sendResponse($mainServices->toArray(), 'Main Services retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateMainTargetsAPIRequest $request
+     * @param UpdateMainServicesAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/main_targets/{id}",
-     *      summary="Update the specified MainTargets in storage",
-     *      tags={"MainTargets"},
-     *      description="Update MainTargets",
+     *      path="/main_services/{id}",
+     *      summary="Update the specified MainServices in storage",
+     *      tags={"MainServices"},
+     *      description="Update MainServices",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of MainTargets",
+     *          description="id of MainServices",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -187,9 +186,9 @@ class MainTargetsAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="MainTargets that should be updated",
+     *          description="MainServices that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/MainTargets")
+     *          @SWG\Schema(ref="#/definitions/MainServices")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -202,7 +201,7 @@ class MainTargetsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/MainTargets"
+     *                  ref="#/definitions/MainServices"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -212,20 +211,20 @@ class MainTargetsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateMainTargetsAPIRequest $request)
+    public function update($id, UpdateMainServicesAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var MainTargets $mainTargets */
-        $mainTargets = $this->mainTargetsRepository->findWithoutFail($id);
+        /** @var MainServices $mainServices */
+        $mainServices = $this->mainServicesRepository->findWithoutFail($id);
 
-        if (empty($mainTargets)) {
-            return $this->sendError('Main Targets not found');
+        if (empty($mainServices)) {
+            return $this->sendError('Main Services not found');
         }
 
-        $mainTargets = $this->mainTargetsRepository->update($input, $id);
+        $mainServices = $this->mainServicesRepository->update($input, $id);
 
-        return $this->sendResponse($mainTargets->toArray(), 'MainTargets updated successfully');
+        return $this->sendResponse($mainServices->toArray(), 'MainServices updated successfully');
     }
 
     /**
@@ -233,14 +232,14 @@ class MainTargetsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/main_targets/{id}",
-     *      summary="Remove the specified MainTargets from storage",
-     *      tags={"MainTargets"},
-     *      description="Delete MainTargets",
+     *      path="/main_services/{id}",
+     *      summary="Remove the specified MainServices from storage",
+     *      tags={"MainServices"},
+     *      description="Delete MainServices",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of MainTargets",
+     *          description="id of MainServices",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -268,42 +267,41 @@ class MainTargetsAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var MainTargets $mainTargets */
-        $mainTargets = $this->mainTargetsRepository->findWithoutFail($id);
+        /** @var MainServices $mainServices */
+        $mainServices = $this->mainServicesRepository->findWithoutFail($id);
 
-        if (empty($mainTargets)) {
-            return $this->sendError('Main Targets not found');
+        if (empty($mainServices)) {
+            return $this->sendError('Main Services not found');
         }
 
-        $mainTargets->delete();
+        $mainServices->delete();
 
-        return $this->sendResponse($id, 'Main Targets deleted successfully');
+        return $this->sendResponse($id, 'Main Services deleted successfully');
     }
 
-
-    public function updateMainTargets($id, Request $request)
+    public function updateMainServices($id, Request $request)
     {
-        foreach ($request->main_targets as $item) {
+        foreach ($request->main_services as $item) {
             if (!isset($item['id'])) {
-                $this->mainTargetsRepository->create($item);
+                $this->mainServicesRepository->create($item);
             }
 
             elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
 
-                $mainTargets = $this->mainTargetsRepository->findWithoutFail($item['id']);
+                $mainServices = $this->mainServicesRepository->findWithoutFail($item['id']);
 
-                if (empty($mainTargets)) {
-                    return $this->sendError('Main targets not found');
+                if (empty($mainServices)) {
+                    return $this->sendError('Main services not found');
                 }
-                $mainTargets->delete();
+                $mainServices->delete();
             }
             else{
 
-                $this->mainTargetsRepository->update($item, $item['id']);
+                $this->mainServicesRepository->update($item, $item['id']);
             }
         }
-        $mainTargets = Users::find($id)->mainTargets()->get(['*']);
-        return $this->sendResponse($mainTargets, 'Main targets updated successfully');
+        $mainServices = Users::find($id)->mainServices()->get(['*']);
+        return $this->sendResponse($mainServices, 'Main services updated successfully');
 
     }
 }

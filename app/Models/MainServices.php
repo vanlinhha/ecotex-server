@@ -6,8 +6,8 @@ use Eloquent as Model;
 
 /**
  * @SWG\Definition(
- *      definition="MainTargets",
- *      required={"user_id", "target_group_id"},
+ *      definition="MainServices",
+ *      required={"user_id", "service_id"},
  *      @SWG\Property(
  *          property="id",
  *          description="id",
@@ -21,16 +21,10 @@ use Eloquent as Model;
  *          format="int32"
  *      ),
  *      @SWG\Property(
- *          property="target_group_id",
- *          description="target_group_id",
+ *          property="service_id",
+ *          description="service_id",
  *          type="integer",
  *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="percent",
- *          description="percent",
- *          type="number",
- *          format="float"
  *      ),
  *      @SWG\Property(
  *          property="created_at",
@@ -46,17 +40,16 @@ use Eloquent as Model;
  *      )
  * )
  */
-class MainTargets extends Model
+class MainServices extends Model
 {
 
-    public $table = 'main_targets';
+    public $table = 'main_services';
     
 
 
     public $fillable = [
         'user_id',
-        'target_group_id',
-        'percent'
+        'service_id'
     ];
 
     /**
@@ -66,8 +59,7 @@ class MainTargets extends Model
      */
     protected $casts = [
         'user_id' => 'integer',
-        'target_group_id' => 'integer',
-        'percent' => 'float'
+        'service_id' => 'integer'
     ];
 
     /**
@@ -77,9 +69,8 @@ class MainTargets extends Model
      */
     public static $rules = [
         'user_id' => 'required',
-        'target_group_id' => 'required'
+        'service_id' => 'required'
     ];
 
-    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
     
 }

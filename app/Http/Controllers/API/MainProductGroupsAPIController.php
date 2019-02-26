@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateMainProductGroupsAPIRequest;
 use App\Http\Requests\API\UpdateMainProductGroupsAPIRequest;
 use App\Models\MainProductGroups;
+use App\Models\Users;
 use App\Repositories\MainProductGroupsRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -294,5 +295,31 @@ class MainProductGroupsAPIController extends AppBaseController
         $mainProductGroups->delete();
 
         return $this->sendResponse($id, 'Main Product Groups deleted successfully');
+    }
+
+    public function updateMainProductGroups($id, Request $request)
+    {
+        foreach ($request->main_product_groups as $item) {
+            if (!isset($item['id'])) {
+                $this->mainProductGroupsRepository->create($item);
+            }
+
+            elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+
+                $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($item['id']);
+
+                if (empty($mainProductGroups)) {
+                    return $this->sendError('Main product groups not found');
+                }
+                $mainProductGroups->delete();
+            }
+            else{
+
+                $this->mainProductGroupsRepository->update($item, $item['id']);
+            }
+        }
+        $mainProductGroups = Users::find($id)->mainProductGroups()->get(['*']);
+        return $this->sendResponse($mainProductGroups, 'Main product groups updated successfully');
+
     }
 }

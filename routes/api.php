@@ -58,8 +58,14 @@ Route::resource('minimum_order_quantities', 'MinimumOrderQuantityAPIController')
 
 Route::resource('services', 'ServicesAPIController');
 
+Route::resource('main_services', 'MainServicesAPIController');
+
 Route::resource('countries', 'CountriesAPIController');
 
 Route::put('/users/brands/{id}', 'UserController@updateBrands');
 
-Route::put('/users/main_segments/{id}', 'UserController@updateMainSegments');
+Route::put('/users/main_segments/{id}', 'MainSegmentsAPIController@updateMainSegments');
+
+Route::put('/users/main_product_groups/{id}', 'MainProductGroupsAPIController@updateMainProductGroups');
+
+Route::put('/users/main_targets/{id}', 'MainTargetsAPIController@updateMainTargets');

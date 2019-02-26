@@ -80,6 +80,7 @@ class MainSegments extends Model
         'segment_id' => 'required'
     ];
 
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'pivot'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/

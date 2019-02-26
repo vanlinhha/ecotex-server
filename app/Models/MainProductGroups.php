@@ -80,5 +80,6 @@ class MainProductGroups extends Model
         'product_group_id' => 'required'
     ];
 
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
     
 }

@@ -484,6 +484,14 @@ class UserController extends RestController
      *          required=true,
      *          in="path"
      *      ),
+     *     @SWG\Parameter(
+     *     name="brands",
+     *     description="ID of the order that needs to be deleted",
+     *     type="object",
+     *     in="body",
+     *     @SWG\Schema(ref="#/definitions/Users"),
+     *     ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -511,46 +519,7 @@ class UserController extends RestController
         Users::findOrFail($id)->update([
             'brands' => $request->brands
         ]);
-    }
-
-    /**
-     *
-     * @SWG\Put(
-     *      path="/users/main_segments/{id}",
-     *      summary="Update brands for company",
-     *      tags={"Users"},
-     *      produces={"application/json"},
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Users",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-
-    public function updateMainSegments($id, Request $request)
-    {
+        return response()->json(['success' => true, 'data' => [], 'message' => 'Update brands successfully'], 200);
 
     }
 

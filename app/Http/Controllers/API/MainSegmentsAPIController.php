@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateMainSegmentsAPIRequest;
 use App\Http\Requests\API\UpdateMainSegmentsAPIRequest;
 use App\Models\MainSegments;
+use App\Models\Users;
 use App\Repositories\MainSegmentsRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -277,5 +278,31 @@ class MainSegmentsAPIController extends AppBaseController
         $mainSegments->delete();
 
         return $this->sendResponse($id, 'Main Segments deleted successfully');
+    }
+
+    public function updateMainSegments($id, Request $request)
+    {
+        foreach ($request->main_segments as $item) {
+            if (!isset($item['id'])) {
+                $this->mainSegmentsRepository->create($item);
+            }
+
+            elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+
+                $mainSegments = $this->mainSegmentsRepository->findWithoutFail($item['id']);
+
+                if (empty($mainSegments)) {
+                    return $this->sendError('Main Segments not found');
+                }
+                $mainSegments->delete();
+            }
+            else{
+
+                $this->mainSegmentsRepository->update($item, $item['id']);
+            }
+        }
+        $mainSegments = Users::find($id)->mainSegments()->get(['*']);
+        return $this->sendResponse($mainSegments, 'Main Segments updated successfully');
+
     }
 }
