@@ -76,7 +76,6 @@ class Services extends Model
         'name' => 'required'
     ];
 
-    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
-
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'pivot'];
     
 }

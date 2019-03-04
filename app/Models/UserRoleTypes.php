@@ -72,7 +72,6 @@ class UserRoleTypes extends Model
         'role_type_id' => 'required'
     ];
 
-    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
-
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'pivot'];
     
 }

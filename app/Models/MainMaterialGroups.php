@@ -84,7 +84,7 @@ class MainMaterialGroups extends Model
         'material_group_id' => 'required'
     ];
 
-    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'pivot'];
 
     
 }

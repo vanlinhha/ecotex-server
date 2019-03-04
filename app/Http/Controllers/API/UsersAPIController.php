@@ -306,6 +306,25 @@ class UsersAPIController extends AppBaseController
             return $this->sendError('Users not found');
         }
 
+        if ($users->roles()->get(['id'])->count()) {
+            $roles = $users->roles()->get()[0]['id'];
+        } else {
+            $roles = 0;
+        }
+
+        $mainProductGroups = $users->mainProductGroups()->get();
+        $mainMaterialGroups = $users->mainMaterialGroups()->get();
+        $mainTargets       = $users->mainTargets()->get();
+        $mainSegments      = $users->mainSegments()->get();
+        $role_type_ids     = $users->roleTypes()->get();
+
+        $users['role_type_id']        = $role_type_ids;
+        $users['role_id']             = $roles;
+        $users['main_product_groups'] = $mainProductGroups;
+        $users['main_material_groups'] = $mainMaterialGroups;
+        $users['main_segment_groups'] = $mainSegments;
+        $users['main_target_groups']  = $mainTargets;
+
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
     }
 

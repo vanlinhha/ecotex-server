@@ -72,5 +72,8 @@ class MainServices extends Model
         'service_id' => 'required'
     ];
 
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'pivot'];
+
+
     
 }
