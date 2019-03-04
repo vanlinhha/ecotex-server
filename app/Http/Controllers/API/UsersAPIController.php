@@ -312,10 +312,10 @@ class UsersAPIController extends AppBaseController
             $roles = 0;
         }
 
-        $mainProductGroups = $users->mainProductGroups()->get();
-        $mainMaterialGroups = $users->mainMaterialGroups()->get();
-        $mainTargets       = $users->mainTargets()->get();
-        $mainSegments      = $users->mainSegments()->get();
+        $mainProductGroups = $users->mainProductGroups()->get(['*' ,'percent']);
+        $mainMaterialGroups = $users->mainMaterialGroups()->get(['*' ,'percent']);
+        $mainTargets       = $users->mainTargets()->get(['*' ,'percent']);
+        $mainSegments      = $users->mainSegments()->get(['*' ,'percent']);
         $role_type_ids     = $users->roleTypes()->get();
 
         $users['role_type_id']        = $role_type_ids;
