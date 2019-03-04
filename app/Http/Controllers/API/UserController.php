@@ -88,20 +88,22 @@ class UserController extends RestController
             $roles = 0;
         }
 
-        $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
-        $mainServices = $user->services()->pluck('service_id');
-        $mainMaterialGroups = $user->mainMaterialGroups()->pluck('material_group_id');
-        $mainTargets       = $user->mainTargets()->pluck('target_group_id');
-        $mainSegments      = $user->mainSegments()->pluck('segment_id');
-        $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
+        $mainProductGroups   = $user->mainProductGroups()->get(['name', 'product_group_id', 'percent']);
+        $mainServices        = $user->services()->get(['name', 'service_id', 'role_id']);
+        $mainExportCountries = $user->mainExportCountries()->get(['name', 'country_id']);
+        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['name', 'material_group_id', 'percent']);
+        $mainTargets         = $user->mainTargets()->get(['name', 'target_group_id', 'percent']);
+        $mainSegments        = $user->mainSegments()->get(['name', 'segment_id', 'percent']);
+        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
 
-        $user['role_type_id']        = $role_type_ids;
-        $user['role_id']             = $roles;
-        $user['main_product_groups'] = $mainProductGroups;
-        $user['main_services'] = $mainServices;
-        $user['main_material_groups'] = $mainMaterialGroups;
-        $user['main_segment_groups'] = $mainSegments;
-        $user['main_target_groups']  = $mainTargets;
+        $user['role_type_id']          = $role_type_ids;
+        $user['role_id']               = $roles;
+        $user['main_product_groups']   = $mainProductGroups;
+        $user['main_services']         = $mainServices;
+        $user['main_material_groups']  = $mainMaterialGroups;
+        $user['main_segment_groups']   = $mainSegments;
+        $user['main_target_groups']    = $mainTargets;
+        $user['main_export_countries'] = $mainExportCountries;
 
         return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user, 'expired_at' => $timeExp], 'message' => 'Log in successfully'], 201, []);
     }
@@ -254,11 +256,11 @@ class UserController extends RestController
 
     public function register(Request $request)
     {
-        $main_product_group_IDs = json_decode($request->main_product_groups);
+        $main_product_group_IDs  = json_decode($request->main_product_groups);
         $main_material_group_IDs = json_decode($request->main_material_groups);
-        $main_segment_group_IDs = json_decode($request->main_segment_groups);
-        $main_target_group_IDs  = json_decode($request->main_target_groups);
-        $role_types             = json_decode($request->role_types);
+        $main_segment_group_IDs  = json_decode($request->main_segment_groups);
+        $main_target_group_IDs   = json_decode($request->main_target_groups);
+        $role_types              = json_decode($request->role_types);
 
         $validator = Validator::make($request->all(), [
             'email'      => 'string|email|max:255|unique:users',

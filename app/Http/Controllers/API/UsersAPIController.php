@@ -316,7 +316,7 @@ class UsersAPIController extends AppBaseController
 
         $mainProductGroups   = $users->mainProductGroups()->get(['name', 'product_group_id', 'percent']);
         $mainServices        = $users->services()->get(['name', 'service_id', 'role_id']);
-        $mainExportCountries = $users->mainExportCountries()->get(['name', 'service_id', 'role_id']);
+        $mainExportCountries = $users->mainExportCountries()->get(['name', 'country_id']);
         $mainMaterialGroups  = $users->mainMaterialGroups()->get(['name', 'material_group_id', 'percent']);
         $mainTargets         = $users->mainTargets()->get(['name', 'target_group_id', 'percent']);
         $mainSegments        = $users->mainSegments()->get(['name', 'segment_id', 'percent']);
