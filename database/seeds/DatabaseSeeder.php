@@ -232,6 +232,36 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        DB::table('countries')->insert([
+                [
+                    'name'      => 'Vietnam',
+                ],
+
+                [
+                    'name'      => 'USA',
+                ],
+
+                [
+                    'name'      => 'Thailand',
+                ],
+
+                [
+                    'name'      => 'United Kingdom',
+                ],
+
+                [
+                    'name'      => 'France',
+                ],
+
+                [
+                    'name'      => 'Argentina',
+                ],
+                [
+                    'name'      => 'Spain',
+                ]
+            ]
+        );
+
 
         DB::table('minimum_order_quantities')->insert(
             [

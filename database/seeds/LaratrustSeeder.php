@@ -53,22 +53,22 @@ class LaratrustSeeder extends Seeder
                 DB::table('role_types')->insert([
                         [
                             'role_id' => $role->id,
-                            'name' => 'Cut & Make',
+                            'name'    => 'Cut & Make',
                         ],
 
                         [
                             'role_id' => $role->id,
-                            'name' => 'Partial subcontractor',
+                            'name'    => 'Partial subcontractor',
                         ],
 
                         [
                             'role_id' => $role->id,
-                            'name' => 'PLV (job processing)',
+                            'name'    => 'PLV (job processing)',
                         ],
 
                         [
                             'role_id' => $role->id,
-                            'name' => 'Ready-made garment manufacture',
+                            'name'    => 'Ready-made garment manufacture',
                         ],
                     ]
 
@@ -164,6 +164,22 @@ class LaratrustSeeder extends Seeder
                     ]);
                 }
 
+                DB::table('main_export_countries')->insert(
+                    [
+                        'user_id'    => $user->id,
+                        'country_id' => random_int(1, 7),
+                        'percent'    => random_int(30, 90)
+                    ]
+                );
+
+                DB::table('main_export_countries')->insert(
+                    [
+                        'user_id'    => $user->id,
+                        'country_id' => random_int(1, 7),
+                        'percent'    => random_int(30, 90)
+                    ]
+                );
+
 
                 DB::table('main_product_groups')->insert(
                     [
@@ -183,17 +199,17 @@ class LaratrustSeeder extends Seeder
 
                 DB::table('main_material_groups')->insert(
                     [
-                        'user_id'          => $user->id,
+                        'user_id'           => $user->id,
                         'material_group_id' => random_int(1, 5),
-                        'percent'          => random_int(30, 90)
+                        'percent'           => random_int(30, 90)
                     ]
                 );
 
                 DB::table('main_material_groups')->insert(
                     [
-                        'user_id'          => $user->id,
+                        'user_id'           => $user->id,
                         'material_group_id' => random_int(1, 5),
-                        'percent'          => random_int(30, 90)
+                        'percent'           => random_int(30, 90)
                     ]
                 );
 

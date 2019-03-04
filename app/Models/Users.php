@@ -279,6 +279,10 @@ class Users extends Authenticatable implements JWTSubject
         return $this->belongsToMany(TargetGroups::class, 'main_targets', 'user_id','target_group_id');
     }
 
+    public function mainExportCountries(){
+        return $this->belongsToMany(Countries::class, 'main_export_countries', 'user_id','country_id');
+    }
+
     public function mainSegments(){
         return $this->belongsToMany(SegmentGroups::class, 'main_segments', 'user_id','segment_id');
     }

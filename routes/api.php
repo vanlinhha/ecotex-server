@@ -73,3 +73,7 @@ Route::put('/users/main_product_groups/{id}', 'MainProductGroupsAPIController@up
 Route::put('/users/main_material_groups/{id}', 'MainMaterialGroupsAPIController@updateMainMaterialGroups');
 
 Route::put('/users/main_targets/{id}', 'MainTargetsAPIController@updateMainTargets');
+
+Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
+
+Route::resource('main_export_countries', 'MainExportCountriesAPIController');
