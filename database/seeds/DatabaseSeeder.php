@@ -163,6 +163,75 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        DB::table('material_groups')->insert([
+                [
+                    'name'      => 'Vải',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Chỉ',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Cúc',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Dây kéo',
+                    'parent_id' => 0
+                ],
+
+                [
+                    'name'      => 'Vật liệu dựng',
+                    'parent_id' => 0
+                ],
+                [
+                    'name'      => 'Phụ kiện',
+                    'parent_id' => 0
+                ]
+            ]
+        );
+
+        DB::table('material_groups')->insert([
+                [
+                    'name'      => 'Vải loại 1',
+                    'parent_id' => 1
+                ],
+
+                [
+                    'name'      => 'Vải loại 2',
+                    'parent_id' => 1
+                ],
+
+                [
+                    'name'      => 'Chỉ bông',
+                    'parent_id' => 2
+                ],
+
+                [
+                    'name'      => 'Chỉ tơ tằm',
+                    'parent_id' => 2
+                ],
+
+                [
+                    'name'      => 'Cúc gỗ',
+                    'parent_id' => 3
+                ],
+
+                [
+                    'name'      => 'Cúc nhựa',
+                    'parent_id' => 3
+                ],
+                [
+                    'name'      => 'Cúc kim loại',
+                    'parent_id' => 3
+                ]
+            ]
+        );
+
 
         DB::table('minimum_order_quantities')->insert(
             [

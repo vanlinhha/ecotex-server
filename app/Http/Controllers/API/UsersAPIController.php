@@ -239,6 +239,7 @@ class UsersAPIController extends AppBaseController
         }
 
         $mainProductGroups = $user->mainProductGroups()->pluck('product_group_id');
+        $mainMaterialGroups = $user->mainMaterialGroups()->pluck('material_group_id');
         $mainTargets       = $user->mainTargets()->pluck('target_group_id');
         $mainSegments      = $user->mainSegments()->pluck('segment_id');
         $role_type_ids     = $user->roleTypes()->pluck('role_type_id');
@@ -246,6 +247,7 @@ class UsersAPIController extends AppBaseController
         $user['role_type_id']        = $role_type_ids;
         $user['role_id']             = $roles;
         $user['main_product_groups'] = $mainProductGroups;
+        $user['main_material_groups'] = $mainMaterialGroups;
         $user['main_segment_groups'] = $mainSegments;
         $user['main_target_groups']  = $mainTargets;
     }

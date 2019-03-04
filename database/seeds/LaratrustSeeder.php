@@ -181,6 +181,22 @@ class LaratrustSeeder extends Seeder
                     ]
                 );
 
+                DB::table('main_material_groups')->insert(
+                    [
+                        'user_id'          => $user->id,
+                        'material_group_id' => random_int(1, 5),
+                        'percent'          => random_int(30, 90)
+                    ]
+                );
+
+                DB::table('main_material_groups')->insert(
+                    [
+                        'user_id'          => $user->id,
+                        'material_group_id' => random_int(1, 5),
+                        'percent'          => random_int(30, 90)
+                    ]
+                );
+
                 DB::table('main_segments')->insert(
                     [
                         'user_id'    => $user->id,
