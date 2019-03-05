@@ -88,15 +88,15 @@ class UserController extends RestController
             $roles = 0;
         }
 
-        $mainProductGroups   = $user->mainProductGroups()->get(['name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['name', 'service_id', 'role_id']);
-        $mainExportCountries = $user->mainExportCountries()->get([ 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['name', 'target_group_id', 'percent']);
-        $mainSegmentGroups        = $user->mainSegmentGroups()->get(['name', 'segment_group_id', 'percent']);
+        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
+        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
 
-        $user['role_type_ids']          = $role_type_ids;
+        $user['role_type_ids']         = $role_type_ids;
         $user['role_id']               = $roles;
         $user['main_product_groups']   = $mainProductGroups;
         $user['main_services']         = $mainServices;
@@ -177,9 +177,9 @@ class UserController extends RestController
      *          @SWG\Schema(ref="#/definitions/Users")
      *      ),
      *     @SWG\Parameter(
-     *          name="country",
+     *          name="country_id",
      *          in="query",
-     *          type="string",
+     *          type="integer",
      *          description="Users that should be updated",
      *          required=false,
      *          @SWG\Schema(ref="#/definitions/Users")
@@ -281,7 +281,7 @@ class UserController extends RestController
             'role_id'                      => $request->post('role_id'),
             'phone'                        => $request->post('phone'),
             'type'                         => $request->post('type'),
-            'country'                      => $request->post('country'),
+            'country_id'                      => $request->post('country_id'),
             'company_name'                 => $request->post('company_name'),
             'company_address'              => $request->post('company_address'),
             'brief_name'                   => $request->post('brief_name'),
@@ -519,8 +519,6 @@ class UserController extends RestController
         return response()->json(['success' => true, 'data' => [], 'message' => 'Update brands successfully'], 200);
 
     }
-
-
 
 
 }

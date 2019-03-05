@@ -63,7 +63,11 @@ class CountriesAPIController extends AppBaseController
     {
         $this->countriesRepository->pushCriteria(new RequestCriteria($request));
         $this->countriesRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $countries = $this->countriesRepository->all();
+        $countries  = $this->countriesRepository->scopeQuery(function($query){
+            return $query->orderBy('name','asc');
+        })->all();
+//        $countries = $this->countriesRepository->orderBy('name');
+//        $countries = $countries->orderBy
 
         return $this->sendResponse($countries->toArray(), 'Countries retrieved successfully');
     }

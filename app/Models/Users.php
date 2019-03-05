@@ -50,8 +50,8 @@ use Laratrust\Traits\LaratrustUserTrait;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="country",
- *          description="country",
+ *          property="country_id",
+ *          description="country_id",
  *          type="string"
  *      ),
  *      @SWG\Property(
@@ -186,7 +186,7 @@ class Users extends Authenticatable implements JWTSubject
         'first_name',
         'last_name',
         'phone',
-        'country',
+        'country_id',
         'company_name',
         'brief_name',
         'company_address',
@@ -223,7 +223,7 @@ class Users extends Authenticatable implements JWTSubject
         'first_name' => 'string',
         'last_name' => 'string',
         'phone' => 'string',
-        'country' => 'string',
+        'country_id' => 'integer',
         'company_name' => 'string',
         'brief_name' => 'string',
         'company_address' => 'string',

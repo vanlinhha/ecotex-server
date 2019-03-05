@@ -48,7 +48,7 @@ trait MakeUsersTrait
             'first_name' => $fake->word,
             'last_name' => $fake->word,
             'phone' => $fake->word,
-            'country' => $fake->word,
+            'country_id' => $fake->word,
             'company_name' => $fake->word,
             'brief_name' => $fake->word,
             'company_address' => $fake->word,

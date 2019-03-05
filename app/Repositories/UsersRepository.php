@@ -26,7 +26,7 @@ class UsersRepository extends BaseRepository
         'first_name',
         'last_name',
         'phone',
-        'country',
+        'country_id',
         'company_name',
         'brief_name',
         'company_address',

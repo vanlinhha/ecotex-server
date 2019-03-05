@@ -25,7 +25,7 @@ class LaratrustSeeder extends Seeder
             'type'                   => 'enterprise',
             'role_id'                => 1,
             'phone'                  => $faker->phoneNumber,
-            'country'                => $faker->country,
+            'country_id'             => random_int(1, 239),
             'company_name'           => $faker->company,
             'brief_name'             => $faker->companySuffix,
             'company_address'        => $faker->address,
@@ -114,7 +114,7 @@ class LaratrustSeeder extends Seeder
                         'type'                   => 'personal',
                         'role_id'                => random_int(1, 5),
                         'phone'                  => $faker->phoneNumber,
-                        'country'                => $faker->country,
+                        'country_id'             => random_int(1, 239),
                         'company_name'           => $faker->company,
                         'brief_name'             => $faker->companySuffix,
                         'company_address'        => $faker->address,
@@ -138,7 +138,7 @@ class LaratrustSeeder extends Seeder
                         'type'                         => 'enterprise',
                         'role_id'                      => random_int(1, 5),
                         'phone'                        => $faker->phoneNumber,
-                        'country'                      => $faker->country,
+                        'country_id'                   => random_int(1, 239),
                         'company_name'                 => $faker->company,
                         'brief_name'                   => $faker->companySuffix,
                         'company_address'              => $faker->address,
@@ -164,85 +164,99 @@ class LaratrustSeeder extends Seeder
                     ]);
                 }
 
-                DB::table('main_export_countries')->insert(
-                    [
-                        'user_id'    => $user->id,
-                        'country_id' => random_int(1, 7),
-                        'percent'    => random_int(30, 90)
+                DB::table('main_services')->insert([
+
+                        [
+                            'user_id'    => $user->id,
+                            'service_id' => random_int(1, 3),
+                        ],
+                        [
+                            'user_id'    => $user->id,
+                            'service_id' => random_int(1, 3),
+                        ]
                     ]
+
                 );
 
-                DB::table('main_export_countries')->insert(
-                    [
-                        'user_id'    => $user->id,
-                        'country_id' => random_int(1, 7),
-                        'percent'    => random_int(30, 90)
+                DB::table('main_export_countries')->insert([
+
+                        [
+                            'user_id'    => $user->id,
+                            'country_id' => random_int(1, 249),
+                            'percent'    => random_int(30, 40)
+                        ],
+                        [
+                            'user_id'    => $user->id,
+                            'country_id' => random_int(1, 249),
+                            'percent'    => random_int(30, 40)
+                        ]
                     ]
+
                 );
 
 
-                DB::table('main_product_groups')->insert(
-                    [
-                        'user_id'          => $user->id,
-                        'product_group_id' => random_int(1, 5),
-                        'percent'          => random_int(30, 90)
+                DB::table('main_product_groups')->insert([
+
+                        [
+                            'user_id'          => $user->id,
+                            'product_group_id' => random_int(1, 5),
+                            'percent'          => random_int(30, 40)
+                        ],
+                        [
+                            'user_id'          => $user->id,
+                            'product_group_id' => random_int(1, 5),
+                            'percent'          => random_int(30, 40)
+                        ]
                     ]
+
                 );
 
-                DB::table('main_product_groups')->insert(
-                    [
-                        'user_id'          => $user->id,
-                        'product_group_id' => random_int(1, 5),
-                        'percent'          => random_int(30, 90)
+                DB::table('main_material_groups')->insert([
+
+                        [
+                            'user_id'           => $user->id,
+                            'material_group_id' => random_int(1, 5),
+                            'percent'           => random_int(30, 40)
+                        ],
+                        [
+                            'user_id'           => $user->id,
+                            'material_group_id' => random_int(1, 5),
+                            'percent'           => random_int(30, 40)
+                        ]
                     ]
+
                 );
 
-                DB::table('main_material_groups')->insert(
-                    [
-                        'user_id'           => $user->id,
-                        'material_group_id' => random_int(1, 5),
-                        'percent'           => random_int(30, 90)
+                DB::table('main_segment_groups')->insert([
+
+                        [
+                            'user_id'          => $user->id,
+                            'segment_group_id' => random_int(1, 4),
+                            'percent'          => random_int(30, 45)
+                        ],
+                        [
+                            'user_id'          => $user->id,
+                            'segment_group_id' => random_int(1, 4),
+                            'percent'          => random_int(30, 40)
+                        ]
                     ]
+
                 );
 
-                DB::table('main_material_groups')->insert(
-                    [
-                        'user_id'           => $user->id,
-                        'material_group_id' => random_int(1, 5),
-                        'percent'           => random_int(30, 90)
-                    ]
-                );
+                DB::table('main_targets')->insert([
 
-                DB::table('main_segment_groups')->insert(
-                    [
-                        'user_id'    => $user->id,
-                        'segment_group_id' => random_int(1, 4),
-                        'percent'    => random_int(30, 70)
+                        [
+                            'user_id'         => $user->id,
+                            'target_group_id' => random_int(1, 4),
+                            'percent'         => random_int(30, 40)
+                        ],
+                        [
+                            'user_id'         => $user->id,
+                            'target_group_id' => random_int(1, 4),
+                            'percent'         => random_int(30, 40)
+                        ]
                     ]
-                );
 
-                DB::table('main_segment_groups')->insert(
-                    [
-                        'user_id'    => $user->id,
-                        'segment_group_id' => random_int(1, 4),
-                        'percent'    => random_int(30, 70)
-                    ]
-                );
-
-                DB::table('main_targets')->insert(
-                    [
-                        'user_id'         => $user->id,
-                        'target_group_id' => random_int(1, 4),
-                        'percent'         => random_int(30, 70)
-                    ]
-                );
-
-                DB::table('main_targets')->insert(
-                    [
-                        'user_id'         => $user->id,
-                        'target_group_id' => random_int(1, 4),
-                        'percent'         => random_int(30, 70)
-                    ]
                 );
 
                 $user->attachRole($role);
@@ -266,7 +280,7 @@ class LaratrustSeeder extends Seeder
                                 'type'                   => 'personal',
                                 'role_id'                => random_int(1, 5),
                                 'phone'                  => $faker->phoneNumber,
-                                'country'                => $faker->country,
+                                'country_id'             => random_int(1, 239),
                                 'company_name'           => $faker->company,
                                 'brief_name'             => $faker->companySuffix,
                                 'company_address'        => $faker->address,
@@ -290,7 +304,7 @@ class LaratrustSeeder extends Seeder
                                 'type'                         => 'enterprise',
                                 'role_id'                      => random_int(1, 5),
                                 'phone'                        => $faker->phoneNumber,
-                                'country'                      => $faker->country,
+                                'country_id'                   => random_int(1, 239),
                                 'company_name'                 => $faker->company,
                                 'brief_name'                   => $faker->companySuffix,
                                 'company_address'              => $faker->address,
@@ -298,7 +312,6 @@ class LaratrustSeeder extends Seeder
                                 'description'                  => $faker->sentence(),
                                 'is_paid'                      => random_int(0, 1),
                                 'minimum_order_quantity'       => random_int(1, 5),
-
 
                                 //enterprise
                                 'establishment_year'           => random_int(2000, 2019),
@@ -316,53 +329,85 @@ class LaratrustSeeder extends Seeder
                             ]);
                         }
 
-                        DB::table('main_product_groups')->insert(
-                            [
-                                'user_id'          => $user->id,
-                                'product_group_id' => random_int(1, 5),
-                                'percent'          => random_int(30, 90)
+                        DB::table('main_services')->insert([
+
+                                [
+                                    'user_id'    => $user->id,
+                                    'service_id' => random_int(1, 3),
+                                ],
+                                [
+                                    'user_id'    => $user->id,
+                                    'service_id' => random_int(1, 3),
+                                ]
                             ]
+
                         );
 
-                        DB::table('main_product_groups')->insert(
-                            [
-                                'user_id'          => $user->id,
-                                'product_group_id' => random_int(1, 5),
-                                'percent'          => random_int(30, 90)
+                        DB::table('main_export_countries')->insert([
+
+                                [
+                                    'user_id'    => $user->id,
+                                    'country_id' => random_int(1, 249),
+                                    'percent'    => random_int(30, 40)
+                                ],
+                                [
+                                    'user_id'    => $user->id,
+                                    'country_id' => random_int(1, 249),
+                                    'percent'    => random_int(30, 40)
+                                ]
                             ]
+
                         );
 
-                        DB::table('main_segment_groups')->insert(
-                            [
-                                'user_id'    => $user->id,
-                                'segment_group_id' => random_int(1, 4),
-                                'percent'    => random_int(30, 70)
+                        DB::table('main_product_groups')->insert([
+
+                                [
+                                    'user_id'          => $user->id,
+                                    'product_group_id' => random_int(1, 5),
+                                    'percent'          => random_int(30, 40)
+                                ],
+                                [
+                                    'user_id'          => $user->id,
+                                    'product_group_id' => random_int(1, 5),
+                                    'percent'          => random_int(30, 40)
+                                ]
                             ]
+
                         );
 
-                        DB::table('main_segment_groups')->insert(
-                            [
-                                'user_id'    => $user->id,
-                                'segment_group_id' => random_int(1, 4),
-                                'percent'    => random_int(30, 70)
+                        DB::table('main_segment_groups')->insert([
+
+                                [
+                                    'user_id'          => $user->id,
+                                    'segment_group_id' => random_int(1, 4),
+                                    'percent'          => random_int(30, 40)
+                                ],
+                                [
+                                    'user_id'          => $user->id,
+                                    'segment_group_id' => random_int(1, 4),
+                                    'percent'          => random_int(30, 40)
+                                ]
                             ]
+
                         );
 
-                        DB::table('main_targets')->insert(
-                            [
-                                'user_id'         => $user->id,
-                                'target_group_id' => random_int(1, 4),
-                                'percent'         => random_int(30, 70)
+
+                        DB::table('main_targets')->insert([
+
+                                [
+                                    'user_id'         => $user->id,
+                                    'target_group_id' => random_int(1, 4),
+                                    'percent'         => random_int(30, 40)
+                                ],
+                                [
+                                    'user_id'         => $user->id,
+                                    'target_group_id' => random_int(1, 4),
+                                    'percent'         => random_int(30, 40)
+                                ]
                             ]
+
                         );
 
-                        DB::table('main_targets')->insert(
-                            [
-                                'user_id'         => $user->id,
-                                'target_group_id' => random_int(1, 4),
-                                'percent'         => random_int(30, 70)
-                            ]
-                        );
                     }
 
 

@@ -233,20 +233,22 @@ class UsersAPIController extends AppBaseController
             $roles = 0;
         }
 
-        $mainProductGroups   = $user->mainProductGroups()->pluck('product_group_id');
-        $mainExportCountries = $user->mainExportCountries()->pluck('country_id');
-        $mainMaterialGroups  = $user->mainMaterialGroups()->pluck('material_group_id');
-        $mainTargets         = $user->mainTargets()->pluck('target_group_id');
-        $mainSegmentGroups        = $user->mainSegmentGroups()->pluck('segment_group_id');
+        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
+        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
 
-        $user['role_type_ids']          = $role_type_ids;
+        $user['role_type_ids']         = $role_type_ids;
         $user['role_id']               = $roles;
         $user['main_product_groups']   = $mainProductGroups;
         $user['main_export_countries'] = $mainExportCountries;
         $user['main_material_groups']  = $mainMaterialGroups;
         $user['main_segment_groups']   = $mainSegmentGroups;
         $user['main_target_groups']    = $mainTargets;
+        $user['main_services']         = $mainServices;
     }
 
     public function store(CreateUsersAPIRequest $request)
@@ -314,10 +316,10 @@ class UsersAPIController extends AppBaseController
         $mainExportCountries = $users->mainExportCountries()->get(['name', 'country_id']);
         $mainMaterialGroups  = $users->mainMaterialGroups()->get(['name', 'material_group_id', 'percent']);
         $mainTargets         = $users->mainTargets()->get(['name', 'target_group_id', 'percent']);
-        $mainSegmentGroups        = $users->mainSegmentGroups()->get(['name', 'segment_group_id', 'percent']);
+        $mainSegmentGroups   = $users->mainSegmentGroups()->get(['name', 'segment_group_id', 'percent']);
         $role_type_ids       = $users->roleTypes()->get();
 
-        $users['role_type_ids']          = $role_type_ids;
+        $users['role_type_ids']         = $role_type_ids;
         $users['role_id']               = $roles;
         $users['main_product_groups']   = $mainProductGroups;
         $users['main_services']         = $mainServices;
@@ -376,10 +378,10 @@ class UsersAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        /** @var Users $users */
-        $users = $this->usersRepository->findWithoutFail($id);
+        /** @var Users $user */
+        $user = $this->usersRepository->findWithoutFail($id);
 
-        if (empty($users)) {
+        if (empty($user)) {
             return $this->sendError('Users not found');
         }
         if (trim($input['password']) != '') {
@@ -389,6 +391,29 @@ class UsersAPIController extends AppBaseController
         }
 
         $users = $this->usersRepository->update($input, $id);
+
+        if ($user->roles()->get(['id'])->count()) {
+            $roles = $user->roles()->get()[0]['id'];
+        } else {
+            $roles = 0;
+        }
+
+        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
+        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
+
+        $user['role_type_ids']         = $role_type_ids;
+        $user['role_id']               = $roles;
+        $user['main_product_groups']   = $mainProductGroups;
+        $user['main_services']         = $mainServices;
+        $user['main_material_groups']  = $mainMaterialGroups;
+        $user['main_segment_groups']   = $mainSegmentGroups;
+        $user['main_target_groups']    = $mainTargets;
+        $user['main_export_countries'] = $mainExportCountries;
 
         return $this->sendResponse($users->toArray(), 'Users updated successfully');
     }

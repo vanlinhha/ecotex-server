@@ -19,6 +19,11 @@ use Eloquent as Model;
  *          description="name",
  *          type="string"
  *      ),
+ *     @SWG\Property(
+ *          property="code",
+ *          description="name",
+ *          type="string"
+ *      ),
  *      @SWG\Property(
  *          property="created_at",
  *          description="created_at",
@@ -41,7 +46,8 @@ class Countries extends Model
 
 
     public $fillable = [
-        'name'
+        'name',
+        'code'
     ];
 
     /**
@@ -50,7 +56,8 @@ class Countries extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string'
+        'name' => 'string',
+        'code' => 'string'
     ];
 
     /**
