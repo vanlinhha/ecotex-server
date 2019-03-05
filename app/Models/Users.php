@@ -260,7 +260,7 @@ class Users extends Authenticatable implements JWTSubject
         'last_name' => 'required'
     ];
 
-    protected $nested = ['mainSegments', 'comments', 'brands'];
+    protected $nested = ['mainSegmentGroups', 'comments', 'brands'];
 
 
     public function brands(){
@@ -283,8 +283,8 @@ class Users extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Countries::class, 'main_export_countries', 'user_id','country_id');
     }
 
-    public function mainSegments(){
-        return $this->belongsToMany(SegmentGroups::class, 'main_segments', 'user_id','segment_id');
+    public function mainSegmentGroups(){
+        return $this->belongsToMany(SegmentGroups::class, 'main_segment_groups', 'user_id','segment_group_id');
     }
 
     public function roleTypes(){

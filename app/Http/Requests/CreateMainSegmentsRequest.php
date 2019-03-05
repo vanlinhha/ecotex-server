@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\MainSegments;
+use App\Models\MainSegmentGroups;
 
-class CreateMainSegmentsRequest extends FormRequest
+class CreateMainSegmentGroupsRequest extends FormRequest
 {
 
     /**
@@ -25,6 +25,6 @@ class CreateMainSegmentsRequest extends FormRequest
      */
     public function rules()
     {
-        return MainSegments::$rules;
+        return MainSegmentGroups::$rules;
     }
 }

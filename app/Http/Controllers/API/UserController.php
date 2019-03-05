@@ -90,18 +90,18 @@ class UserController extends RestController
 
         $mainProductGroups   = $user->mainProductGroups()->get(['name', 'product_group_id', 'percent']);
         $mainServices        = $user->services()->get(['name', 'service_id', 'role_id']);
-        $mainExportCountries = $user->mainExportCountries()->get(['name', 'country_id']);
+        $mainExportCountries = $user->mainExportCountries()->get([ 'country_id', 'percent']);
         $mainMaterialGroups  = $user->mainMaterialGroups()->get(['name', 'material_group_id', 'percent']);
         $mainTargets         = $user->mainTargets()->get(['name', 'target_group_id', 'percent']);
-        $mainSegments        = $user->mainSegments()->get(['name', 'segment_id', 'percent']);
+        $mainSegmentGroups        = $user->mainSegmentGroups()->get(['name', 'segment_group_id', 'percent']);
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
 
-        $user['role_type_id']          = $role_type_ids;
+        $user['role_type_ids']          = $role_type_ids;
         $user['role_id']               = $roles;
         $user['main_product_groups']   = $mainProductGroups;
         $user['main_services']         = $mainServices;
         $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegments;
+        $user['main_segment_groups']   = $mainSegmentGroups;
         $user['main_target_groups']    = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
 
@@ -302,17 +302,6 @@ class UserController extends RestController
             'compliance'                   => $request->post('compliance'),
             'activation_code'              => str_random(20),
             'is_activated'                 => 0,
-            //            'brands'                       => [
-            //                [
-            //                    'id'   => 1,
-            //                    'name' => 'better 1',
-            //                ],
-            //
-            //                [
-            //                    'id'      => 2,
-            //                    'name'    => 'brand 2',
-            //                    '_destroy' => true,
-            //                ]]
         ]);
 
         $this->user = $user;
@@ -330,7 +319,7 @@ class UserController extends RestController
         $user->mainProductGroups()->sync($main_product_group_IDs);
         $user->mainMaterialGroups()->sync($main_material_group_IDs);
         $user->mainTargets()->sync($main_target_group_IDs);
-        $user->mainSegments()->sync($main_segment_group_IDs);
+        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
         $user->roleTypes()->sync($role_types);
 
         $token = JWTAuth::fromUser($user);
@@ -530,6 +519,8 @@ class UserController extends RestController
         return response()->json(['success' => true, 'data' => [], 'message' => 'Update brands successfully'], 200);
 
     }
+
+
 
 
 }

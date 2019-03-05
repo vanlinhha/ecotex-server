@@ -405,6 +405,404 @@
                 }
             }
         },
+        "/main_export_countries": {
+            "get": {
+                "tags": [
+                    "MainExportCountries"
+                ],
+                "summary": "Get a listing of the MainExportCountries.",
+                "description": "Get all MainExportCountries",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/MainExportCountries"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MainExportCountries"
+                ],
+                "summary": "Store a newly created MainExportCountries in storage",
+                "description": "Store MainExportCountries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainExportCountries that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainExportCountries"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainExportCountries"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/main_export_countries/{id}": {
+            "get": {
+                "tags": [
+                    "MainExportCountries"
+                ],
+                "summary": "Display the specified MainExportCountries",
+                "description": "Get MainExportCountries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainExportCountries",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainExportCountries"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "MainExportCountries"
+                ],
+                "summary": "Update the specified MainExportCountries in storage",
+                "description": "Update MainExportCountries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainExportCountries",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainExportCountries that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainExportCountries"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainExportCountries"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MainExportCountries"
+                ],
+                "summary": "Remove the specified MainExportCountries from storage",
+                "description": "Delete MainExportCountries",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainExportCountries",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/mainMaterialGroups": {
+            "get": {
+                "tags": [
+                    "MainMaterialGroups"
+                ],
+                "summary": "Get a listing of the MainMaterialGroups.",
+                "description": "Get all MainMaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/MainMaterialGroups"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MainMaterialGroups"
+                ],
+                "summary": "Store a newly created MainMaterialGroups in storage",
+                "description": "Store MainMaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainMaterialGroups that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainMaterialGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainMaterialGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/mainMaterialGroups/{id}": {
+            "get": {
+                "tags": [
+                    "MainMaterialGroups"
+                ],
+                "summary": "Display the specified MainMaterialGroups",
+                "description": "Get MainMaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainMaterialGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainMaterialGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "MainMaterialGroups"
+                ],
+                "summary": "Update the specified MainMaterialGroups in storage",
+                "description": "Update MainMaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainMaterialGroups",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MainMaterialGroups that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MainMaterialGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MainMaterialGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MainMaterialGroups"
+                ],
+                "summary": "Remove the specified MainMaterialGroups from storage",
+                "description": "Delete MainMaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MainMaterialGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/main_product_groups": {
             "get": {
                 "tags": [
@@ -625,13 +1023,13 @@
                 }
             }
         },
-        "/main_segments": {
+        "/main_segment_groups": {
             "get": {
                 "tags": [
-                    "MainSegments"
+                    "MainSegmentGroups"
                 ],
-                "summary": "Get a listing of the MainSegments.",
-                "description": "Get all MainSegments",
+                "summary": "Get a listing of the MainSegmentGroups.",
+                "description": "Get all MainSegmentGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -646,7 +1044,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/MainSegments"
+                                        "$ref": "#/definitions/MainSegmentGroups"
                                     }
                                 },
                                 "message": {
@@ -660,10 +1058,10 @@
             },
             "post": {
                 "tags": [
-                    "MainSegments"
+                    "MainSegmentGroups"
                 ],
-                "summary": "Store a newly created MainSegments in storage",
-                "description": "Store MainSegments",
+                "summary": "Store a newly created MainSegmentGroups in storage",
+                "description": "Store MainSegmentGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -671,10 +1069,10 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "MainSegments that should be stored",
+                        "description": "MainSegmentGroups that should be stored",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/MainSegments"
+                            "$ref": "#/definitions/MainSegmentGroups"
                         }
                     }
                 ],
@@ -687,7 +1085,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/MainSegments"
+                                    "$ref": "#/definitions/MainSegmentGroups"
                                 },
                                 "message": {
                                     "type": "string"
@@ -699,13 +1097,13 @@
                 }
             }
         },
-        "/main_segments/{id}": {
+        "/main_segment_groups/{id}": {
             "get": {
                 "tags": [
-                    "MainSegments"
+                    "MainSegmentGroups"
                 ],
-                "summary": "Display the specified MainSegments",
-                "description": "Get MainSegments",
+                "summary": "Display the specified MainSegmentGroups",
+                "description": "Get MainSegmentGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -713,7 +1111,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of MainSegments",
+                        "description": "id of MainSegmentGroups",
                         "required": true,
                         "type": "integer"
                     }
@@ -727,7 +1125,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/MainSegments"
+                                    "$ref": "#/definitions/MainSegmentGroups"
                                 },
                                 "message": {
                                     "type": "string"
@@ -740,10 +1138,10 @@
             },
             "put": {
                 "tags": [
-                    "MainSegments"
+                    "MainSegmentGroups"
                 ],
-                "summary": "Update the specified MainSegments in storage",
-                "description": "Update MainSegments",
+                "summary": "Update the specified MainSegmentGroups in storage",
+                "description": "Update MainSegmentGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -751,17 +1149,17 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of MainSegments",
+                        "description": "id of MainSegmentGroups",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "MainSegments that should be updated",
+                        "description": "MainSegmentGroups that should be updated",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/MainSegments"
+                            "$ref": "#/definitions/MainSegmentGroups"
                         }
                     }
                 ],
@@ -774,7 +1172,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/MainSegments"
+                                    "$ref": "#/definitions/MainSegmentGroups"
                                 },
                                 "message": {
                                     "type": "string"
@@ -787,10 +1185,10 @@
             },
             "delete": {
                 "tags": [
-                    "MainSegments"
+                    "MainSegmentGroups"
                 ],
-                "summary": "Remove the specified MainSegments from storage",
-                "description": "Delete MainSegments",
+                "summary": "Remove the specified MainSegmentGroups from storage",
+                "description": "Delete MainSegmentGroups",
                 "produces": [
                     "application/json"
                 ],
@@ -798,7 +1196,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of MainSegments",
+                        "description": "id of MainSegmentGroups",
                         "required": true,
                         "type": "integer"
                     }
@@ -1197,6 +1595,205 @@
                         "name": "id",
                         "in": "path",
                         "description": "id of MainTargets",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/material_groups": {
+            "get": {
+                "tags": [
+                    "MaterialGroups"
+                ],
+                "summary": "Get a listing of the MaterialGroups.",
+                "description": "Get all MaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/MaterialGroups"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MaterialGroups"
+                ],
+                "summary": "Store a newly created MaterialGroups in storage",
+                "description": "Store MaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MaterialGroups that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MaterialGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MaterialGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/material_groups/{id}": {
+            "get": {
+                "tags": [
+                    "MaterialGroups"
+                ],
+                "summary": "Display the specified MaterialGroups",
+                "description": "Get MaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MaterialGroups",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MaterialGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "MaterialGroups"
+                ],
+                "summary": "Update the specified MaterialGroups in storage",
+                "description": "Update MaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MaterialGroups",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "MaterialGroups that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MaterialGroups"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/MaterialGroups"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MaterialGroups"
+                ],
+                "summary": "Remove the specified MaterialGroups from storage",
+                "description": "Delete MaterialGroups",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of MaterialGroups",
                         "required": true,
                         "type": "integer"
                     }
@@ -3326,6 +3923,77 @@
                 }
             }
         },
+        "MainExportCountries": {
+            "required": [
+                "user_id",
+                "country_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_id": {
+                    "description": "user_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "country_id": {
+                    "description": "country_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "MainMaterialGroups": {
+            "required": [
+                "user_id",
+                "material_group_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_id": {
+                    "description": "user_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "material_group_id": {
+                    "description": "material_group_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "percent": {
+                    "description": "percent",
+                    "type": "number",
+                    "format": "float"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "MainProductGroups": {
             "required": [
                 "user_id",
@@ -3364,7 +4032,7 @@
                 }
             }
         },
-        "MainSegments": {
+        "MainSegmentGroups": {
             "required": [
                 "user_id",
                 "segment_id"
@@ -3460,6 +4128,38 @@
                     "description": "percent",
                     "type": "number",
                     "format": "float"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "MaterialGroups": {
+            "required": [
+                "name",
+                "parent_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "parent_id",
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "created_at": {
                     "description": "created_at",

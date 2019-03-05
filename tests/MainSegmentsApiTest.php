@@ -3,55 +3,55 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MainSegmentsApiTest extends TestCase
+class MainSegmentGroupsApiTest extends TestCase
 {
-    use MakeMainSegmentsTrait, ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
+    use MakeMainSegmentGroupsTrait, ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
 
     /**
      * @test
      */
-    public function testCreateMainSegments()
+    public function testCreateMainSegmentGroups()
     {
-        $mainSegments = $this->fakeMainSegmentsData();
-        $this->json('POST', '/api/v1/mainSegments', $mainSegments);
+        $mainSegmentGroups = $this->fakeMainSegmentGroupsData();
+        $this->json('POST', '/api/v1/mainSegmentGroups', $mainSegmentGroups);
 
-        $this->assertApiResponse($mainSegments);
+        $this->assertApiResponse($mainSegmentGroups);
     }
 
     /**
      * @test
      */
-    public function testReadMainSegments()
+    public function testReadMainSegmentGroups()
     {
-        $mainSegments = $this->makeMainSegments();
-        $this->json('GET', '/api/v1/mainSegments/'.$mainSegments->id);
+        $mainSegmentGroups = $this->makeMainSegmentGroups();
+        $this->json('GET', '/api/v1/mainSegmentGroups/'.$mainSegmentGroups->id);
 
-        $this->assertApiResponse($mainSegments->toArray());
+        $this->assertApiResponse($mainSegmentGroups->toArray());
     }
 
     /**
      * @test
      */
-    public function testUpdateMainSegments()
+    public function testUpdateMainSegmentGroups()
     {
-        $mainSegments = $this->makeMainSegments();
-        $editedMainSegments = $this->fakeMainSegmentsData();
+        $mainSegmentGroups = $this->makeMainSegmentGroups();
+        $editedMainSegmentGroups = $this->fakeMainSegmentGroupsData();
 
-        $this->json('PUT', '/api/v1/mainSegments/'.$mainSegments->id, $editedMainSegments);
+        $this->json('PUT', '/api/v1/mainSegmentGroups/'.$mainSegmentGroups->id, $editedMainSegmentGroups);
 
-        $this->assertApiResponse($editedMainSegments);
+        $this->assertApiResponse($editedMainSegmentGroups);
     }
 
     /**
      * @test
      */
-    public function testDeleteMainSegments()
+    public function testDeleteMainSegmentGroups()
     {
-        $mainSegments = $this->makeMainSegments();
-        $this->json('DELETE', '/api/v1/mainSegments/'.$mainSegments->id);
+        $mainSegmentGroups = $this->makeMainSegmentGroups();
+        $this->json('DELETE', '/api/v1/mainSegmentGroups/'.$mainSegmentGroups->id);
 
         $this->assertApiSuccess();
-        $this->json('GET', '/api/v1/mainSegments/'.$mainSegments->id);
+        $this->json('GET', '/api/v1/mainSegmentGroups/'.$mainSegmentGroups->id);
 
         $this->assertResponseStatus(404);
     }

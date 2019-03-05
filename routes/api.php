@@ -44,7 +44,7 @@ Route::resource('product_groups', 'ProductGroupsAPIController');
 
 Route::resource('main_product_groups', 'MainProductGroupsAPIController')->middleware('jwt.verify');
 
-Route::resource('main_segments', 'MainSegmentsAPIController')->middleware('jwt.verify');
+Route::resource('main_segment_groups', 'MainSegmentGroupsAPIController')->middleware('jwt.verify');
 
 Route::resource('segment_groups', 'SegmentGroupsAPIController');
 
@@ -66,7 +66,7 @@ Route::resource('material_groups', 'MaterialGroupsAPIController');
 
 Route::put('/users/brands/{id}', 'UserController@updateBrands');
 
-Route::put('/users/main_segments/{id}', 'MainSegmentsAPIController@updateMainSegments');
+Route::put('/users/main_segment_groups/{id}', 'MainSegmentGroupsAPIController@updateMainSegmentGroups');
 
 Route::put('/users/main_product_groups/{id}', 'MainProductGroupsAPIController@updateMainProductGroups');
 

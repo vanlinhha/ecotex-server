@@ -6,16 +6,11 @@ use App\Http\Requests\API\CreateUsersAPIRequest;
 use App\Http\Requests\API\UpdateUsersAPIRequest;
 use App\Models\Users;
 use App\Repositories\MainProductGroupsRepository;
-use App\Repositories\MainSegmentsRepository;
+use App\Repositories\MainSegmentGroupsRepository;
 use App\Repositories\MainTargetsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Support\Facades\Hash;
-use InfyOm\Generator\Criteria\LimitOffsetCriteria;
-use Prettus\Repository\Criteria\RequestCriteria;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Response;
 
 /**
@@ -150,7 +145,7 @@ class UsersAPIController extends AppBaseController
      *      )
      * )
      */
-    public function index(Request $request, MainProductGroupsRepository $mainProductGroupsRepository, MainTargetsRepository $mainTargetsRepository, MainSegmentsRepository $mainSegmentsRepository)
+    public function index(Request $request, MainProductGroupsRepository $mainProductGroupsRepository, MainTargetsRepository $mainTargetsRepository, MainSegmentGroupsRepository $mainSegmentGroupsRepository)
     {
 //        $this->usersRepository->pushCriteria(new RequestCriteria($request));
 //        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
@@ -178,7 +173,7 @@ class UsersAPIController extends AppBaseController
 
         if (isset($request->main_segment_groups) && $request->main_segment_groups[0] != null) {
             $main_segment_group_IDs = array_map('intval', $request->main_segment_groups);
-            $user_IDs3              = $mainSegmentsRepository->findWhereIn('segment_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+            $user_IDs3              = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
             $list_user_IDs          = array_intersect($list_user_IDs, $user_IDs3);
         }
 
@@ -242,15 +237,15 @@ class UsersAPIController extends AppBaseController
         $mainExportCountries = $user->mainExportCountries()->pluck('country_id');
         $mainMaterialGroups  = $user->mainMaterialGroups()->pluck('material_group_id');
         $mainTargets         = $user->mainTargets()->pluck('target_group_id');
-        $mainSegments        = $user->mainSegments()->pluck('segment_id');
+        $mainSegmentGroups        = $user->mainSegmentGroups()->pluck('segment_group_id');
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
 
-        $user['role_type_id']          = $role_type_ids;
+        $user['role_type_ids']          = $role_type_ids;
         $user['role_id']               = $roles;
         $user['main_product_groups']   = $mainProductGroups;
         $user['main_export_countries'] = $mainExportCountries;
         $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegments;
+        $user['main_segment_groups']   = $mainSegmentGroups;
         $user['main_target_groups']    = $mainTargets;
     }
 
@@ -319,16 +314,16 @@ class UsersAPIController extends AppBaseController
         $mainExportCountries = $users->mainExportCountries()->get(['name', 'country_id']);
         $mainMaterialGroups  = $users->mainMaterialGroups()->get(['name', 'material_group_id', 'percent']);
         $mainTargets         = $users->mainTargets()->get(['name', 'target_group_id', 'percent']);
-        $mainSegments        = $users->mainSegments()->get(['name', 'segment_id', 'percent']);
+        $mainSegmentGroups        = $users->mainSegmentGroups()->get(['name', 'segment_group_id', 'percent']);
         $role_type_ids       = $users->roleTypes()->get();
 
-        $users['role_type_id']          = $role_type_ids;
+        $users['role_type_ids']          = $role_type_ids;
         $users['role_id']               = $roles;
         $users['main_product_groups']   = $mainProductGroups;
         $users['main_services']         = $mainServices;
         $users['main_export_countries'] = $mainExportCountries;
         $users['main_material_groups']  = $mainMaterialGroups;
-        $users['main_segment_groups']   = $mainSegments;
+        $users['main_segment_groups']   = $mainSegmentGroups;
         $users['main_target_groups']    = $mainTargets;
 
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');

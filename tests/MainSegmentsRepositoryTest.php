@@ -1,70 +1,70 @@
 <?php
 
-use App\Models\MainSegments;
-use App\Repositories\MainSegmentsRepository;
+use App\Models\MainSegmentGroups;
+use App\Repositories\MainSegmentGroupsRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MainSegmentsRepositoryTest extends TestCase
+class MainSegmentGroupsRepositoryTest extends TestCase
 {
-    use MakeMainSegmentsTrait, ApiTestTrait, DatabaseTransactions;
+    use MakeMainSegmentGroupsTrait, ApiTestTrait, DatabaseTransactions;
 
     /**
-     * @var MainSegmentsRepository
+     * @var MainSegmentGroupsRepository
      */
-    protected $mainSegmentsRepo;
+    protected $mainSegmentGroupsRepo;
 
     public function setUp()
     {
         parent::setUp();
-        $this->mainSegmentsRepo = App::make(MainSegmentsRepository::class);
+        $this->mainSegmentGroupsRepo = App::make(MainSegmentGroupsRepository::class);
     }
 
     /**
      * @test create
      */
-    public function testCreateMainSegments()
+    public function testCreateMainSegmentGroups()
     {
-        $mainSegments = $this->fakeMainSegmentsData();
-        $createdMainSegments = $this->mainSegmentsRepo->create($mainSegments);
-        $createdMainSegments = $createdMainSegments->toArray();
-        $this->assertArrayHasKey('id', $createdMainSegments);
-        $this->assertNotNull($createdMainSegments['id'], 'Created MainSegments must have id specified');
-        $this->assertNotNull(MainSegments::find($createdMainSegments['id']), 'MainSegments with given id must be in DB');
-        $this->assertModelData($mainSegments, $createdMainSegments);
+        $mainSegmentGroups = $this->fakeMainSegmentGroupsData();
+        $createdMainSegmentGroups = $this->mainSegmentGroupsRepo->create($mainSegmentGroups);
+        $createdMainSegmentGroups = $createdMainSegmentGroups->toArray();
+        $this->assertArrayHasKey('id', $createdMainSegmentGroups);
+        $this->assertNotNull($createdMainSegmentGroups['id'], 'Created MainSegmentGroups must have id specified');
+        $this->assertNotNull(MainSegmentGroups::find($createdMainSegmentGroups['id']), 'MainSegmentGroups with given id must be in DB');
+        $this->assertModelData($mainSegmentGroups, $createdMainSegmentGroups);
     }
 
     /**
      * @test read
      */
-    public function testReadMainSegments()
+    public function testReadMainSegmentGroups()
     {
-        $mainSegments = $this->makeMainSegments();
-        $dbMainSegments = $this->mainSegmentsRepo->find($mainSegments->id);
-        $dbMainSegments = $dbMainSegments->toArray();
-        $this->assertModelData($mainSegments->toArray(), $dbMainSegments);
+        $mainSegmentGroups = $this->makeMainSegmentGroups();
+        $dbMainSegmentGroups = $this->mainSegmentGroupsRepo->find($mainSegmentGroups->id);
+        $dbMainSegmentGroups = $dbMainSegmentGroups->toArray();
+        $this->assertModelData($mainSegmentGroups->toArray(), $dbMainSegmentGroups);
     }
 
     /**
      * @test update
      */
-    public function testUpdateMainSegments()
+    public function testUpdateMainSegmentGroups()
     {
-        $mainSegments = $this->makeMainSegments();
-        $fakeMainSegments = $this->fakeMainSegmentsData();
-        $updatedMainSegments = $this->mainSegmentsRepo->update($fakeMainSegments, $mainSegments->id);
-        $this->assertModelData($fakeMainSegments, $updatedMainSegments->toArray());
-        $dbMainSegments = $this->mainSegmentsRepo->find($mainSegments->id);
-        $this->assertModelData($fakeMainSegments, $dbMainSegments->toArray());
+        $mainSegmentGroups = $this->makeMainSegmentGroups();
+        $fakeMainSegmentGroups = $this->fakeMainSegmentGroupsData();
+        $updatedMainSegmentGroups = $this->mainSegmentGroupsRepo->update($fakeMainSegmentGroups, $mainSegmentGroups->id);
+        $this->assertModelData($fakeMainSegmentGroups, $updatedMainSegmentGroups->toArray());
+        $dbMainSegmentGroups = $this->mainSegmentGroupsRepo->find($mainSegmentGroups->id);
+        $this->assertModelData($fakeMainSegmentGroups, $dbMainSegmentGroups->toArray());
     }
 
     /**
      * @test delete
      */
-    public function testDeleteMainSegments()
+    public function testDeleteMainSegmentGroups()
     {
-        $mainSegments = $this->makeMainSegments();
-        $resp = $this->mainSegmentsRepo->delete($mainSegments->id);
+        $mainSegmentGroups = $this->makeMainSegmentGroups();
+        $resp = $this->mainSegmentGroupsRepo->delete($mainSegmentGroups->id);
         $this->assertTrue($resp);
-        $this->assertNull(MainSegments::find($mainSegments->id), 'MainSegments should not exist in DB');
+        $this->assertNull(MainSegmentGroups::find($mainSegmentGroups->id), 'MainSegmentGroups should not exist in DB');
     }
 }

@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\MainSegments;
+use App\Models\MainSegmentGroups;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
- * Class MainSegmentsRepository
+ * Class MainSegmentGroupsRepository
  * @package App\Repositories
  * @version February 11, 2019, 11:28 pm ICT
  *
- * @method MainSegments findWithoutFail($id, $columns = ['*'])
- * @method MainSegments find($id, $columns = ['*'])
- * @method MainSegments first($columns = ['*'])
+ * @method MainSegmentGroups findWithoutFail($id, $columns = ['*'])
+ * @method MainSegmentGroups find($id, $columns = ['*'])
+ * @method MainSegmentGroups first($columns = ['*'])
 */
-class MainSegmentsRepository extends BaseRepository
+class MainSegmentGroupsRepository extends BaseRepository
 {
     /**
      * @var array
@@ -30,7 +30,7 @@ class MainSegmentsRepository extends BaseRepository
      **/
     public function model()
     {
-        return MainSegments::class;
+        return MainSegmentGroups::class;
     }
 
     public function findWithUserInfo($id, $columns = ['*']){

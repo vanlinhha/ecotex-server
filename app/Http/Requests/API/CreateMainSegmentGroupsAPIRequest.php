@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\MainSegments;
+use App\Models\MainSegmentGroups;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdateMainSegmentsAPIRequest extends APIRequest
+class CreateMainSegmentGroupsAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class UpdateMainSegmentsAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return MainSegments::$rules;
+        return MainSegmentGroups::$rules;
     }
 }

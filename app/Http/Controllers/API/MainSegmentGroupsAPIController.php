@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateMainSegmentsAPIRequest;
-use App\Http\Requests\API\UpdateMainSegmentsAPIRequest;
-use App\Models\MainSegments;
+use App\Http\Requests\API\CreateMainSegmentGroupsAPIRequest;
+use App\Http\Requests\API\UpdateMainSegmentGroupsAPIRequest;
+use App\Models\MainSegmentGroups;
 use App\Models\Users;
-use App\Repositories\MainSegmentsRepository;
+use App\Repositories\MainSegmentGroupsRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -14,18 +14,18 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class MainSegmentsController
+ * Class MainSegmentGroupsController
  * @package App\Http\Controllers\API
  */
 
-class MainSegmentsAPIController extends AppBaseController
+class MainSegmentGroupsAPIController extends AppBaseController
 {
-    /** @var  MainSegmentsRepository */
-    private $mainSegmentsRepository;
+    /** @var  MainSegmentGroupsRepository */
+    private $mainSegmentGroupsRepository;
 
-    public function __construct(MainSegmentsRepository $mainSegmentsRepo)
+    public function __construct(MainSegmentGroupsRepository $mainSegmentGroupsRepo)
     {
-        $this->mainSegmentsRepository = $mainSegmentsRepo;
+        $this->mainSegmentGroupsRepository = $mainSegmentGroupsRepo;
     }
 
     /**
@@ -33,10 +33,10 @@ class MainSegmentsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/main_segments",
-     *      summary="Get a listing of the MainSegments.",
-     *      tags={"MainSegments"},
-     *      description="Get all MainSegments",
+     *      path="/main_segment_groups",
+     *      summary="Get a listing of the MainSegmentGroups.",
+     *      tags={"MainSegmentGroups"},
+     *      description="Get all MainSegmentGroups",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -50,7 +50,7 @@ class MainSegmentsAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/MainSegments")
+     *                  @SWG\Items(ref="#/definitions/MainSegmentGroups")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -62,29 +62,29 @@ class MainSegmentsAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->mainSegmentsRepository->pushCriteria(new RequestCriteria($request));
-        $this->mainSegmentsRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $mainSegments = $this->mainSegmentsRepository->paginate(1);
+        $this->mainSegmentGroupsRepository->pushCriteria(new RequestCriteria($request));
+        $this->mainSegmentGroupsRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $mainSegmentGroups = $this->mainSegmentGroupsRepository->paginate(1);
 
-        return $this->sendResponse($mainSegments->toArray(), 'Main Segments retrieved successfully');
+        return $this->sendResponse($mainSegmentGroups->toArray(), 'Main Segments retrieved successfully');
     }
 
     /**
-     * @param CreateMainSegmentsAPIRequest $request
+     * @param CreateMainSegmentGroupsAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/main_segments",
-     *      summary="Store a newly created MainSegments in storage",
-     *      tags={"MainSegments"},
-     *      description="Store MainSegments",
+     *      path="/main_segment_groups",
+     *      summary="Store a newly created MainSegmentGroups in storage",
+     *      tags={"MainSegmentGroups"},
+     *      description="Store MainSegmentGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="MainSegments that should be stored",
+     *          description="MainSegmentGroups that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/MainSegments")
+     *          @SWG\Schema(ref="#/definitions/MainSegmentGroups")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -97,7 +97,7 @@ class MainSegmentsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/MainSegments"
+     *                  ref="#/definitions/MainSegmentGroups"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -107,13 +107,13 @@ class MainSegmentsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateMainSegmentsAPIRequest $request)
+    public function store(CreateMainSegmentGroupsAPIRequest $request)
     {
         $input = $request->all();
 
-        $mainSegments = $this->mainSegmentsRepository->create($input);
+        $mainSegmentGroups = $this->mainSegmentGroupsRepository->create($input);
 
-        return $this->sendResponse($mainSegments->toArray(), 'Main Segments saved successfully');
+        return $this->sendResponse($mainSegmentGroups->toArray(), 'Main Segments saved successfully');
     }
 
     /**
@@ -121,14 +121,14 @@ class MainSegmentsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/main_segments/{id}",
-     *      summary="Display the specified MainSegments",
-     *      tags={"MainSegments"},
-     *      description="Get MainSegments",
+     *      path="/main_segment_groups/{id}",
+     *      summary="Display the specified MainSegmentGroups",
+     *      tags={"MainSegmentGroups"},
+     *      description="Get MainSegmentGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of MainSegments",
+     *          description="id of MainSegmentGroups",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -144,7 +144,7 @@ class MainSegmentsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/MainSegments"
+     *                  ref="#/definitions/MainSegmentGroups"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -156,30 +156,30 @@ class MainSegmentsAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var MainSegments $mainSegments */
-        $mainSegments = $this->mainSegmentsRepository->findWithUserInfo($id);
+        /** @var MainSegmentGroups $mainSegmentGroups */
+        $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithUserInfo($id);
 
-        if (empty($mainSegments)) {
+        if (empty($mainSegmentGroups)) {
             return $this->sendError('Main Segments not found');
         }
 
-        return $this->sendResponse($mainSegments->toArray(), 'Main Segments retrieved successfully');
+        return $this->sendResponse($mainSegmentGroups->toArray(), 'Main Segments retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateMainSegmentsAPIRequest $request
+     * @param UpdateMainSegmentGroupsAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/main_segments/{id}",
-     *      summary="Update the specified MainSegments in storage",
-     *      tags={"MainSegments"},
-     *      description="Update MainSegments",
+     *      path="/main_segment_groups/{id}",
+     *      summary="Update the specified MainSegmentGroups in storage",
+     *      tags={"MainSegmentGroups"},
+     *      description="Update MainSegmentGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of MainSegments",
+     *          description="id of MainSegmentGroups",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -187,9 +187,9 @@ class MainSegmentsAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="MainSegments that should be updated",
+     *          description="MainSegmentGroups that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/MainSegments")
+     *          @SWG\Schema(ref="#/definitions/MainSegmentGroups")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -202,7 +202,7 @@ class MainSegmentsAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/MainSegments"
+     *                  ref="#/definitions/MainSegmentGroups"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -212,20 +212,20 @@ class MainSegmentsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateMainSegmentsAPIRequest $request)
+    public function update($id, UpdateMainSegmentGroupsAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var MainSegments $mainSegments */
-        $mainSegments = $this->mainSegmentsRepository->findWithoutFail($id);
+        /** @var MainSegmentGroups $mainSegmentGroups */
+        $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithoutFail($id);
 
-        if (empty($mainSegments)) {
+        if (empty($mainSegmentGroups)) {
             return $this->sendError('Main Segments not found');
         }
 
-        $mainSegments = $this->mainSegmentsRepository->update($input, $id);
+        $mainSegmentGroups = $this->mainSegmentGroupsRepository->update($input, $id);
 
-        return $this->sendResponse($mainSegments->toArray(), 'MainSegments updated successfully');
+        return $this->sendResponse($mainSegmentGroups->toArray(), 'MainSegmentGroups updated successfully');
     }
 
     /**
@@ -233,14 +233,14 @@ class MainSegmentsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/main_segments/{id}",
-     *      summary="Remove the specified MainSegments from storage",
-     *      tags={"MainSegments"},
-     *      description="Delete MainSegments",
+     *      path="/main_segment_groups/{id}",
+     *      summary="Remove the specified MainSegmentGroups from storage",
+     *      tags={"MainSegmentGroups"},
+     *      description="Delete MainSegmentGroups",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of MainSegments",
+     *          description="id of MainSegmentGroups",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -268,41 +268,41 @@ class MainSegmentsAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var MainSegments $mainSegments */
-        $mainSegments = $this->mainSegmentsRepository->findWithoutFail($id);
+        /** @var MainSegmentGroups $mainSegmentGroups */
+        $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithoutFail($id);
 
-        if (empty($mainSegments)) {
+        if (empty($mainSegmentGroups)) {
             return $this->sendError('Main Segments not found');
         }
 
-        $mainSegments->delete();
+        $mainSegmentGroups->delete();
 
         return $this->sendResponse($id, 'Main Segments deleted successfully');
     }
 
-    public function updateMainSegments($id, Request $request)
+    public function updateMainSegmentGroups($id, Request $request)
     {
-        foreach ($request->main_segments as $item) {
+        foreach ($request->main_segment_groups as $item) {
             if (!isset($item['id'])) {
-                $this->mainSegmentsRepository->create($item);
+                $this->mainSegmentGroupsRepository->create($item);
             }
 
             elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
 
-                $mainSegments = $this->mainSegmentsRepository->findWithoutFail($item['id']);
+                $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithoutFail($item['id']);
 
-                if (empty($mainSegments)) {
+                if (empty($mainSegmentGroups)) {
                     return $this->sendError('Main Segments not found');
                 }
-                $mainSegments->delete();
+                $mainSegmentGroups->delete();
             }
             else{
 
-                $this->mainSegmentsRepository->update($item, $item['id']);
+                $this->mainSegmentGroupsRepository->update($item, $item['id']);
             }
         }
-        $mainSegments = Users::find($id)->mainSegments()->get(['*']);
-        return $this->sendResponse($mainSegments, 'Main Segments updated successfully');
+        $mainSegmentGroups = Users::find($id)->mainSegmentGroups()->get(['*']);
+        return $this->sendResponse($mainSegmentGroups, 'Main Segments updated successfully');
 
     }
 }

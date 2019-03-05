@@ -1,52 +1,52 @@
 <?php
 
 use Faker\Factory as Faker;
-use App\Models\MainSegments;
-use App\Repositories\MainSegmentsRepository;
+use App\Models\MainSegmentGroups;
+use App\Repositories\MainSegmentGroupsRepository;
 
-trait MakeMainSegmentsTrait
+trait MakeMainSegmentGroupsTrait
 {
     /**
-     * Create fake instance of MainSegments and save it in database
+     * Create fake instance of MainSegmentGroups and save it in database
      *
-     * @param array $mainSegmentsFields
-     * @return MainSegments
+     * @param array $mainSegmentGroupsFields
+     * @return MainSegmentGroups
      */
-    public function makeMainSegments($mainSegmentsFields = [])
+    public function makeMainSegmentGroups($mainSegmentGroupsFields = [])
     {
-        /** @var MainSegmentsRepository $mainSegmentsRepo */
-        $mainSegmentsRepo = App::make(MainSegmentsRepository::class);
-        $theme = $this->fakeMainSegmentsData($mainSegmentsFields);
-        return $mainSegmentsRepo->create($theme);
+        /** @var MainSegmentGroupsRepository $mainSegmentGroupsRepo */
+        $mainSegmentGroupsRepo = App::make(MainSegmentGroupsRepository::class);
+        $theme = $this->fakeMainSegmentGroupsData($mainSegmentGroupsFields);
+        return $mainSegmentGroupsRepo->create($theme);
     }
 
     /**
-     * Get fake instance of MainSegments
+     * Get fake instance of MainSegmentGroups
      *
-     * @param array $mainSegmentsFields
-     * @return MainSegments
+     * @param array $mainSegmentGroupsFields
+     * @return MainSegmentGroups
      */
-    public function fakeMainSegments($mainSegmentsFields = [])
+    public function fakeMainSegmentGroups($mainSegmentGroupsFields = [])
     {
-        return new MainSegments($this->fakeMainSegmentsData($mainSegmentsFields));
+        return new MainSegmentGroups($this->fakeMainSegmentGroupsData($mainSegmentGroupsFields));
     }
 
     /**
-     * Get fake data of MainSegments
+     * Get fake data of MainSegmentGroups
      *
      * @param array $postFields
      * @return array
      */
-    public function fakeMainSegmentsData($mainSegmentsFields = [])
+    public function fakeMainSegmentGroupsData($mainSegmentGroupsFields = [])
     {
         $fake = Faker::create();
 
         return array_merge([
             'user_id' => $fake->randomDigitNotNull,
-            'segment_id' => $fake->randomDigitNotNull,
+            'segment_group_id' => $fake->randomDigitNotNull,
             'percent' => $fake->randomDigitNotNull,
             'created_at' => $fake->word,
             'updated_at' => $fake->word
-        ], $mainSegmentsFields);
+        ], $mainSegmentGroupsFields);
     }
 }

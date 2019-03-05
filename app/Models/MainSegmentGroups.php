@@ -6,8 +6,8 @@ use Eloquent as Model;
 
 /**
  * @SWG\Definition(
- *      definition="MainSegments",
- *      required={"user_id", "segment_id"},
+ *      definition="MainSegmentGroups",
+ *      required={"user_id", "segment_group_id"},
  *      @SWG\Property(
  *          property="id",
  *          description="id",
@@ -21,8 +21,8 @@ use Eloquent as Model;
  *          format="int32"
  *      ),
  *      @SWG\Property(
- *          property="segment_id",
- *          description="segment_id",
+ *          property="segment_group_id",
+ *          description="segment_group_id",
  *          type="integer",
  *          format="int32"
  *      ),
@@ -46,16 +46,16 @@ use Eloquent as Model;
  *      )
  * )
  */
-class MainSegments extends Model
+class MainSegmentGroups extends Model
 {
 
-    public $table = 'main_segments';
+    public $table = 'main_segment_groups';
     
 
 
     public $fillable = [
         'user_id',
-        'segment_id',
+        'segment_group_id',
         'percent'
     ];
 
@@ -66,7 +66,7 @@ class MainSegments extends Model
      */
     protected $casts = [
         'user_id' => 'integer',
-        'segment_id' => 'integer',
+        'segment_group_id' => 'integer',
         'percent' => 'float'
     ];
 
@@ -77,7 +77,7 @@ class MainSegments extends Model
      */
     public static $rules = [
         'user_id' => 'required',
-        'segment_id' => 'required'
+        'segment_group_id' => 'required'
     ];
 
     protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'pivot'];
