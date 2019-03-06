@@ -95,9 +95,11 @@ class UserController extends RestController
         $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
         $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
+        $role                = $user->roles()->get();
 
         $user['role_type_ids']         = $role_type_ids;
         $user['role_id']               = $roles;
+        $user['role']                  = $role;
         $user['main_product_groups']   = $mainProductGroups;
         $user['main_services']         = $mainServices;
         $user['main_material_groups']  = $mainMaterialGroups;
@@ -281,7 +283,7 @@ class UserController extends RestController
             'role_id'                      => $request->post('role_id'),
             'phone'                        => $request->post('phone'),
             'type'                         => $request->post('type'),
-            'country_id'                      => $request->post('country_id'),
+            'country_id'                   => $request->post('country_id'),
             'company_name'                 => $request->post('company_name'),
             'company_address'              => $request->post('company_address'),
             'brief_name'                   => $request->post('brief_name'),
@@ -517,6 +519,15 @@ class UserController extends RestController
             'brands' => $request->brands
         ]);
         return response()->json(['success' => true, 'data' => [], 'message' => 'Update brands successfully'], 200);
+    }
+
+    public function updatePermissions(Request $request)
+    {
+        $role_id = $request->role_id;
+        $permission_ids = json_decode($request->permission_ids);
+        Role::find($role_id)->syncPermissions($permission_ids);
+        $permissions = Role::find($role_id)->permissions();
+        return response()->json(['success' => true, 'data' =>$permissions , 'message' => 'Update permissions successfully'], 200);
 
     }
 

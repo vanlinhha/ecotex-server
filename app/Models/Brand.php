@@ -44,8 +44,6 @@ class Brand extends Model
 
     public $table = 'brands';
     
-
-
     public $fillable = [
         'user_id',
         'name'

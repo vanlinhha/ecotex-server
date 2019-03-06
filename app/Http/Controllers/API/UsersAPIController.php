@@ -390,7 +390,7 @@ class UsersAPIController extends AppBaseController
             unset($input['password']);
         }
 
-        $users = $this->usersRepository->update($input, $id);
+        $user = $this->usersRepository->update($input, $id);
 
         if ($user->roles()->get(['id'])->count()) {
             $roles = $user->roles()->get()[0]['id'];
@@ -415,7 +415,7 @@ class UsersAPIController extends AppBaseController
         $user['main_target_groups']    = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
 
-        return $this->sendResponse($users->toArray(), 'Users updated successfully');
+        return $this->sendResponse($user->toArray(), 'Users updated successfully');
     }
 
     /**

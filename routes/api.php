@@ -19,7 +19,7 @@ Route::get('/403', function (){
 Route::post('/sign_up', 'UserController@register');
 Route::delete('/log_out', 'UserController@logOut');
 Route::post('/login', 'UserController@authenticate');
-Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile']);
+Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile', 'role:administrator']);
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/user', 'UserController@getAuthenticatedUser');
     Route::get('/closed', 'DataController@closed');
@@ -29,15 +29,19 @@ Route::resource('users', 'UsersAPIController');
 
 // Get all roles of system
 Route::get('/roles', 'UserController@getAllRoles');
+// Get all permissions of system
 Route::get('/permissions', 'UserController@getAllPermissions');
 //Get all inactivated users
-
 Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
+//Get all users
 Route::get('/all_users', 'UsersAPIController@getAllUser');
+//Verify users
 Route::put('/verify_users', 'UsersAPIController@verifyUsers');
+//Verify user by activation code
 Route::get('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
 
 Route::get('/product_groups/all_parent/', 'ProductGroupsAPIController@showParentProductGroups');
+
 Route::get('/product_groups/parent_with_children/', 'ProductGroupsAPIController@getProductCategoryByParent');
 
 Route::resource('product_groups', 'ProductGroupsAPIController');
@@ -77,3 +81,6 @@ Route::put('/users/main_targets/{id}', 'MainTargetsAPIController@updateMainTarge
 Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
 
 Route::resource('main_export_countries', 'MainExportCountriesAPIController');
+
+Route::put('/roles/update_permissions', 'UserController@updatePermissions');
+

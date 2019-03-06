@@ -45,6 +45,8 @@ class LaratrustSeeder extends Seeder
             // Create a new role
             $role = \App\Role::create([
                 'name'        => $key,
+                'is_enterprise'  => in_array($key, ['enterprise buyer', 'paid supplier', 'supplier', 'paid manufacture', 'manufacture'])? 1 : 0,
+                'is_paid'     => in_array($key, ['paid supplier', 'paid manufacture']) ? 1 : 0,
                 //                'display_name' => ucwords(str_replace('_', ' ', $key)),
                 'description' => ucwords(str_replace('_', ' ', $key))
             ]);
