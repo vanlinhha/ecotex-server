@@ -284,7 +284,7 @@ class MainTargetsAPIController extends AppBaseController
     public function updateMainTargets($id, Request $request)
     {
         foreach ($request->main_targets as $item) {
-            if (!isset($item['id'])) {
+            if ($item['id'] == 'null' || $item['id'] == null) {
                 $this->mainTargetsRepository->create($item);
             }
 

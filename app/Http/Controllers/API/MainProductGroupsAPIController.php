@@ -300,7 +300,7 @@ class MainProductGroupsAPIController extends AppBaseController
     public function updateMainProductGroups($id, Request $request)
     {
         foreach ($request->main_product_groups as $item) {
-            if (!isset($item['id'])) {
+            if ($item['id'] == 'null' || $item['id'] == null) {
                 $this->mainProductGroupsRepository->create($item);
             }
 

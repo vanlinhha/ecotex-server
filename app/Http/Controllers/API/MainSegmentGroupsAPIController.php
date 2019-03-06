@@ -283,7 +283,7 @@ class MainSegmentGroupsAPIController extends AppBaseController
     public function updateMainSegmentGroups($id, Request $request)
     {
         foreach ($request->main_segment_groups as $item) {
-            if (!isset($item['id'])) {
+            if ($item['id'] == 'null' || $item['id'] == null) {
                 $this->mainSegmentGroupsRepository->create($item);
             }
 

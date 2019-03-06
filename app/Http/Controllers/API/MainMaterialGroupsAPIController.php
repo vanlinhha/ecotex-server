@@ -283,7 +283,7 @@ class MainMaterialGroupsAPIController extends AppBaseController
     public function updateMainMaterialGroups($id, Request $request)
     {
         foreach ($request->main_material_groups as $item) {
-            if (!isset($item['id'])) {
+            if ($item['id'] == 'null' || $item['id'] == null) {
                 $this->mainMaterialGroupsRepository->create($item);
             }
 

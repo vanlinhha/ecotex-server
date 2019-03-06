@@ -272,7 +272,7 @@ class MainExportCountriesAPIController extends AppBaseController
     public function updateMainExportCountries($id, Request $request)
     {
         foreach ($request->main_export_countries as $item) {
-            if (!isset($item['id'])) {
+            if ($item['id'] == 'null' || $item['id'] == null) {
                 $this->mainExportCountriesRepository->create($item);
             }
 
