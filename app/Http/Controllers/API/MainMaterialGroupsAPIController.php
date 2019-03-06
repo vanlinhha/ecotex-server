@@ -288,9 +288,7 @@ class MainMaterialGroupsAPIController extends AppBaseController
             }
 
             elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
-
                 $mainMaterialGroups = $this->mainMaterialGroupsRepository->findWithoutFail($item['id']);
-
                 if (empty($mainMaterialGroups)) {
                     return $this->sendError('Main material groups not found');
                 }

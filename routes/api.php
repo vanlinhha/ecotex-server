@@ -27,11 +27,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
 Route::resource('users', 'UsersAPIController');
 
-// Get all roles of system
-Route::get('/roles', 'UserController@getAllRoles');
-// Get all permissions of system
-Route::get('/permissions', 'UserController@getAllPermissions');
-//Get all inactivated users
+
 Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
 //Get all users
 Route::get('/all_users', 'UsersAPIController@getAllUser');
@@ -82,5 +78,17 @@ Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIControlle
 
 Route::resource('main_export_countries', 'MainExportCountriesAPIController');
 
+//Route::put('/roles/update_permissions', 'UserController@updatePermissions')->middleware(['jwt.verify','role:administrator']);
 Route::put('/roles/update_permissions', 'UserController@updatePermissions');
+//attach role to user
+Route::put('/roles/attach_role_user', 'UserController@attachRoleUser');
+//detach role to user
+Route::put('/roles/detach_role_user', 'UserController@detachRoleUser');
+// Get all roles of system
+Route::get('/roles', 'UserController@getAllRoles');
+// Get all permissions of role
+Route::get('/roles/{id}/permissions', 'UserController@getRolePermissions');
+// Get all permissions of system
+Route::get('/permissions', 'UserController@getAllPermissions');
+//Get all inactivated users
 

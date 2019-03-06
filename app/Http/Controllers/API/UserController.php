@@ -97,9 +97,9 @@ class UserController extends RestController
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
         $role                = $user->roles()->get();
 
+        $user['role']                  = $role;
         $user['role_type_ids']         = $role_type_ids;
         $user['role_id']               = $roles;
-        $user['role']                  = $role;
         $user['main_product_groups']   = $mainProductGroups;
         $user['main_services']         = $mainServices;
         $user['main_material_groups']  = $mainMaterialGroups;
@@ -401,6 +401,57 @@ class UserController extends RestController
 
     /**
      *
+     * @SWG\Put(
+     *      path="/users/brands/{id}",
+     *      summary="Update brands for company",
+     *      tags={"Users"},
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="id",
+     *          description="id of Users",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *     @SWG\Parameter(
+     *     name="brands",
+     *     description="ID of the order that needs to be deleted",
+     *     type="object",
+     *     in="body",
+     *     @SWG\Schema(ref="#/definitions/Users"),
+     *     ),
+     *
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  type="string"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function updateBrands($id, Request $request)
+    {
+        Users::findOrFail($id)->update([
+            'brands' => $request->brands
+        ]);
+        return response()->json(['success' => true, 'data' => [], 'message' => 'Update brands successfully'], 200);
+    }
+
+    /**
+     *
      * @SWG\Get(
      *      path="/roles",
      *      summary="Get a listing of the Roles.",
@@ -469,65 +520,70 @@ class UserController extends RestController
         return response()->json(['success' => true, 'data' => Permission::all(), 'message' => 'Permissions retrieved successfully'], 200);
     }
 
-    /**
-     *
-     * @SWG\Put(
-     *      path="/users/brands/{id}",
-     *      summary="Update brands for company",
-     *      tags={"Users"},
-     *      produces={"application/json"},
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Users",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *     @SWG\Parameter(
-     *     name="brands",
-     *     description="ID of the order that needs to be deleted",
-     *     type="object",
-     *     in="body",
-     *     @SWG\Schema(ref="#/definitions/Users"),
-     *     ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-
-    public function updateBrands($id, Request $request)
-    {
-        Users::findOrFail($id)->update([
-            'brands' => $request->brands
-        ]);
-        return response()->json(['success' => true, 'data' => [], 'message' => 'Update brands successfully'], 200);
-    }
-
     public function updatePermissions(Request $request)
     {
-        $role_id = $request->role_id;
+        $role = Role::find($request->role_id);
+        if (empty($role)) {
+            return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+        }
         $permission_ids = json_decode($request->permission_ids);
-        Role::find($role_id)->syncPermissions($permission_ids);
-        $permissions = Role::find($role_id)->permissions();
-        return response()->json(['success' => true, 'data' =>$permissions , 'message' => 'Update permissions successfully'], 200);
+        $role->syncPermissions($permission_ids);
+        $permissions = $role->permissions()->get();
+        return response()->json(['success' => true, 'data' => $permissions, 'message' => 'Update permissions successfully'], 200);
+    }
+
+    public function getRolePermissions($id, Request $request)
+    {
+        $role = Role::find($id);
+        if (empty($role)) {
+            return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+        }
+
+        $permissions = $role->permissions()->get();
+        return response()->json(['success' => true, 'data' => $permissions, 'message' => 'Permissions retrieved successfully'], 200);
+    }
+
+    public function attachRoleUser(Request $request)
+    {
+        $role = Role::find($request->role_id);
+        if (empty($role)) {
+            return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+        }
+
+        $user = Users::find($request->user_id);
+        if (empty($user)) {
+            return response()->json(['success' => false, 'data' => [], 'message' => 'User not found'], 404);
+        }
+
+        if ($user->hasRole([$role['name']])) {
+            return response()->json(['success' => false, 'data' => [], 'message' => 'User already have this role'], 422);
+        }
+
+        $user->attachRole($role);
+
+        return response()->json(['success' => true, 'data' => $user->roles()->get(), 'message' => 'Attach role to user successfully'], 200);
+    }
+
+    public function detachRoleUser(Request $request)
+    {
+        $role = Role::find($request->role_id);
+        if (empty($role)) {
+            return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+        }
+
+        $user = Users::find($request->user_id);
+        if (empty($user)) {
+            return response()->json(['success' => false, 'data' => [], 'message' => 'User not found'], 404);
+        }
+
+        if ($user->hasRole($role['name'])) {
+            $user->detachRole($role);
+            return response()->json(['success' => true, 'data' => $user->roles()->get(), 'message' => 'Detach role to user successfully'], 200);
+        }
+        else{
+            return response()->json(['success' => false, 'data' => [], 'message' => 'User does not have this role yet'], 422);
+        }
+
 
     }
 
