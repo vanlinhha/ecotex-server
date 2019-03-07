@@ -76,6 +76,8 @@ Route::put('/users/main_targets/{id}', 'MainTargetsAPIController@updateMainTarge
 
 Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
 
+Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
+
 Route::resource('main_export_countries', 'MainExportCountriesAPIController');
 
 //Route::put('/roles/update_permissions', 'UserController@updatePermissions')->middleware(['jwt.verify','role:administrator']);

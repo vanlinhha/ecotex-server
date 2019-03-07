@@ -17,7 +17,6 @@ use Response;
  * Class MainProductGroupsController
  * @package App\Http\Controllers\API
  */
-
 class MainProductGroupsAPIController extends AppBaseController
 {
     /** @var  MainProductGroupsRepository */
@@ -300,11 +299,12 @@ class MainProductGroupsAPIController extends AppBaseController
     public function updateMainProductGroups($id, Request $request)
     {
         foreach ($request->main_product_groups as $item) {
+            if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
+                continue;
+            }
             if ($item['id'] == 'null' || $item['id'] == null) {
                 $this->mainProductGroupsRepository->create($item);
-            }
-
-            elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+            } elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
 
                 $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($item['id']);
 
@@ -312,8 +312,7 @@ class MainProductGroupsAPIController extends AppBaseController
                     return $this->sendError('Main product groups not found');
                 }
                 $mainProductGroups->delete();
-            }
-            else{
+            } else {
 
                 $this->mainProductGroupsRepository->update($item, $item['id']);
             }

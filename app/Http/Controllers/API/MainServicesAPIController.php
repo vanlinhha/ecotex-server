@@ -282,6 +282,9 @@ class MainServicesAPIController extends AppBaseController
     public function updateMainServices($id, Request $request)
     {
         foreach ($request->main_services as $item) {
+            if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
+                continue;
+            }
             if ($item['id'] == 'null' || $item['id'] == null) {
                 $this->mainServicesRepository->create($item);
             }
