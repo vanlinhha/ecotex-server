@@ -317,7 +317,7 @@ class MainProductGroupsAPIController extends AppBaseController
                 $this->mainProductGroupsRepository->update($item, $item['id']);
             }
         }
-        $mainProductGroups = Users::find($id)->mainProductGroups()->get(['*']);
+        $mainProductGroups = Users::find($id)->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
         return $this->sendResponse($mainProductGroups, 'Main product groups updated successfully');
 
     }

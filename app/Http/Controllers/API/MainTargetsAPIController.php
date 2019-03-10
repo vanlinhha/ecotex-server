@@ -305,7 +305,7 @@ class MainTargetsAPIController extends AppBaseController
                 $this->mainTargetsRepository->update($item, $item['id']);
             }
         }
-        $mainTargets = Users::find($id)->mainTargets()->get(['*']);
+        $mainTargets = Users::find($id)->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
         return $this->sendResponse($mainTargets, 'Main targets updated successfully');
 
     }
