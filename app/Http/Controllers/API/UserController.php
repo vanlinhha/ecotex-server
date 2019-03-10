@@ -540,7 +540,7 @@ class UserController extends RestController
         return response()->json(['success' => true, 'data' => $permissions, 'message' => 'Permissions retrieved successfully'], 200);
     }
 
-    public function attachRoleUser(Request $request)
+    public function syncRoleUser(Request $request)
     {
         $role = Role::find($request->role_id);
         if (empty($role)) {
@@ -552,37 +552,21 @@ class UserController extends RestController
             return response()->json(['success' => false, 'data' => [], 'message' => 'User not found'], 404);
         }
 
-        if ($user->hasRole([$role['name']])) {
-            return response()->json(['success' => false, 'data' => [], 'message' => 'User already have this role'], 422);
-        }
+        $user->syncRoles([intval($request->role_id)]);
 
-        $user->attachRole($role);
-
-        return response()->json(['success' => true, 'data' => $user->roles()->get(), 'message' => 'Attach role to user successfully'], 200);
+        return response()->json(['success' => true, 'data' => $user->roles()->get(), 'message' => 'Sync role to user successfully'], 200);
     }
 
-    public function detachRoleUser(Request $request)
-    {
-        $role = Role::find($request->role_id);
-        if (empty($role)) {
-            return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+    public function getAllRolesAndPermissions(){
+        $roles = Role::all();
+        if(!count($roles)){
+            return response()->json(['success' => false, 'data' => $roles, 'message' => 'No roles found'], 404);
         }
-
-        $user = Users::find($request->user_id);
-        if (empty($user)) {
-            return response()->json(['success' => false, 'data' => [], 'message' => 'User not found'], 404);
+        foreach ($roles as $role){
+            $role['permissions'] = Role::find($role['id'])->permissions()->get();
         }
-
-        if ($user->hasRole($role['name'])) {
-            $user->detachRole($role);
-            return response()->json(['success' => true, 'data' => $user->roles()->get(), 'message' => 'Detach role to user successfully'], 200);
-        }
-        else{
-            return response()->json(['success' => false, 'data' => [], 'message' => 'User does not have this role yet'], 422);
-        }
-
+        return response()->json(['success' => true, 'data' => $roles, 'message' => 'Roles and permissions retrieved successfully'], 200);
 
     }
-
 
 }

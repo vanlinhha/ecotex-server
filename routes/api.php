@@ -82,15 +82,15 @@ Route::resource('main_export_countries', 'MainExportCountriesAPIController');
 
 //Route::put('/roles/update_permissions', 'UserController@updatePermissions')->middleware(['jwt.verify','role:administrator']);
 Route::put('/roles/update_permissions', 'UserController@updatePermissions');
-//attach role to user
-Route::put('/roles/attach_role_user', 'UserController@attachRoleUser');
-//detach role to user
-Route::put('/roles/detach_role_user', 'UserController@detachRoleUser');
+//sync role to user
+Route::put('/roles/sync_role_user', 'UserController@syncRoleUser');
 // Get all roles of system
 Route::get('/roles', 'UserController@getAllRoles');
 // Get all permissions of role
 Route::get('/roles/{id}/permissions', 'UserController@getRolePermissions');
 // Get all permissions of system
 Route::get('/permissions', 'UserController@getAllPermissions');
+
+Route::get('/all_roles_and_permissions', 'UserController@getAllRolesAndPermissions');
 //Get all inactivated users
 

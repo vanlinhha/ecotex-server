@@ -194,11 +194,6 @@ class LaratrustSeeder extends Seeder
                             'user_id'          => $user->id,
                             'product_group_id' => random_int(1, 5),
                             'percent'          => random_int(30, 40)
-                        ],
-                        [
-                            'user_id'          => $user->id,
-                            'product_group_id' => random_int(1, 5),
-                            'percent'          => random_int(30, 40)
                         ]
                     ]
 
@@ -206,11 +201,6 @@ class LaratrustSeeder extends Seeder
 
                 DB::table('main_material_groups')->insert([
 
-                        [
-                            'user_id'           => $user->id,
-                            'material_group_id' => random_int(1, 5),
-                            'percent'           => random_int(30, 40)
-                        ],
                         [
                             'user_id'           => $user->id,
                             'material_group_id' => random_int(1, 5),
@@ -226,11 +216,6 @@ class LaratrustSeeder extends Seeder
                             'user_id'          => $user->id,
                             'segment_group_id' => random_int(1, 4),
                             'percent'          => random_int(30, 45)
-                        ],
-                        [
-                            'user_id'          => $user->id,
-                            'segment_group_id' => random_int(1, 4),
-                            'percent'          => random_int(30, 40)
                         ]
                     ]
 
@@ -238,11 +223,6 @@ class LaratrustSeeder extends Seeder
 
                 DB::table('main_targets')->insert([
 
-                        [
-                            'user_id'         => $user->id,
-                            'target_group_id' => random_int(1, 4),
-                            'percent'         => random_int(30, 40)
-                        ],
                         [
                             'user_id'         => $user->id,
                             'target_group_id' => random_int(1, 4),
@@ -321,10 +301,6 @@ class LaratrustSeeder extends Seeder
                                 [
                                     'user_id'    => $user->id,
                                     'service_id' => random_int(1, 3),
-                                ],
-                                [
-                                    'user_id'    => $user->id,
-                                    'service_id' => random_int(1, 3),
                                 ]
                             ]
 
@@ -332,11 +308,6 @@ class LaratrustSeeder extends Seeder
 
                         DB::table('main_export_countries')->insert([
 
-                                [
-                                    'user_id'    => $user->id,
-                                    'country_id' => random_int(1, 249),
-                                    'percent'    => random_int(30, 40)
-                                ],
                                 [
                                     'user_id'    => $user->id,
                                     'country_id' => random_int(1, 249),
@@ -352,11 +323,6 @@ class LaratrustSeeder extends Seeder
                                     'user_id'          => $user->id,
                                     'product_group_id' => random_int(1, 5),
                                     'percent'          => random_int(30, 40)
-                                ],
-                                [
-                                    'user_id'          => $user->id,
-                                    'product_group_id' => random_int(1, 5),
-                                    'percent'          => random_int(30, 40)
                                 ]
                             ]
 
@@ -364,11 +330,6 @@ class LaratrustSeeder extends Seeder
 
                         DB::table('main_segment_groups')->insert([
 
-                                [
-                                    'user_id'          => $user->id,
-                                    'segment_group_id' => random_int(1, 4),
-                                    'percent'          => random_int(30, 40)
-                                ],
                                 [
                                     'user_id'          => $user->id,
                                     'segment_group_id' => random_int(1, 4),
@@ -381,11 +342,6 @@ class LaratrustSeeder extends Seeder
 
                         DB::table('main_targets')->insert([
 
-                                [
-                                    'user_id'         => $user->id,
-                                    'target_group_id' => random_int(1, 4),
-                                    'percent'         => random_int(30, 40)
-                                ],
                                 [
                                     'user_id'         => $user->id,
                                     'target_group_id' => random_int(1, 4),
