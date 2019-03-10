@@ -283,7 +283,7 @@ class MainTargetsAPIController extends AppBaseController
 
     public function updateMainTargets($id, Request $request)
     {
-        foreach ($request->main_targets as $item) {
+        foreach ($request->main_target_groups as $item) {
             if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
                 continue;
             }
