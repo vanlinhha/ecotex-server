@@ -302,7 +302,7 @@ class MainMaterialGroupsAPIController extends AppBaseController
                 $this->mainMaterialGroupsRepository->update($item, $item['id']);
             }
         }
-        $mainMaterialGroups = Users::find($id)->mainMaterialGroups()->get(['*']);
+        $mainMaterialGroups = Users::find($id)->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
         return $this->sendResponse($mainMaterialGroups, 'Main material groups updated successfully');
 
     }

@@ -3215,14 +3215,14 @@
                         "type": "string"
                     },
                     {
-                        "name": "country",
+                        "name": "country_id",
                         "in": "query",
                         "description": "Users that should be updated",
                         "required": false,
                         "schema": {
                             "$ref": "#/definitions/Users"
                         },
-                        "type": "string"
+                        "type": "integer"
                     },
                     {
                         "name": "company_name",
@@ -3338,6 +3338,54 @@
                 }
             }
         },
+        "/users/brands/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update brands for company",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Users",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "brands",
+                        "in": "body",
+                        "description": "ID of the order that needs to be deleted",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/roles": {
             "get": {
                 "tags": [
@@ -3395,54 +3443,6 @@
                                     "items": {
                                         "$ref": "#/definitions/Users"
                                     }
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/brands/{id}": {
-            "put": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Update brands for company",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id of Users",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "brands",
-                        "in": "body",
-                        "description": "ID of the order that needs to be deleted",
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        },
-                        "type": "object"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "properties": {
-                                "success": {
-                                    "type": "boolean"
-                                },
-                                "data": {
-                                    "type": "string"
                                 },
                                 "message": {
                                     "type": "string"
@@ -3911,6 +3911,10 @@
                     "description": "name",
                     "type": "string"
                 },
+                "code": {
+                    "description": "name",
+                    "type": "string"
+                },
                 "created_at": {
                     "description": "created_at",
                     "type": "string",
@@ -4035,7 +4039,7 @@
         "MainSegmentGroups": {
             "required": [
                 "user_id",
-                "segment_id"
+                "segment_group_id"
             ],
             "properties": {
                 "id": {
@@ -4048,8 +4052,8 @@
                     "type": "integer",
                     "format": "int32"
                 },
-                "segment_id": {
-                    "description": "segment_id",
+                "segment_group_id": {
+                    "description": "segment_group_id",
                     "type": "integer",
                     "format": "int32"
                 },
@@ -4417,8 +4421,8 @@
                     "description": "phone",
                     "type": "string"
                 },
-                "country": {
-                    "description": "country",
+                "country_id": {
+                    "description": "country_id",
                     "type": "string"
                 },
                 "company_name": {

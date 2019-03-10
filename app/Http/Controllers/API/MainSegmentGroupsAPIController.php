@@ -305,7 +305,7 @@ class MainSegmentGroupsAPIController extends AppBaseController
                 $this->mainSegmentGroupsRepository->update($item, $item['id']);
             }
         }
-        $mainSegmentGroups = Users::find($id)->mainSegmentGroups()->get(['*']);
+        $mainSegmentGroups = Users::find($id)->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
         return $this->sendResponse($mainSegmentGroups, 'Main Segments updated successfully');
 
     }

@@ -292,7 +292,7 @@ class MainExportCountriesAPIController extends AppBaseController
                 $this->mainExportCountriesRepository->update($item, $item['id']);
             }
         }
-        $mainExportCountries = Users::find($id)->mainExportCountries()->get(['*']);
+        $mainExportCountries = Users::find($id)->mainExportCountries()->get(['*', 'country_id', 'percent']);
         return $this->sendResponse($mainExportCountries, 'Main export countries updated successfully');
 
     }
