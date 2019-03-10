@@ -182,7 +182,6 @@ class Users extends Authenticatable implements JWTSubject
     public $fillable = [
         'email',
         'password',
-        'type',
         'first_name',
         'last_name',
         'phone',
@@ -192,7 +191,6 @@ class Users extends Authenticatable implements JWTSubject
         'company_address',
         'website',
         'description',
-        'is_paid',
         'address',
         'identity_card',
         'establishment_year',
@@ -219,7 +217,6 @@ class Users extends Authenticatable implements JWTSubject
     protected $casts = [
         'email' => 'string',
         'password' => 'string',
-        'type' => 'string',
         'first_name' => 'string',
         'last_name' => 'string',
         'phone' => 'string',
@@ -229,7 +226,6 @@ class Users extends Authenticatable implements JWTSubject
         'company_address' => 'string',
         'website' => 'string',
         'description' => 'string',
-        'is_paid' => 'integer',
         'address' => 'string',
         'identity_card' => 'string',
         'establishment_year' => 'integer',

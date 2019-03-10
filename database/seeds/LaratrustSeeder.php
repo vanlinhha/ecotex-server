@@ -22,8 +22,6 @@ class LaratrustSeeder extends Seeder
             'last_name'              => $faker->lastName,
             'email'                  => 'admin@gmail.com',
             'password'               => bcrypt('123456'),
-            'type'                   => 'enterprise',
-            'role_id'                => 1,
             'phone'                  => $faker->phoneNumber,
             'country_id'             => random_int(1, 239),
             'company_name'           => $faker->company,
@@ -31,7 +29,6 @@ class LaratrustSeeder extends Seeder
             'company_address'        => $faker->address,
             'website'                => $faker->address,
             'description'            => $faker->sentence(),
-            'is_paid'                => random_int(0, 1),
             'minimum_order_quantity' => random_int(1, 5),
             'is_activated'           => 1,
         ]);
@@ -113,8 +110,6 @@ class LaratrustSeeder extends Seeder
                         'last_name'              => $faker->lastName,
                         'email'                  => $faker->companyEmail,
                         'password'               => bcrypt('123456'),
-                        'type'                   => 'personal',
-                        'role_id'                => random_int(1, 5),
                         'phone'                  => $faker->phoneNumber,
                         'country_id'             => random_int(1, 239),
                         'company_name'           => $faker->company,
@@ -122,7 +117,6 @@ class LaratrustSeeder extends Seeder
                         'company_address'        => $faker->address,
                         'website'                => $faker->address,
                         'description'            => $faker->sentence(),
-                        'is_paid'                => random_int(0, 1),
                         'minimum_order_quantity' => random_int(1, 5),
 
                         //personal
@@ -137,8 +131,6 @@ class LaratrustSeeder extends Seeder
                         'last_name'                    => $faker->lastName,
                         'email'                        => $faker->companyEmail,
                         'password'                     => bcrypt('123456'),
-                        'type'                         => 'enterprise',
-                        'role_id'                      => random_int(1, 5),
                         'phone'                        => $faker->phoneNumber,
                         'country_id'                   => random_int(1, 239),
                         'company_name'                 => $faker->company,
@@ -146,7 +138,6 @@ class LaratrustSeeder extends Seeder
                         'company_address'              => $faker->address,
                         'website'                      => $faker->address,
                         'description'                  => $faker->sentence(),
-                        'is_paid'                      => random_int(0, 1),
                         'minimum_order_quantity'       => random_int(1, 5),
 
 
@@ -279,8 +270,6 @@ class LaratrustSeeder extends Seeder
                                 'last_name'              => $faker->lastName,
                                 'email'                  => $faker->companyEmail,
                                 'password'               => bcrypt('password'),
-                                'type'                   => 'personal',
-                                'role_id'                => random_int(1, 5),
                                 'phone'                  => $faker->phoneNumber,
                                 'country_id'             => random_int(1, 239),
                                 'company_name'           => $faker->company,
@@ -288,7 +277,6 @@ class LaratrustSeeder extends Seeder
                                 'company_address'        => $faker->address,
                                 'website'                => $faker->address,
                                 'description'            => $faker->sentence(),
-                                'is_paid'                => random_int(0, 1),
                                 'minimum_order_quantity' => random_int(1, 5),
 
                                 //personal
@@ -303,8 +291,6 @@ class LaratrustSeeder extends Seeder
                                 'last_name'                    => $faker->lastName,
                                 'email'                        => $faker->companyEmail,
                                 'password'                     => bcrypt('password'),
-                                'type'                         => 'enterprise',
-                                'role_id'                      => random_int(1, 5),
                                 'phone'                        => $faker->phoneNumber,
                                 'country_id'                   => random_int(1, 239),
                                 'company_name'                 => $faker->company,
@@ -312,7 +298,6 @@ class LaratrustSeeder extends Seeder
                                 'company_address'              => $faker->address,
                                 'website'                      => $faker->address,
                                 'description'                  => $faker->sentence(),
-                                'is_paid'                      => random_int(0, 1),
                                 'minimum_order_quantity'       => random_int(1, 5),
 
                                 //enterprise

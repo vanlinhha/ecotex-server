@@ -17,8 +17,6 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('email');
             $table->string('password');
-            $table->string('type');
-            $table->string('role_id');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone')->nullable();
@@ -28,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->string('company_address')->nullable();
             $table->string('website')->nullable();
             $table->string('description')->nullable();
-            $table->integer('is_paid')->default(0);
             $table->integer('minimum_order_quantity')->nullable();
             $table->string('address')->nullable();
             $table->string('identity_card')->nullable();
