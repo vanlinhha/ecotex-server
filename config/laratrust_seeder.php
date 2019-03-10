@@ -6,39 +6,80 @@ return [
         'administrator' => [
             'users'   => 'c,r,u,d',
             'acl'     => 'c,r,u,d',
-            'profile' => 'r,u'
+            'profile' => 'r,u',
+        ],
+
+        'personal buyer' => [
+            'users'     => 'c,r,u,d',
+            'ou'        => 'c,r,u,d',
+            'news_feed' => 'r',
+            'posting'   => 'c,r,u,d',
+            'order'   => 'c,r,u,d',
+            'messaging'   => 'c,r,u,d',
+            'evaluating'   => 'c,r,u,d',
         ],
 
         'buyer' => [
-            'users' => 'c,r,u,d',
-            'ou'    => 'c,r,u,d',
-        ],
+            'users'     => 'c,r,u,d',
+            'ou'        => 'c,r,u,d',
+            'news_feed' => 'r',
+            'posting'   => 'c,r,u,d',
+            'order'   => 'c,r,u,d',
+            'messaging'   => 'c,r,u,d',
+            'evaluating'   => 'c,r,u,d',
 
-        'enterprise buyer' => [
-            'users' => 'c,r,u,d',
-            'ou'    => 'c,r,u,d',
         ],
 
         'supplier' => [
-            'users' => 'c,r,u,d',
-            'ou'    => 'c,r,u,d',
+            'users'     => 'c,r,u,d',
+            'ou'        => 'c,r,u,d',
+            'showroom'  => 'c,r,u,d',
+            'news_feed' => 'r',
+            'posting'   => 'c,r,u,d',
+            'order'   => 'c,r,u,d',
+            'messaging'   => 'c,r,u,d',
+            'evaluating'   => 'c,r,u,d',
+
         ],
 
         'paid supplier' => [
-            'users' => 'c,r,u,d',
-            'ou'    => 'c,r,u,d',
+            'users'     => 'c,r,u,d',
+            'ou'        => 'c,r,u,d',
+            'showroom'  => 'c,r,u,d',
+            'news_feed' => 'r',
+            'posting'   => 'c,r,u,d',
+            'order'   => 'c,r,u,d',
+            'messaging'   => 'c,r,u,d',
+            'evaluating'   => 'c,r,u,d',
+
         ],
 
         'manufacture' => [
-            'profile' => 'r,u'
+            'profile'   => 'r,u',
+            'showroom'  => 'c,r,u,d',
+            'news_feed' => 'r',
+            'posting'   => 'c,r,u,d',
+            'order'   => 'c,r,u,d',
+            'messaging'   => 'c,r,u,d',
+            'evaluating'   => 'c,r,u,d',
+
         ],
 
         'paid manufacture' => [
-            'profile' => 'r,u'
+            'profile'   => 'r,u',
+            'showroom'  => 'c,r,u,d',
+            'news_feed' => 'r',
+            'posting'   => 'c,r,u,d',
+            'order'   => 'c,r,u,d',
+            'messaging'   => 'c,r,u,d',
+            'evaluating'   => 'c,r,u,d',
+
+
         ],
 
         'human resource' => [
-            'profile' => 'r,u'
+            'profile' => 'r,u',
+            'apply' => 'c,r,u,d'
         ],
     ],
     'permission_structure' => [

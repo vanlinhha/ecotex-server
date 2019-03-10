@@ -64,6 +64,10 @@ Route::resource('countries', 'CountriesAPIController');
 
 Route::resource('material_groups', 'MaterialGroupsAPIController');
 
+Route::resource('bookmarks', 'BookmarksAPIController');
+
+Route::get('/bookmarks/user/{user_id}/', 'BookmarksAPIController@index');
+
 Route::put('/users/brands/{id}', 'UserController@updateBrands');
 
 Route::put('/users/main_segment_groups/{id}', 'MainSegmentGroupsAPIController@updateMainSegmentGroups');
@@ -93,4 +97,6 @@ Route::get('/permissions', 'UserController@getAllPermissions');
 
 Route::get('/all_roles_and_permissions', 'UserController@getAllRolesAndPermissions');
 //Get all inactivated users
+
+
 

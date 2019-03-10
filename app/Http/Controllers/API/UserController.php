@@ -96,7 +96,9 @@ class UserController extends RestController
         $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
         $role                = $user->roles()->get();
+        $bookmarks           = $user->bookmarks()->get();
 
+        $user['bookmarks']             = $bookmarks;
         $user['role']                  = $role;
         $user['role_type_ids']         = $role_type_ids;
         $user['role_id']               = $roles;
@@ -557,12 +559,13 @@ class UserController extends RestController
         return response()->json(['success' => true, 'data' => $user->roles()->get(), 'message' => 'Sync role to user successfully'], 200);
     }
 
-    public function getAllRolesAndPermissions(){
+    public function getAllRolesAndPermissions()
+    {
         $roles = Role::all();
-        if(!count($roles)){
+        if (!count($roles)) {
             return response()->json(['success' => false, 'data' => $roles, 'message' => 'No roles found'], 404);
         }
-        foreach ($roles as $role){
+        foreach ($roles as $role) {
             $role['permissions'] = Role::find($role['id'])->permissions()->get();
         }
         return response()->json(['success' => true, 'data' => $roles, 'message' => 'Roles and permissions retrieved successfully'], 200);

@@ -263,6 +263,10 @@ class Users extends Authenticatable implements JWTSubject
         return $this->hasMany(Brand::class, 'user_id', 'id');
     }
 
+    public function bookmarks(){
+        return $this->hasMany(Bookmarks::class, 'user_id', 'id');
+    }
+
     public function mainProductGroups(){
         return $this->belongsToMany(ProductGroups::class, "main_product_groups", 'user_id', 'product_group_id');
     }
