@@ -38,3 +38,7 @@
 //Route::resource('mainSegmentGroups', 'MainSegmentGroupsController');
 
 //Route::resource('mainExportCountries', 'MainExportCountriesController');
+
+
+
+Route::resource('productPosts', 'ProductPostsController');

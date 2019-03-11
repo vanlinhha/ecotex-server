@@ -96,7 +96,10 @@ Route::get('/roles/{id}/permissions', 'UserController@getRolePermissions');
 Route::get('/permissions', 'UserController@getAllPermissions');
 
 Route::get('/all_roles_and_permissions', 'UserController@getAllRolesAndPermissions');
+
+Route::post('/uploads', 'UserController@upload');
 //Get all inactivated users
 
 
 
+Route::resource('product_posts', 'ProductPostsAPIController');

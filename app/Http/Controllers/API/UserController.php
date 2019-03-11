@@ -82,11 +82,11 @@ class UserController extends RestController
             return response()->json(['error' => __('could_not_create_token')], 500);
         }
         $user = JWTAuth::user();
-        if ($user->roles()->get(['id'])->count()) {
-            $roles = $user->roles()->get()[0]['id'];
-        } else {
-            $roles = 0;
-        }
+//        if ($user->roles()->get(['id'])->count()) {
+//            $roles = $user->roles()->get()[0]['id'];
+//        } else {
+//            $roles = 0;
+//        }
 
         $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
         $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
@@ -101,13 +101,14 @@ class UserController extends RestController
         $user['bookmarks']             = $bookmarks;
         $user['role']                  = $role;
         $user['role_type_ids']         = $role_type_ids;
-        $user['role_id']               = $roles;
         $user['main_product_groups']   = $mainProductGroups;
         $user['main_services']         = $mainServices;
         $user['main_material_groups']  = $mainMaterialGroups;
         $user['main_segment_groups']   = $mainSegmentGroups;
         $user['main_target_groups']    = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
+        //        $user['role_id']               = $roles;
+
 
         return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user, 'expired_at' => $timeExp], 'message' => 'Log in successfully'], 201, []);
     }
@@ -566,10 +567,18 @@ class UserController extends RestController
             return response()->json(['success' => false, 'data' => $roles, 'message' => 'No roles found'], 404);
         }
         foreach ($roles as $role) {
-            $role['permissions'] = Role::find($role['id'])->permissions()->get();
+            $role['permissions'] = Role::find($role['id'])->permissions()->pluck('id');
         }
         return response()->json(['success' => true, 'data' => $roles, 'message' => 'Roles and permissions retrieved successfully'], 200);
 
+    }
+
+    public function upload(Request $request){
+        dd($request->file('file'));
+        $image_base64 = base64_decode($request->file);
+        $file =  storage_path() . '/'  . uniqid() . '.png';
+        file_put_contents($file, $image_base64);
+        return $file;
     }
 
 }

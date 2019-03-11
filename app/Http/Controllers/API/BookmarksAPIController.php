@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateBookmarksAPIRequest;
 use App\Http\Requests\API\UpdateBookmarksAPIRequest;
 use App\Models\Bookmarks;
+use App\Models\Users;
 use App\Repositories\BookmarksRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -71,6 +72,11 @@ class BookmarksAPIController extends AppBaseController
 //        $this->bookmarksRepository->pushCriteria(new LimitOffsetCriteria($request));
         if (isset($request->user_id)) {
             $bookmarks = $this->bookmarksRepository->findByField([['user_id', $request->user_id]]);
+            foreach ($bookmarks as $bookmark){
+
+                $bookmark['follower'] = Users::find($bookmark['follower_id']);
+                unset($bookmark['follower_id']);
+            }
             return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
         } else {
             return $this->sendError('Users not found');

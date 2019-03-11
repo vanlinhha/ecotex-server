@@ -21,4 +21,9 @@ class DataController
         $data = "Only authorized users can see this";
         return response()->json(compact('data'), 200);
     }
+
+
+    public function upload(Request $request){
+        dd($request->file);
+    }
 }

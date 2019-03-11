@@ -299,34 +299,31 @@ class UsersAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Users $users */
-        $users = $this->usersRepository->findWithoutFail($id);
+        $user = $this->usersRepository->findWithoutFail($id);
 
-        if (empty($users)) {
-            return $this->sendError('Users not found');
+        if (empty($user)) {
+            return $this->sendError('User not found');
         }
 
-        if ($users->roles()->get(['id'])->count()) {
-            $roles = $users->roles()->get()[0]['id'];
-        } else {
-            $roles = 0;
-        }
+        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
+        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
+        $role                = $user->roles()->get();
+        $bookmarks           = $user->bookmarks()->get();
 
-        $mainProductGroups   = $users->mainProductGroups()->get(['name', 'product_group_id', 'percent']);
-        $mainServices        = $users->services()->get(['name', 'service_id', 'role_id']);
-        $mainExportCountries = $users->mainExportCountries()->get(['name', 'country_id']);
-        $mainMaterialGroups  = $users->mainMaterialGroups()->get(['name', 'material_group_id', 'percent']);
-        $mainTargets         = $users->mainTargets()->get(['name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $users->mainSegmentGroups()->get(['name', 'segment_group_id', 'percent']);
-        $role_type_ids       = $users->roleTypes()->get();
-
-        $users['role_type_ids']         = $role_type_ids;
-        $users['role_id']               = $roles;
-        $users['main_product_groups']   = $mainProductGroups;
-        $users['main_services']         = $mainServices;
-        $users['main_export_countries'] = $mainExportCountries;
-        $users['main_material_groups']  = $mainMaterialGroups;
-        $users['main_segment_groups']   = $mainSegmentGroups;
-        $users['main_target_groups']    = $mainTargets;
+        $user['bookmarks']             = $bookmarks;
+        $user['role']                  = $role;
+        $user['role_type_ids']         = $role_type_ids;
+        $user['main_product_groups']   = $mainProductGroups;
+        $user['main_services']         = $mainServices;
+        $user['main_material_groups']  = $mainMaterialGroups;
+        $user['main_segment_groups']   = $mainSegmentGroups;
+        $user['main_target_groups']    = $mainTargets;
+        $user['main_export_countries'] = $mainExportCountries;
 
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
     }
