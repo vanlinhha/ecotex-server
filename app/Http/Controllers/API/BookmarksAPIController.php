@@ -75,6 +75,25 @@ class BookmarksAPIController extends AppBaseController
             foreach ($bookmarks as $bookmark){
 
                 $bookmark['follower'] = Users::find($bookmark['follower_id']);
+
+                $mainProductGroups   = $bookmark['follower']->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+                $mainServices        = $bookmark['follower']->services()->get(['*', 'name', 'service_id', 'role_id']);
+                $mainExportCountries = $bookmark['follower']->mainExportCountries()->get(['*', 'country_id', 'percent']);
+                $mainMaterialGroups  = $bookmark['follower']->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+                $mainTargets         = $bookmark['follower']->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+                $mainSegmentGroups   = $bookmark['follower']->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+                $role_type_ids       = $bookmark['follower']->roleTypes()->pluck('role_type_id');
+                $role                = $bookmark['follower']->roles()->get();
+
+                $bookmark['follower']['role']                  = $role;
+                $bookmark['follower']['role_type_ids']         = $role_type_ids;
+                $bookmark['follower']['main_product_groups']   = $mainProductGroups;
+                $bookmark['follower']['main_services']         = $mainServices;
+                $bookmark['follower']['main_material_groups']  = $mainMaterialGroups;
+                $bookmark['follower']['main_segment_groups']   = $mainSegmentGroups;
+                $bookmark['follower']['main_target_groups']    = $mainTargets;
+                $bookmark['follower']['main_export_countries'] = $mainExportCountries;
+
                 unset($bookmark['follower_id']);
             }
             return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
