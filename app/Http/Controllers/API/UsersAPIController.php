@@ -325,7 +325,7 @@ class UsersAPIController extends AppBaseController
         $user['main_target_groups']    = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
 
-        return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+        return $this->sendResponse($user->toArray(), 'Users retrieved successfully');
     }
 
     /**
