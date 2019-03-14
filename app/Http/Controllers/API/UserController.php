@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -579,6 +580,10 @@ class UserController extends RestController
         $file =  storage_path() . '/'  . uniqid() . '.png';
         file_put_contents($file, $image_base64);
         return $file;
+    }
+
+    public function testRole(){
+        return JWTAuth::parseToken()->authenticate()->roles()->get();
     }
 
 }

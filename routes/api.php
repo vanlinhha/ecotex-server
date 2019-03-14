@@ -13,28 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/403', function (){
+Route::get('/403', function () {
     return response()->json(['errors' => 'Bạn không có quyền thực hiện chức năng này', 'status' => 403, 'data' => []], 403);
 });
+Route::get('/test_role', 'UserController@testRole');
+
 Route::post('/sign_up', 'UserController@register');
 Route::delete('/log_out', 'UserController@logOut');
 Route::post('/login', 'UserController@authenticate');
 Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile', 'role:administrator']);
-Route::group(['middleware' => ['jwt.verify']], function() {
+Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
-    Route::get('/closed', 'DataController@closed');
 });
 
-Route::resource('users', 'UsersAPIController');
-
-
-Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
-//Get all users
-Route::get('/all_users', 'UsersAPIController@getAllUser');
-//Verify users
-Route::put('/verify_users', 'UsersAPIController@verifyUsers');
-//Verify user by activation code
-Route::get('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
 
 Route::get('/product_groups/all_parent/', 'ProductGroupsAPIController@showParentProductGroups');
 
@@ -66,40 +57,74 @@ Route::resource('material_groups', 'MaterialGroupsAPIController');
 
 Route::resource('bookmarks', 'BookmarksAPIController');
 
-Route::get('/bookmarks/user/{user_id}/', 'BookmarksAPIController@index');
+Route::resource('product_posts', 'ProductPostsAPIController');
 
-Route::put('/users/brands/{id}', 'UserController@updateBrands');
 
-Route::put('/users/main_segment_groups/{id}', 'MainSegmentGroupsAPIController@updateMainSegmentGroups');
+//                         MODULE USERS
 
-Route::put('/users/main_product_groups/{id}', 'MainProductGroupsAPIController@updateMainProductGroups');
+Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users|read-profile']], function () {
 
-Route::put('/users/main_material_groups/{id}', 'MainMaterialGroupsAPIController@updateMainMaterialGroups');
+    Route::resource('users', 'UsersAPIController');
 
-Route::put('/users/main_target_groups/{id}', 'MainTargetsAPIController@updateMainTargets');
+    Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
+//Get all users
+    Route::get('/all_users', 'UsersAPIController@getAllUser');
+//Verify users
+    Route::put('/verify_users', 'UsersAPIController@verifyUsers');
+//Verify user by activation code
+    Route::get('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
+});
 
-Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
 
-Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
 
-Route::resource('main_export_countries', 'MainExportCountriesAPIController');
 
-//Route::put('/roles/update_permissions', 'UserController@updatePermissions')->middleware(['jwt.verify','role:administrator']);
-Route::put('/roles/update_permissions', 'UserController@updatePermissions');
+//                         MODULE PROFILE
+//Update user profile
+
+Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], function () {
+    Route::get('/bookmarks/user/{user_id}/', 'BookmarksAPIController@index');
+
+    Route::put('/users/brands/{id}', 'UserController@updateBrands');
+
+    Route::put('/users/main_segment_groups/{id}', 'MainSegmentGroupsAPIController@updateMainSegmentGroups');
+
+    Route::put('/users/main_product_groups/{id}', 'MainProductGroupsAPIController@updateMainProductGroups');
+
+    Route::put('/users/main_material_groups/{id}', 'MainMaterialGroupsAPIController@updateMainMaterialGroups');
+
+    Route::put('/users/main_target_groups/{id}', 'MainTargetsAPIController@updateMainTargets');
+
+    Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
+
+    Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
+
+    Route::resource('main_export_countries', 'MainExportCountriesAPIController');
+
+
+});
+
+
+
+//                               MODULE ACL
+
+Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function () {
+// update permissions of role
+    Route::put('/roles/update_permissions', 'UserController@updatePermissions');
 //sync role to user
-Route::put('/roles/sync_role_user', 'UserController@syncRoleUser');
+    Route::put('/roles/sync_role_user', 'UserController@syncRoleUser');
 // Get all roles of system
-Route::get('/roles', 'UserController@getAllRoles');
+    Route::get('/roles', 'UserController@getAllRoles');
 // Get all permissions of role
-Route::get('/roles/{id}/permissions', 'UserController@getRolePermissions');
+    Route::get('/roles/{id}/permissions', 'UserController@getRolePermissions');
 // Get all permissions of system
-Route::get('/permissions', 'UserController@getAllPermissions');
+    Route::get('/permissions', 'UserController@getAllPermissions');
+// Get all roles and its permissions
+    Route::get('/all_roles_and_permissions', 'UserController@getAllRolesAndPermissions');
+});
 
-Route::get('/all_roles_and_permissions', 'UserController@getAllRolesAndPermissions');
 
 Route::post('/uploads', 'UserController@upload');
 //Get all inactivated users
 
 
 
-Route::resource('product_posts', 'ProductPostsAPIController');

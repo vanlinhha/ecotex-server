@@ -33,6 +33,7 @@ class LaratrustSeeder extends Seeder
             'is_activated'           => 1,
         ]);
 
+
         $config         = config('laratrust_seeder.role_structure');
         $userPermission = config('laratrust_seeder.permission_structure');
         $mapPermission  = collect(config('laratrust_seeder.permissions_map'));
@@ -41,11 +42,11 @@ class LaratrustSeeder extends Seeder
 
             // Create a new role
             $role = \App\Role::create([
-                'name'        => $key,
-                'is_enterprise'  => in_array($key, ['enterprise buyer', 'paid supplier', 'supplier', 'paid manufacture', 'manufacture'])? 1 : 0,
-                'is_paid'     => in_array($key, ['paid supplier', 'paid manufacture']) ? 1 : 0,
+                'name'          => $key,
+                'is_enterprise' => in_array($key, ['enterprise buyer', 'paid supplier', 'supplier', 'paid manufacture', 'manufacture']) ? 1 : 0,
+                'is_paid'       => in_array($key, ['paid supplier', 'paid manufacture']) ? 1 : 0,
                 //                'display_name' => ucwords(str_replace('_', ' ', $key)),
-                'description' => ucwords(str_replace('_', ' ', $key))
+                'description'   => ucwords(str_replace('_', ' ', $key))
             ]);
 
             if ($key == 'manufacture') {
@@ -86,7 +87,7 @@ class LaratrustSeeder extends Seeder
                     $permissionValue = $mapPermission->get($perm);
 
                     $permissions[] = \App\Permission::firstOrCreate([
-                        'name'        => $permissionValue . '-' . $module,
+                        'name'        => $permissionValue ? $permissionValue . '-' . $module : $module,
                         //                        'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                         'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                     ])->id;
@@ -361,7 +362,7 @@ class LaratrustSeeder extends Seeder
                         $permissionValue = $mapPermission->get($perm);
 
                         $permissions[] = \App\Permission::firstOrCreate([
-                            'name'        => $permissionValue . '-' . $module,
+                            'name'        => $permissionValue ? $permissionValue . '-' . $module : $module,
                             //                            'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                             'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                         ])->id;
@@ -375,6 +376,9 @@ class LaratrustSeeder extends Seeder
                 $user->permissions()->sync($permissions);
             }
         }
+
+        \App\Models\Users::find(1)->attachRole(1);
+
     }
 
     /**

@@ -4,82 +4,78 @@ return [
     'role_structure'       => [
 
         'administrator' => [
-            'users'   => 'c,r,u,d',
-            'acl'     => 'c,r,u,d',
-            'profile' => 'r,u',
+            'users'      => 'm',
+            'acl'        => 'm',
+            'posting'    => 'm',
+            'ordering'   => 'm',
+            'evaluating' => 'm',
+            'showroom'   => 'm',
+            'profile'    => 'm,r,u',
         ],
 
         'personal buyer' => [
-            'users'     => 'c,r,u,d',
-            'ou'        => 'c,r,u,d',
-            'news_feed' => 'r',
-            'posting'   => 'c,r,u,d',
-            'order'   => 'c,r,u,d',
-            'messaging'   => 'c,r,u,d',
-            'evaluating'   => 'c,r,u,d',
+            'newsfeed'   => 'r',
+            'posting'    => '',
+            'ordering'   => '',
+            'messaging'  => '',
+            'evaluating' => '',
+            'profile'    => 'r,u',
         ],
 
         'buyer' => [
-            'users'     => 'c,r,u,d',
-            'ou'        => 'c,r,u,d',
-            'news_feed' => 'r',
-            'posting'   => 'c,r,u,d',
-            'order'   => 'c,r,u,d',
-            'messaging'   => 'c,r,u,d',
-            'evaluating'   => 'c,r,u,d',
-
+            'newsfeed'   => 'r',
+            'posting'    => '',
+            'ordering'   => '',
+            'messaging'  => '',
+            'evaluating' => '',
+            'profile'    => 'r,u',
         ],
 
         'supplier' => [
-            'users'     => 'c,r,u,d',
-            'ou'        => 'c,r,u,d',
-            'showroom'  => 'c,r,u,d',
-            'news_feed' => 'r',
-            'posting'   => 'c,r,u,d',
-            'order'   => 'c,r,u,d',
-            'messaging'   => 'c,r,u,d',
-            'evaluating'   => 'c,r,u,d',
-
+            'showroom'   => '',
+            'newsfeed'   => 'r',
+            'posting'    => '',
+            'ordering'   => '',
+            'messaging'  => '',
+            'evaluating' => '',
+            'profile'    => 'r,u',
         ],
 
         'paid supplier' => [
-            'users'     => 'c,r,u,d',
-            'ou'        => 'c,r,u,d',
-            'showroom'  => 'c,r,u,d',
-            'news_feed' => 'r',
-            'posting'   => 'c,r,u,d',
-            'order'   => 'c,r,u,d',
-            'messaging'   => 'c,r,u,d',
-            'evaluating'   => 'c,r,u,d',
+            'showroom'   => '',
+            'newsfeed'   => 'r',
+            'posting'    => '',
+            'ordering'   => '',
+            'messaging'  => '',
+            'evaluating' => '',
+            'profile'    => 'r,u',
 
         ],
 
         'manufacture' => [
-            'profile'   => 'r,u',
-            'showroom'  => 'c,r,u,d',
-            'news_feed' => 'r',
-            'posting'   => 'c,r,u,d',
-            'order'   => 'c,r,u,d',
-            'messaging'   => 'c,r,u,d',
-            'evaluating'   => 'c,r,u,d',
+            'profile'    => 'r,u',
+            'showroom'   => '',
+            'newsfeed'   => '',
+            'posting'    => '',
+            'ordering'   => '',
+            'messaging'  => '',
+            'evaluating' => '',
 
         ],
 
         'paid manufacture' => [
-            'profile'   => 'r,u',
-            'showroom'  => 'c,r,u,d',
-            'news_feed' => 'r',
-            'posting'   => 'c,r,u,d',
-            'order'   => 'c,r,u,d',
-            'messaging'   => 'c,r,u,d',
-            'evaluating'   => 'c,r,u,d',
-
-
+            'profile'    => 'r,u',
+            'showroom'   => '',
+            'newsfeed'   => '',
+            'posting'    => '',
+            'ordering'   => '',
+            'messaging'  => '',
+            'evaluating' => '',
         ],
 
         'human resource' => [
             'profile' => 'r,u',
-            'apply' => 'c,r,u,d'
+            'apply'   => ''
         ],
     ],
     'permission_structure' => [
@@ -91,6 +87,7 @@ return [
         'c' => 'create',
         'r' => 'read',
         'u' => 'update',
-        'd' => 'delete'
+        'd' => 'delete',
+        'm' => 'manage'
     ]
 ];

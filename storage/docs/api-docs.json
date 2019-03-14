@@ -7,6 +7,216 @@
     "host": "localhost/ecotex",
     "basePath": "/api/v1",
     "paths": {
+        "/bookmarks/user/{user_id}/": {
+            "get": {
+                "tags": [
+                    "Bookmarks"
+                ],
+                "summary": "Get a listing of the Bookmarks.",
+                "description": "Get all Bookmarks",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "id of users",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Bookmarks"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/bookmarks": {
+            "post": {
+                "tags": [
+                    "Bookmarks"
+                ],
+                "summary": "Store a newly created Bookmarks in storage",
+                "description": "Store Bookmarks",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Bookmarks that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Bookmarks"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Bookmarks"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/bookmarks/{id}": {
+            "get": {
+                "tags": [
+                    "Bookmarks"
+                ],
+                "summary": "Display the specified Bookmarks",
+                "description": "Get Bookmarks",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Bookmarks",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Bookmarks"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Bookmarks"
+                ],
+                "summary": "Update the specified Bookmarks in storage",
+                "description": "Update Bookmarks",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Bookmarks",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Bookmarks that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Bookmarks"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/Bookmarks"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Bookmarks"
+                ],
+                "summary": "Remove the specified Bookmarks from storage",
+                "description": "Delete Bookmarks",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of Bookmarks",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/brands": {
             "get": {
                 "tags": [
@@ -2284,6 +2494,205 @@
                 }
             }
         },
+        "/productPosts": {
+            "get": {
+                "tags": [
+                    "ProductPosts"
+                ],
+                "summary": "Get a listing of the ProductPosts.",
+                "description": "Get all ProductPosts",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ProductPosts"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ProductPosts"
+                ],
+                "summary": "Store a newly created ProductPosts in storage",
+                "description": "Store ProductPosts",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "ProductPosts that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductPosts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductPosts"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/productPosts/{id}": {
+            "get": {
+                "tags": [
+                    "ProductPosts"
+                ],
+                "summary": "Display the specified ProductPosts",
+                "description": "Get ProductPosts",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductPosts",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductPosts"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ProductPosts"
+                ],
+                "summary": "Update the specified ProductPosts in storage",
+                "description": "Update ProductPosts",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductPosts",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "ProductPosts that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ProductPosts"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductPosts"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ProductPosts"
+                ],
+                "summary": "Remove the specified ProductPosts from storage",
+                "description": "Delete ProductPosts",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of ProductPosts",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/role_types": {
             "get": {
                 "tags": [
@@ -3865,6 +4274,39 @@
         }
     },
     "definitions": {
+        "Bookmarks": {
+            "required": [
+                "user_id",
+                "follower_id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "user_id": {
+                    "description": "user_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "follower_id": {
+                    "description": "follower_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "Brand": {
             "required": [
                 "user_id",
@@ -4221,6 +4663,65 @@
                     "description": "parent_id",
                     "type": "integer",
                     "format": "int32"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "ProductPosts": {
+            "required": [
+                "product_group_id",
+                "quantity",
+                "specification",
+                "creator_id",
+                "title"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product_group_id": {
+                    "description": "product_group_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "quantity": {
+                    "description": "quantity",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "target_price": {
+                    "description": "target_price",
+                    "type": "number",
+                    "format": "float"
+                },
+                "specification": {
+                    "description": "specification",
+                    "type": "string"
+                },
+                "target_group_id": {
+                    "description": "target_group_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "creator_id": {
+                    "description": "creator_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "title": {
+                    "description": "title",
+                    "type": "string"
                 },
                 "created_at": {
                     "description": "created_at",

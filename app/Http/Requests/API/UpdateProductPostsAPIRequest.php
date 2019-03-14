@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\MainSegmentGroups;
+use App\Models\ProductPosts;
+use InfyOm\Generator\Request\APIRequest;
 
-class CreateMainSegmentGroupsRequest extends FormRequest
+class UpdateProductPostsAPIRequest extends APIRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,6 +24,6 @@ class CreateMainSegmentGroupsRequest extends FormRequest
      */
     public function rules()
     {
-        return MainSegmentGroups::$rules;
+        return ProductPosts::$rules;
     }
 }

@@ -7,6 +7,6 @@ use Laratrust\Models\LaratrustPermission;
 class Permission extends LaratrustPermission
 {
     //
-    protected $hidden = ['password', 'pivot', 'created_at', 'updated_at'];
+    protected $hidden = ['password', 'created_at', 'updated_at'];
 
 }
