@@ -13,19 +13,34 @@ use Illuminate\Http\Request;
 |
 */
 
+
+//                   MODULE AUTHENTICATE
+
+Route::post('/sign_up', 'UserController@register');
+Route::post('/login', 'UserController@authenticate');
+Route::delete('/log_out', 'UserController@logOut');
 Route::get('/403', function () {
     return response()->json(['errors' => 'Bạn không có quyền thực hiện chức năng này', 'status' => 403, 'data' => []], 403);
 });
-Route::get('/test_role', 'UserController@testRole');
 
-Route::post('/sign_up', 'UserController@register');
-Route::delete('/log_out', 'UserController@logOut');
-Route::post('/login', 'UserController@authenticate');
+//                  MODULE TEST
+
+Route::get('/test_role', 'UserController@testRole');
 Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile', 'role:administrator']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
 });
 
+
+//Route::resource('main_product_groups', 'MainProductGroupsAPIController');
+//
+//Route::resource('main_segment_groups', 'MainSegmentGroupsAPIController');
+//
+//Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.verify');
+//
+//Route::resource('main_services', 'MainServicesAPIController');
+//
+//Route::resource('main_export_countries', 'MainExportCountriesAPIController');
 
 Route::get('/product_groups/all_parent/', 'ProductGroupsAPIController@showParentProductGroups');
 
@@ -33,23 +48,15 @@ Route::get('/product_groups/parent_with_children/', 'ProductGroupsAPIController@
 
 Route::resource('product_groups', 'ProductGroupsAPIController');
 
-Route::resource('main_product_groups', 'MainProductGroupsAPIController')->middleware('jwt.verify');
-
-Route::resource('main_segment_groups', 'MainSegmentGroupsAPIController')->middleware('jwt.verify');
-
 Route::resource('segment_groups', 'SegmentGroupsAPIController');
 
 Route::resource('role_types', 'RoleTypesAPIController');
 
 Route::resource('target_groups', 'TargetGroupsAPIController');
 
-Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.verify');
-
 Route::resource('minimum_order_quantities', 'MinimumOrderQuantityAPIController');
 
 Route::resource('services', 'ServicesAPIController');
-
-Route::resource('main_services', 'MainServicesAPIController');
 
 Route::resource('countries', 'CountriesAPIController');
 
@@ -65,7 +72,7 @@ Route::resource('product_posts', 'ProductPostsAPIController');
 Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users|read-profile']], function () {
 
     Route::resource('users', 'UsersAPIController');
-
+//Get all inactivated users
     Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
 //Get all users
     Route::get('/all_users', 'UsersAPIController@getAllUser');
@@ -76,11 +83,9 @@ Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users
 });
 
 
-
-
 //                         MODULE PROFILE
-//Update user profile
 
+//Update user profile
 Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], function () {
     Route::get('/bookmarks/user/{user_id}/', 'BookmarksAPIController@index');
 
@@ -98,11 +103,8 @@ Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], functi
 
     Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
 
-    Route::resource('main_export_countries', 'MainExportCountriesAPIController');
-
 
 });
-
 
 
 //                               MODULE ACL
@@ -124,7 +126,6 @@ Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function
 
 
 Route::post('/uploads', 'UserController@upload');
-//Get all inactivated users
 
 
 

@@ -9,7 +9,6 @@ return [
             'posting'    => 'm',
             'ordering'   => 'm',
             'evaluating' => 'm',
-            'showroom'   => 'm',
             'profile'    => 'm,r,u',
         ],
 

@@ -10,6 +10,7 @@ use App\Repositories\MainExportCountriesRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
+use Laratrust\Laratrust;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -289,6 +290,9 @@ class MainExportCountriesAPIController extends AppBaseController
                 $mainExportCountries->delete();
             }
             else{
+                if(!Laratrust::canAndOwns('update-profile', $item)){
+
+                }
                 $this->mainExportCountriesRepository->update($item, $item['id']);
             }
         }
