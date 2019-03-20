@@ -36,7 +36,7 @@
         "name": "target_price",
         "dbType": "float",
         "htmlType": "text",
-        "validations": "",
+        "validations": null,
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -55,10 +55,21 @@
         "inIndex": true
     },
     {
-        "name": "target_group_id",
+        "name": "type_id",
         "dbType": "integer",
         "htmlType": "text",
-        "validations": "segment_group_id integer text",
+        "validations": null,
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true
+    },
+    {
+        "name": "incoterm",
+        "dbType": "integer",
+        "htmlType": "text",
+        "validations": null,
         "searchable": true,
         "fillable": true,
         "primary": false,

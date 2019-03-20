@@ -19,7 +19,8 @@ class CreateProductPostsTable extends Migration
             $table->integer('quantity');
             $table->float('target_price');
             $table->text('specification');
-            $table->integer('target_group_id');
+            $table->integer('type_id');
+            $table->integer('incoterm');
             $table->integer('creator_id');
             $table->text('title');
             $table->timestamps();

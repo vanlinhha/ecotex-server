@@ -2494,7 +2494,7 @@
                 }
             }
         },
-        "/productPosts": {
+        "/product_posts": {
             "get": {
                 "tags": [
                     "ProductPosts"
@@ -2568,7 +2568,7 @@
                 }
             }
         },
-        "/productPosts/{id}": {
+        "/product_posts/{id}": {
             "get": {
                 "tags": [
                     "ProductPosts"

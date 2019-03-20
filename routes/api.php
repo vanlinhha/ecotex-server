@@ -64,7 +64,7 @@ Route::resource('material_groups', 'MaterialGroupsAPIController');
 
 Route::resource('bookmarks', 'BookmarksAPIController');
 
-Route::resource('product_posts', 'ProductPostsAPIController');
+
 
 
 //                         MODULE USERS
@@ -106,6 +106,8 @@ Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], functi
 
 });
 
+Route::get('/roles', 'UserController@getAllRoles');
+
 
 //                               MODULE ACL
 
@@ -115,7 +117,6 @@ Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function
 //sync role to user
     Route::put('/roles/sync_role_user', 'UserController@syncRoleUser');
 // Get all roles of system
-    Route::get('/roles', 'UserController@getAllRoles');
 // Get all permissions of role
     Route::get('/roles/{id}/permissions', 'UserController@getRolePermissions');
 // Get all permissions of system
@@ -129,3 +130,6 @@ Route::post('/uploads', 'UserController@upload');
 
 
 
+
+
+Route::resource('product_posts', 'ProductPostsAPIController');

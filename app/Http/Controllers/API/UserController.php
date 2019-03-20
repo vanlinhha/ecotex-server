@@ -575,7 +575,6 @@ class UserController extends RestController
     }
 
     public function upload(Request $request){
-        dd($request->file('file'));
         $image_base64 = base64_decode($request->file);
         $file =  storage_path() . '/'  . uniqid() . '.png';
         file_put_contents($file, $image_base64);

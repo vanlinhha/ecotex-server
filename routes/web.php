@@ -41,4 +41,6 @@
 
 
 
+
+
 Route::resource('productPosts', 'ProductPostsController');

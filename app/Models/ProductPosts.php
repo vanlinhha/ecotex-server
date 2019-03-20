@@ -39,8 +39,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="target_group_id",
- *          description="target_group_id",
+ *          property="type_id",
+ *          description="type_id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="incoterm",
+ *          description="incoterm",
  *          type="integer",
  *          format="int32"
  *      ),
@@ -84,7 +90,8 @@ class ProductPosts extends Model
         'quantity',
         'target_price',
         'specification',
-        'target_group_id',
+        'type_id',
+        'incoterm',
         'creator_id',
         'title'
     ];
@@ -99,7 +106,8 @@ class ProductPosts extends Model
         'quantity' => 'integer',
         'target_price' => 'float',
         'specification' => 'string',
-        'target_group_id' => 'integer',
+        'type_id' => 'integer',
+        'incoterm' => 'integer',
         'creator_id' => 'integer',
         'title' => 'string'
     ];
@@ -113,7 +121,6 @@ class ProductPosts extends Model
         'product_group_id' => 'required',
         'quantity' => 'required',
         'specification' => 'required',
-        'target_group_id' => 'segment_group_id integer text',
         'creator_id' => 'required',
         'title' => 'required'
     ];
