@@ -54,7 +54,6 @@ class MainExportCountries extends Model
     public $fillable = [
         'user_id',
         'country_id',
-        'percent'
     ];
 
     /**
@@ -64,8 +63,7 @@ class MainExportCountries extends Model
      */
     protected $casts = [
         'user_id' => 'integer',
-        'country_id' => 'integer',
-        'percent' => 'float'
+        'country_id' => 'integer'
     ];
 
     /**
