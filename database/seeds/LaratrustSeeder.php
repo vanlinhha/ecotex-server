@@ -177,12 +177,10 @@ class LaratrustSeeder extends Seeder
                         [
                             'user_id'    => $user->id,
                             'country_id' => random_int(1, 249),
-                            'percent'    => random_int(30, 40)
                         ],
                         [
                             'user_id'    => $user->id,
                             'country_id' => random_int(1, 249),
-                            'percent'    => random_int(30, 40)
                         ]
                     ]
 
@@ -312,7 +310,6 @@ class LaratrustSeeder extends Seeder
                                 [
                                     'user_id'    => $user->id,
                                     'country_id' => random_int(1, 249),
-                                    'percent'    => random_int(30, 40)
                                 ]
                             ]
 
@@ -323,7 +320,6 @@ class LaratrustSeeder extends Seeder
                                 [
                                     'user_id'          => $user->id,
                                     'product_group_id' => random_int(1, 5),
-                                    'percent'          => random_int(30, 40)
                                 ]
                             ]
 
