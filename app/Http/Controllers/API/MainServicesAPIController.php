@@ -304,7 +304,7 @@ class MainServicesAPIController extends AppBaseController
                 $this->mainServicesRepository->update($item, $item['id']);
             }
         }
-        $mainServices = Users::find($id)->mainServices()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainServices = Users::find($id)->services()->get(['*', 'name', 'service_id', 'role_id']);
         return $this->sendResponse($mainServices, 'Main services updated successfully');
 
     }
