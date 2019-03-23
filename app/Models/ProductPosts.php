@@ -125,5 +125,13 @@ class ProductPosts extends Model
         'title' => 'required'
     ];
 
+    public function attachedFiles(){
+        return $this->hasMany(AttachedFiles::class, 'post_id', 'id');
+    }
+
+    public function attachedImages(){
+        return $this->hasMany(AttachedImages::class, 'post_id', 'id');
+    }
+
     
 }

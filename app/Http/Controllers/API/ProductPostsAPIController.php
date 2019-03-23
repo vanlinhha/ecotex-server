@@ -6,9 +6,13 @@ use App\Http\Requests\API\CreateProductPostsAPIRequest;
 use App\Http\Requests\API\UpdateProductPostsAPIRequest;
 use App\Models\ProductPosts;
 use App\Repositories\ProductPostsRepository;
+use App\Repositories\AttachedFilesRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Storage;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
+use Intervention\Image\Image;
+use Intervention\Image\ImageServiceProvider;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -16,23 +20,22 @@ use Response;
  * Class ProductPostsController
  * @package App\Http\Controllers\API
  */
-
 class ProductPostsAPIController extends AppBaseController
 {
     /** @var  ProductPostsRepository */
     private $productPostsRepository;
+    private $attachedFilesRepository;
 
-    public function __construct(ProductPostsRepository $productPostsRepo)
+    public function __construct(ProductPostsRepository $productPostsRepo, AttachedFilesRepository $attachedFilesRepo)
     {
         $this->productPostsRepository = $productPostsRepo;
+        $this->attachedFilesRepository = $attachedFilesRepo;
     }
 
     /**
-     * @param Request $request
-     * @return Response
      *
      * @SWG\Get(
-     *      path="/productPosts",
+     *      path="/product_posts",
      *      summary="Get a listing of the ProductPosts.",
      *      tags={"ProductPosts"},
      *      description="Get all ProductPosts",
@@ -64,16 +67,20 @@ class ProductPostsAPIController extends AppBaseController
         $this->productPostsRepository->pushCriteria(new RequestCriteria($request));
         $this->productPostsRepository->pushCriteria(new LimitOffsetCriteria($request));
         $productPosts = $this->productPostsRepository->all();
+        foreach ($productPosts as $productPost){
+            $attachedFiles = $productPost->attachedFiles()->get();
+            $productPost['attached_files'] = $attachedFiles;
+            $attachedImages = $productPost->attachedImages()->get();
+            $productPost['images'] = $attachedImages;
+        }
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts retrieved successfully');
     }
 
     /**
-     * @param CreateProductPostsAPIRequest $request
-     * @return Response
      *
      * @SWG\Post(
-     *      path="/productPosts",
+     *      path="/product_posts",
      *      summary="Store a newly created ProductPosts in storage",
      *      tags={"ProductPosts"},
      *      description="Store ProductPosts",
@@ -108,11 +115,38 @@ class ProductPostsAPIController extends AppBaseController
      */
     public function store(CreateProductPostsAPIRequest $request)
     {
-        $input = $request->all();
 
+        $input = $request->all();
         $productPosts = $this->productPostsRepository->create($input);
+        foreach ($request->images as $image) {
+            $base64 = $image['base64'];
+            $png_url = "photo-" . time() . ".png";
+            $path = storage_path('app\\public\\img') . $png_url;
+            \Image::make($base64)->save($path);
+            $productPosts->attachedImages()->create(['url' => env('APP_URL') . Storage::disk('local')->url($png_url), 'name' => $image['name'], 'type' => 1]);
+        }
+
+//        foreach ($request->attach_files as $file) {
+//            $base64 = $image['base64'];
+//            $png_url = "photo-" . time() . ".png";
+//            $path = storage_path('app\\public\\img') . $png_url;
+//            \Image::make($base64)->save($path);
+//            $productPosts->attachedImages()->create(['url' => env('APP_URL') . Storage::disk('local')->url($png_url), 'name' => $image['name'], 'type' => 1]);
+//        }
+
+        $attachedFiles = $productPosts->attachedFiles()->get();
+        $productPosts['attached_files'] = $attachedFiles;
+        $attachedImages = $productPosts->attachedImages()->get();
+        $productPosts['images'] = $attachedImages;
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts saved successfully');
+
+
+//        Storage::disk('local')->put('file.png', $input);
+
+//        return Storage::url($png_url);
+//
+//        return Storage::disk('local')->get($path);
     }
 
     /**
@@ -120,7 +154,7 @@ class ProductPostsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/productPosts/{id}",
+     *      path="/product_posts/{id}",
      *      summary="Display the specified ProductPosts",
      *      tags={"ProductPosts"},
      *      description="Get ProductPosts",
@@ -166,12 +200,9 @@ class ProductPostsAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateProductPostsAPIRequest $request
-     * @return Response
      *
      * @SWG\Put(
-     *      path="/productPosts/{id}",
+     *      path="/product_posts/{id}",
      *      summary="Update the specified ProductPosts in storage",
      *      tags={"ProductPosts"},
      *      description="Update ProductPosts",
@@ -232,7 +263,7 @@ class ProductPostsAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/productPosts/{id}",
+     *      path="/product_posts/{id}",
      *      summary="Remove the specified ProductPosts from storage",
      *      tags={"ProductPosts"},
      *      description="Delete ProductPosts",
@@ -277,5 +308,57 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts->delete();
 
         return $this->sendResponse($id, 'Product Posts deleted successfully');
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     *
+     * @SWG\Get(
+     *      path="/product_posts/get_own_posts/{user_id}",
+     *      summary="Display the specified ProductPosts",
+     *      tags={"ProductPosts"},
+     *      description="Get ProductPosts",
+     *      produces={"application/json"},
+     *      @SWG\Parameter(
+     *          name="user_id",
+     *          description="id of user",
+     *          type="integer",
+     *          required=true,
+     *          in="path"
+     *      ),
+     *      @SWG\Response(
+     *          response=200,
+     *          description="successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="success",
+     *                  type="boolean"
+     *              ),
+     *              @SWG\Property(
+     *                  property="data",
+     *                  ref="#/definitions/ProductPosts"
+     *              ),
+     *              @SWG\Property(
+     *                  property="message",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function getOwnPosts($user_id)
+    {
+        /** @var ProductPosts $productPosts */
+        $productPosts = $this->productPostsRepository->findWhere(['creator_id' => $user_id]);
+        foreach ($productPosts as $productPost){
+            $attachedFiles = $productPost->attachedFiles()->get();
+            $productPost['attached_files'] = $attachedFiles;
+            $attachedImages = $productPost->attachedImages()->get();
+            $productPost['images'] = $attachedImages;
+        }
+
+        return $this->sendResponse($productPosts->toArray(), 'Product Posts retrieved successfully');
     }
 }
