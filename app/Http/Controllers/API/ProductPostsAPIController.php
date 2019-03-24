@@ -122,20 +122,20 @@ class ProductPostsAPIController extends AppBaseController
 
         if(!is_dir(storage_path('app'))){
             mkdir(storage_path('app'), 0755);
-        }
 
-        if(!is_dir(storage_path('app\\public'))){
-            mkdir(storage_path('app\\public'), 0755);
-        }
+            if(!is_dir(storage_path('app\\public'))){
+                mkdir(storage_path('app\\public'), 0755);
 
-        if(!is_dir(storage_path('app\\public\\files'))){
-            mkdir(storage_path('app\\public\\files'), 0755);
-        }
+                if(!is_dir(storage_path('app\\public\\files'))){
+                    mkdir(storage_path('app\\public\\files'), 0755);
+                }
 
-        if(!is_dir(storage_path('app\\public\\images'))){
-            mkdir(storage_path('app\\public\\images'), 0755);
-        }
+                if(!is_dir(storage_path('app\\public\\images'))){
+                    mkdir(storage_path('app\\public\\images'), 0755);
+                }
 
+            }
+        }
 
         foreach ($request->images as $image) {
 
@@ -144,7 +144,7 @@ class ProductPostsAPIController extends AppBaseController
             $url = "images/photo-" . uniqid() . '.' . $extension;
             $path = storage_path('app\\public\\') . $url;
             \Image::make($base64)->save($path);
-            $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name'], 'type' => $image['type']]);
+            $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name']]);
         }
 
         foreach ($request->attach_files as $file) {
@@ -156,7 +156,7 @@ class ProductPostsAPIController extends AppBaseController
             $decoded = base64_decode($base64);
             file_put_contents($path, $decoded);
 
-            $productPosts->attachedFiles()->create(['url' => Storage::disk('local')->url($url), 'name' => $file['name'], 'type' => $file['type']]);
+            $productPosts->attachedFiles()->create(['url' => Storage::disk('local')->url($url), 'name' => $file['name']]);
         }
 
         $attachedFiles = $productPosts->attachedFiles()->get();
