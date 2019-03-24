@@ -7,6 +7,7 @@ use App\Http\Requests\API\UpdateProductPostsAPIRequest;
 use App\Models\ProductPosts;
 use App\Repositories\ProductPostsRepository;
 use App\Repositories\AttachedFilesRepository;
+use Faker\Provider\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\Storage;
@@ -118,7 +119,26 @@ class ProductPostsAPIController extends AppBaseController
 
         $input = $request->all();
         $productPosts = $this->productPostsRepository->create($input);
+
+        if(!is_dir(storage_path('app'))){
+            mkdir(storage_path('app'), 0755);
+        }
+
+        if(!is_dir(storage_path('app\\public'))){
+            mkdir(storage_path('app\\public'), 0755);
+        }
+
+        if(!is_dir(storage_path('app\\public\\files'))){
+            mkdir(storage_path('app\\public\\files'), 0755);
+        }
+
+        if(!is_dir(storage_path('app\\public\\images'))){
+            mkdir(storage_path('app\\public\\images'), 0755);
+        }
+
+
         foreach ($request->images as $image) {
+
             $base64 = explode(',', $image['base64'])[1];
             $extension = isset($image['extension']) ? $image['extension'] : 'png';
             $url = "images/photo-" . uniqid() . '.' . $extension;
