@@ -121,7 +121,7 @@ class ProductPostsAPIController extends AppBaseController
         foreach ($request->images as $image) {
             $base64 = $image['base64'];
             $extension = isset($image['extension']) ? $image['extension'] : 'png';
-            $url = "images/photo-" . time() . '.' . $extension;
+            $url = "images/photo-" . uniqid() . '.' . $extension;
             $path = storage_path('app\\public\\') . $url;
             \Image::make($base64)->save($path);
             $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name'], 'type' => $image['type']]);
@@ -130,7 +130,7 @@ class ProductPostsAPIController extends AppBaseController
         foreach ($request->attach_files as $file) {
             $base64 = $file['base64'];
             $extension = isset($file['extension']) ? $file['extension'] : 'pdf';
-            $url = "files/file-" . time() . '.' . $extension;
+            $url = "files/file-" . uniqid() . '.' . $extension;
             $path = storage_path('app\\public\\') . $url;
 
             $decoded = base64_decode($base64);
@@ -305,6 +305,16 @@ class ProductPostsAPIController extends AppBaseController
         if (empty($productPosts)) {
             return $this->sendError('Product Posts not found');
         }
+
+        foreach ($productPosts->attachedFiles()->get() as $item) {
+            unlink(substr($item['url'], 1));
+        }
+        foreach ($productPosts->attachedImages() as $item) {
+            unlink(substr($item['url'], 1));
+        }
+
+        $productPosts->attachedFiles()->delete();
+        $productPosts->attachedImages()->delete();
 
         $productPosts->delete();
 
