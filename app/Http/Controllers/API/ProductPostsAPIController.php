@@ -67,7 +67,7 @@ class ProductPostsAPIController extends AppBaseController
         $this->productPostsRepository->pushCriteria(new RequestCriteria($request));
         $this->productPostsRepository->pushCriteria(new LimitOffsetCriteria($request));
         $productPosts = $this->productPostsRepository->all();
-        foreach ($productPosts as $productPost){
+        foreach ($productPosts as $productPost) {
             $attachedFiles = $productPost->attachedFiles()->get();
             $productPost['attached_files'] = $attachedFiles;
             $attachedImages = $productPost->attachedImages()->get();
@@ -120,19 +120,24 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts = $this->productPostsRepository->create($input);
         foreach ($request->images as $image) {
             $base64 = $image['base64'];
-            $png_url = "photo-" . time() . ".png";
-            $path = storage_path('app\\public\\img') . $png_url;
+            $extension = isset($image['extension']) ? $image['extension'] : 'png';
+            $url = "images/photo-" . time() . '.' . $extension;
+            $path = storage_path('app\\public\\') . $url;
             \Image::make($base64)->save($path);
-            $productPosts->attachedImages()->create(['url' => env('APP_URL') . Storage::disk('local')->url($png_url), 'name' => $image['name'], 'type' => 1]);
+            $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name'], 'type' => $image['type']]);
         }
 
-//        foreach ($request->attach_files as $file) {
-//            $base64 = $image['base64'];
-//            $png_url = "photo-" . time() . ".png";
-//            $path = storage_path('app\\public\\img') . $png_url;
-//            \Image::make($base64)->save($path);
-//            $productPosts->attachedImages()->create(['url' => env('APP_URL') . Storage::disk('local')->url($png_url), 'name' => $image['name'], 'type' => 1]);
-//        }
+        foreach ($request->attach_files as $file) {
+            $base64 = $file['base64'];
+            $extension = isset($file['extension']) ? $file['extension'] : 'pdf';
+            $url = "files/file-" . time() . '.' . $extension;
+            $path = storage_path('app\\public\\') . $url;
+
+            $decoded = base64_decode($base64);
+            file_put_contents($path, $decoded);
+
+            $productPosts->attachedFiles()->create(['url' => Storage::disk('local')->url($url), 'name' => $file['name'], 'type' => $file['type']]);
+        }
 
         $attachedFiles = $productPosts->attachedFiles()->get();
         $productPosts['attached_files'] = $attachedFiles;
@@ -144,14 +149,12 @@ class ProductPostsAPIController extends AppBaseController
 
 //        Storage::disk('local')->put('file.png', $input);
 
-//        return Storage::url($png_url);
+//        return Storage::url($url);
 //
 //        return Storage::disk('local')->get($path);
     }
 
     /**
-     * @param int $id
-     * @return Response
      *
      * @SWG\Get(
      *      path="/product_posts/{id}",
@@ -259,8 +262,6 @@ class ProductPostsAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @return Response
      *
      * @SWG\Delete(
      *      path="/product_posts/{id}",
@@ -311,8 +312,6 @@ class ProductPostsAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @return Response
      *
      * @SWG\Get(
      *      path="/product_posts/get_own_posts/{user_id}",
@@ -352,7 +351,7 @@ class ProductPostsAPIController extends AppBaseController
     {
         /** @var ProductPosts $productPosts */
         $productPosts = $this->productPostsRepository->findWhere(['creator_id' => $user_id]);
-        foreach ($productPosts as $productPost){
+        foreach ($productPosts as $productPost) {
             $attachedFiles = $productPost->attachedFiles()->get();
             $productPost['attached_files'] = $attachedFiles;
             $attachedImages = $productPost->attachedImages()->get();
