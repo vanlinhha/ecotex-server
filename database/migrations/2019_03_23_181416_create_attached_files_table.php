@@ -18,7 +18,6 @@ class CreateAttachedFilesTable extends Migration
             $table->integer('post_id');
             $table->string('url');
             $table->string('name');
-            $table->integer('type');
             $table->timestamps();
             $table->softDeletes();
         });

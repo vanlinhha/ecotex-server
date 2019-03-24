@@ -23,6 +23,7 @@ class CreateProductPostsTable extends Migration
             $table->integer('incoterm');
             $table->integer('creator_id');
             $table->text('title');
+            $table->bigInteger('delivery_date');
             $table->timestamps();
             $table->softDeletes();
         });

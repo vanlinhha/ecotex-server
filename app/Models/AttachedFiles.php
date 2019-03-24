@@ -65,7 +65,6 @@ class AttachedFiles extends Model
         'post_id',
         'url',
         'name',
-        'type'
     ];
 
     /**
@@ -77,7 +76,6 @@ class AttachedFiles extends Model
         'post_id' => 'integer',
         'url' => 'string',
         'name' => 'string',
-        'type' => 'integer'
     ];
 
     /**
@@ -88,7 +86,6 @@ class AttachedFiles extends Model
     public static $rules = [
         'post_id' => 'required',
         'url' => 'required',
-        'type' => 'required'
     ];
 
     protected $hidden = ['updated_at', 'created_at', 'deleted_at'];

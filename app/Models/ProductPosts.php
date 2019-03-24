@@ -93,7 +93,8 @@ class ProductPosts extends Model
         'type_id',
         'incoterm',
         'creator_id',
-        'title'
+        'title',
+        'delivery_date'
     ];
 
     /**
@@ -109,7 +110,8 @@ class ProductPosts extends Model
         'type_id' => 'integer',
         'incoterm' => 'integer',
         'creator_id' => 'integer',
-        'title' => 'string'
+        'title' => 'string',
+        'delivery_date' => 'integer'
     ];
 
     /**
@@ -131,6 +133,17 @@ class ProductPosts extends Model
 
     public function attachedImages(){
         return $this->hasMany(AttachedImages::class, 'post_id', 'id');
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return strtotime($date);
+//        return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return strtotime($date);
     }
 
     
