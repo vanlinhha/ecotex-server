@@ -119,7 +119,7 @@ class ProductPostsAPIController extends AppBaseController
         $input = $request->all();
         $productPosts = $this->productPostsRepository->create($input);
         foreach ($request->images as $image) {
-            $base64 = $image['base64'];
+            $base64 = explode(',', $image['base64'])[1];
             $extension = isset($image['extension']) ? $image['extension'] : 'png';
             $url = "images/photo-" . uniqid() . '.' . $extension;
             $path = storage_path('app\\public\\') . $url;
@@ -128,7 +128,7 @@ class ProductPostsAPIController extends AppBaseController
         }
 
         foreach ($request->attach_files as $file) {
-            $base64 = $file['base64'];
+            $base64 = explode(',', $file['base64'])[1];
             $extension = isset($file['extension']) ? $file['extension'] : 'pdf';
             $url = "files/file-" . uniqid() . '.' . $extension;
             $path = storage_path('app\\public\\') . $url;
