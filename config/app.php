@@ -227,7 +227,7 @@ return [
         /**
          * LaravelFilemanager
          */
-        'Image'        => Intervention\Image\Facades\Image::class,
+        'Image' => Intervention\Image\ImageManagerStatic::class,
         'JWTAuth'      => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory'   => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Laratrust'    => Laratrust\LaratrustFacade::class,

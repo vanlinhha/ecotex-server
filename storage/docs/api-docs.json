@@ -7,6 +7,404 @@
     "host": "localhost/ecotex",
     "basePath": "/api/v1",
     "paths": {
+        "/attachedFiles": {
+            "get": {
+                "tags": [
+                    "AttachedFiles"
+                ],
+                "summary": "Get a listing of the AttachedFiles.",
+                "description": "Get all AttachedFiles",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/AttachedFiles"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "AttachedFiles"
+                ],
+                "summary": "Store a newly created AttachedFiles in storage",
+                "description": "Store AttachedFiles",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "AttachedFiles that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/AttachedFiles"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AttachedFiles"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/attachedFiles/{id}": {
+            "get": {
+                "tags": [
+                    "AttachedFiles"
+                ],
+                "summary": "Display the specified AttachedFiles",
+                "description": "Get AttachedFiles",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of AttachedFiles",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AttachedFiles"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AttachedFiles"
+                ],
+                "summary": "Update the specified AttachedFiles in storage",
+                "description": "Update AttachedFiles",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of AttachedFiles",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "AttachedFiles that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/AttachedFiles"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AttachedFiles"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "AttachedFiles"
+                ],
+                "summary": "Remove the specified AttachedFiles from storage",
+                "description": "Delete AttachedFiles",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of AttachedFiles",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/attachedImages": {
+            "get": {
+                "tags": [
+                    "AttachedImages"
+                ],
+                "summary": "Get a listing of the AttachedImages.",
+                "description": "Get all AttachedImages",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/AttachedImages"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "AttachedImages"
+                ],
+                "summary": "Store a newly created AttachedImages in storage",
+                "description": "Store AttachedImages",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "AttachedImages that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/AttachedImages"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AttachedImages"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/attachedImages/{id}": {
+            "get": {
+                "tags": [
+                    "AttachedImages"
+                ],
+                "summary": "Display the specified AttachedImages",
+                "description": "Get AttachedImages",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of AttachedImages",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AttachedImages"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AttachedImages"
+                ],
+                "summary": "Update the specified AttachedImages in storage",
+                "description": "Update AttachedImages",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of AttachedImages",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "AttachedImages that should be updated",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/AttachedImages"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/AttachedImages"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "AttachedImages"
+                ],
+                "summary": "Remove the specified AttachedImages from storage",
+                "description": "Delete AttachedImages",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of AttachedImages",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/bookmarks/user/{user_id}/": {
             "get": {
                 "tags": [
@@ -2693,6 +3091,46 @@
                 }
             }
         },
+        "/product_posts/get_own_posts/{user_id}": {
+            "get": {
+                "tags": [
+                    "ProductPosts"
+                ],
+                "summary": "Display the specified ProductPosts",
+                "description": "Get ProductPosts",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "id of user",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "properties": {
+                                "success": {
+                                    "type": "boolean"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/ProductPosts"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/role_types": {
             "get": {
                 "tags": [
@@ -4274,6 +4712,90 @@
         }
     },
     "definitions": {
+        "AttachedFiles": {
+            "required": [
+                "post_id",
+                "url",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "post_id": {
+                    "description": "post_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "url": {
+                    "description": "url",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "type",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "AttachedImages": {
+            "required": [
+                "post_id",
+                "url",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "post_id": {
+                    "description": "post_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "url": {
+                    "description": "url",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "type",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "created_at": {
+                    "description": "created_at",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "description": "updated_at",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "Bookmarks": {
             "required": [
                 "user_id",
@@ -4709,8 +5231,13 @@
                     "description": "specification",
                     "type": "string"
                 },
-                "target_group_id": {
-                    "description": "target_group_id",
+                "type_id": {
+                    "description": "type_id",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "incoterm": {
+                    "description": "incoterm",
                     "type": "integer",
                     "format": "int32"
                 },

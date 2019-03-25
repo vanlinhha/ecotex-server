@@ -130,6 +130,10 @@ Route::post('/uploads', 'UserController@upload');
 
 
 
-
-
 Route::resource('product_posts', 'ProductPostsAPIController');
+
+Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@getOwnPosts');
+
+Route::resource('attached_files', 'AttachedFilesAPIController');
+
+Route::resource('attached_images', 'AttachedImagesAPIController');
