@@ -114,7 +114,7 @@ class ProductPostsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateProductPostsAPIRequest $request)
+    public function store(Request $request)
     {
 
         $input = $request->all();
@@ -122,36 +122,37 @@ class ProductPostsAPIController extends AppBaseController
 
         if(!is_dir(storage_path('app'))){
             mkdir(storage_path('app'), 0755);
-
-            if(!is_dir(storage_path('app\\public'))){
-                mkdir(storage_path('app\\public'), 0755);
-
-                if(!is_dir(storage_path('app\\public\\files'))){
-                    mkdir(storage_path('app\\public\\files'), 0755);
-                }
-
-                if(!is_dir(storage_path('app\\public\\images'))){
-                    mkdir(storage_path('app\\public\\images'), 0755);
-                }
-
-            }
         }
+        if(!is_dir(storage_path('app\\public'))){
+            mkdir(storage_path('app\\public'), 0755);
+
+        }
+        if(!is_dir(storage_path('app\\public\\files'))){
+            mkdir(storage_path('app\\public\\files'), 0755);
+        }
+
+        if(!is_dir(storage_path('app\\public\\images'))){
+            mkdir(storage_path('app\\public\\images'), 0755);
+        }
+
 
         foreach ($request->images as $image) {
 
             $base64 = explode(',', $image['base64'])[1];
             $extension = isset($image['extension']) ? $image['extension'] : 'png';
             $url = "images/photo-" . uniqid() . '.' . $extension;
-            $path = storage_path('app\\public\\') . $url;
+            $path = storage_path('app/public/') . $url;
             \Image::make($base64)->save($path);
             $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name']]);
         }
+
+
 
         foreach ($request->attached_files as $file) {
             $base64 = explode(',', $file['base64'])[1];
             $extension = isset($file['extension']) ? $file['extension'] : 'pdf';
             $url = "files/file-" . uniqid() . '.' . $extension;
-            $path = storage_path('app\\public\\') . $url;
+            $path = storage_path('app/public/') . $url;
 
             $decoded = base64_decode($base64);
             file_put_contents($path, $decoded);
@@ -265,7 +266,7 @@ class ProductPostsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateProductPostsAPIRequest $request)
+    public function update($id, Request $request)
     {
         $input = $request->all();
 
