@@ -137,13 +137,13 @@ class ProductPosts extends Model
 
     public function getCreatedAtAttribute($date)
     {
-        return strtotime($date);
+        return strtotime($date) * 1000;
 //        return Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
     }
 
     public function getUpdatedAtAttribute($date)
     {
-        return strtotime($date);
+        return strtotime($date) * 1000;
     }
 
     
