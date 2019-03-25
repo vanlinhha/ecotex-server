@@ -64,6 +64,14 @@ Route::resource('material_groups', 'MaterialGroupsAPIController');
 
 Route::resource('bookmarks', 'BookmarksAPIController');
 
+Route::resource('product_posts', 'ProductPostsAPIController');
+
+Route::get('response_user', 'ResponsesAPIController@getUserResponses')->middleware(['jwt.verify']);
+
+Route::resource('responses', 'ResponsesAPIController');
+
+
+
 
 
 
@@ -130,7 +138,7 @@ Route::post('/uploads', 'UserController@upload');
 
 
 
-Route::resource('product_posts', 'ProductPostsAPIController');
+
 
 Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@getOwnPosts');
 
@@ -138,4 +146,3 @@ Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@
 //
 //Route::resource('attached_images', 'AttachedImagesAPIController');
 
-Route::resource('responses', 'ResponsesAPIController');

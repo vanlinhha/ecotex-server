@@ -43,4 +43,3 @@
 
 
 
-Route::resource('productPosts', 'ProductPostsController');
