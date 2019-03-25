@@ -121,20 +121,20 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts = $this->productPostsRepository->create($input);
 
         if(!is_dir(storage_path('app'))){
-            mkdir(storage_path('app'), 0755);
-        }
-        if(!is_dir(storage_path('app\\public'))){
-            mkdir(storage_path('app\\public'), 0755);
-
-        }
-        if(!is_dir(storage_path('app\\public\\files'))){
-            mkdir(storage_path('app\\public\\files'), 0755);
+            mkdir(storage_path('app'), 0777);
         }
 
-        if(!is_dir(storage_path('app\\public\\images'))){
-            mkdir(storage_path('app\\public\\images'), 0755);
+        if(!is_dir(storage_path('app/public'))){
+            mkdir(storage_path('app/public'), 0777);
+
+        }
+        if(!is_dir(storage_path('app/public/files'))){
+            mkdir(storage_path('app/public/files'), 0777);
         }
 
+        if(!is_dir(storage_path('app/public/images'))){
+            mkdir(storage_path('app/public/images'), 0777);
+        }
 
         foreach ($request->images as $image) {
 
