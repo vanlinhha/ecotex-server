@@ -147,7 +147,7 @@ class ProductPostsAPIController extends AppBaseController
             $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name']]);
         }
 
-        foreach ($request->attach_files as $file) {
+        foreach ($request->attached_files as $file) {
             $base64 = explode(',', $file['base64'])[1];
             $extension = isset($file['extension']) ? $file['extension'] : 'pdf';
             $url = "files/file-" . uniqid() . '.' . $extension;
