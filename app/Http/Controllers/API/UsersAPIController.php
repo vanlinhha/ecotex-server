@@ -159,20 +159,20 @@ class UsersAPIController extends AppBaseController
         $text_search   = $request->text_search ? $request->text_search : "";
         $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
 
-        if (isset($request->main_product_groups) && $request->main_product_groups[0] != null) {
-            $main_product_group_IDs = array_map('intval', $request->main_product_groups);
+        $main_product_group_IDs = json_decode($request->main_product_groups);
+        if (count($main_product_group_IDs)) {
             $user_IDs               = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
             $list_user_IDs          = array_intersect($list_user_IDs, $user_IDs);
         }
+        $main_target_group_IDs = json_decode($request->main_target_groups);
 
-        if (isset($request->main_target_groups) && $request->main_target_groups[0] != null) {
-            $main_target_group_IDs = array_map('intval', $request->main_target_groups);
+        if (count($main_target_group_IDs)) {
             $user_IDs2             = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
             $list_user_IDs         = array_intersect($list_user_IDs, $user_IDs2);
         }
 
-        if (isset($request->main_segment_groups) && $request->main_segment_groups[0] != null) {
-            $main_segment_group_IDs = array_map('intval', $request->main_segment_groups);
+        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+        if (count($main_segment_group_IDs)) {
             $user_IDs3              = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
             $list_user_IDs          = array_intersect($list_user_IDs, $user_IDs3);
         }
