@@ -137,3 +137,5 @@ Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@
 //Route::resource('attached_files', 'AttachedFilesAPIController');
 //
 //Route::resource('attached_images', 'AttachedImagesAPIController');
+
+Route::resource('responses', 'ResponsesAPIController');

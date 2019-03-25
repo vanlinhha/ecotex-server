@@ -31,7 +31,7 @@ class ProductPostsAPIController extends AppBaseController
 
     public function __construct(ProductPostsRepository $productPostsRepo, AttachedFilesRepository $attachedFilesRepo)
     {
-        $this->productPostsRepository  = $productPostsRepo;
+        $this->productPostsRepository = $productPostsRepo;
         $this->attachedFilesRepository = $attachedFilesRepo;
     }
 
@@ -70,41 +70,42 @@ class ProductPostsAPIController extends AppBaseController
 //        $this->productPostsRepository->pushCriteria(new RequestCriteria($request));
 //        $this->productPostsRepository->pushCriteria(new LimitOffsetCriteria($request));
 
-        $text_search   = $request->text_search ? $request->text_search : "";
+        $text_search = $request->text_search ? $request->text_search : "";
         $list_post_IDS = $this->productPostsRepository->findWhere([['title', 'like', "%" . $text_search . "%"]])->pluck('id')->all();
 
         $type_IDs = json_decode($request->type_id);
         if (count($type_IDs)) {
-            $post_IDs      = $this->productPostsRepository->findWhereIn('type_id', $type_IDs)->pluck('id')->all();
+            $post_IDs = $this->productPostsRepository->findWhereIn('type_id', $type_IDs)->pluck('id')->all();
             $list_post_IDS = array_intersect($list_post_IDS, $post_IDs);
         }
 
         $product_group_IDs = json_decode($request->product_group_id);
         if (count($product_group_IDs)) {
-            $post_IDs2     = $this->productPostsRepository->findWhereIn('product_group_id', $product_group_IDs)->pluck('id')->all();
+            $post_IDs2 = $this->productPostsRepository->findWhereIn('product_group_id', $product_group_IDs)->pluck('id')->all();
             $list_post_IDS = array_intersect($list_post_IDS, $post_IDs2);
         }
 
         if ($request->creator == "me") {
-            $post_IDs3     = $this->productPostsRepository->findWhereIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
+            $post_IDs3 = $this->productPostsRepository->findWhereIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
             $list_post_IDS = array_intersect($list_post_IDS, $post_IDs3);
         } elseif ($request->creator == "other") {
-            $post_IDs4     = $this->productPostsRepository->findWhereNotIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
+            $post_IDs4 = $this->productPostsRepository->findWhereNotIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
             $list_post_IDS = array_intersect($list_post_IDS, $post_IDs4);
         }
 
 
-        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
-        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $limit = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = (is_null($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
 
         $productPosts = $this->productPostsRepository->findWhereInAndPaginate('id', $list_post_IDS, $order_by, $direction, $limit, true, ['*']);
 
         foreach ($productPosts as $productPost) {
-            $attachedFiles                 = $productPost->attachedFiles()->get();
+            $attachedFiles = $productPost->attachedFiles()->get();
             $productPost['attached_files'] = $attachedFiles;
-            $attachedImages                = $productPost->attachedImages()->get();
-            $productPost['images']         = $attachedImages;
+            $attachedImages = $productPost->attachedImages()->get();
+            $productPost['images'] = $attachedImages;
+            $productPost['creator'] = $productPost->creator()->get(['first_name', 'last_name']);
         }
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts retrieved successfully');
@@ -149,7 +150,7 @@ class ProductPostsAPIController extends AppBaseController
     public function store(Request $request)
     {
 
-        $input        = $request->all();
+        $input = $request->all();
         $productPosts = $this->productPostsRepository->create($input);
 
         if (!is_dir(storage_path('app'))) {
@@ -170,20 +171,20 @@ class ProductPostsAPIController extends AppBaseController
 
         foreach ($request->images as $image) {
 
-            $base64    = explode(',', $image['base64'])[1];
+            $base64 = explode(',', $image['base64'])[1];
             $extension = isset($image['extension']) ? $image['extension'] : 'png';
-            $url       = "images/photo-" . uniqid() . '.' . $extension;
-            $path      = storage_path('app/public/') . $url;
+            $url = "images/photo-" . uniqid() . '.' . $extension;
+            $path = storage_path('app/public/') . $url;
             \Image::make($base64)->save($path);
             $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name']]);
         }
 
 
         foreach ($request->attached_files as $file) {
-            $base64    = explode(',', $file['base64'])[1];
+            $base64 = explode(',', $file['base64'])[1];
             $extension = isset($file['extension']) ? $file['extension'] : 'pdf';
-            $url       = "files/file-" . uniqid() . '.' . $extension;
-            $path      = storage_path('app/public/') . $url;
+            $url = "files/file-" . uniqid() . '.' . $extension;
+            $path = storage_path('app/public/') . $url;
 
             $decoded = base64_decode($base64);
             file_put_contents($path, $decoded);
@@ -191,10 +192,12 @@ class ProductPostsAPIController extends AppBaseController
             $productPosts->attachedFiles()->create(['url' => Storage::disk('local')->url($url), 'name' => $file['name']]);
         }
 
-        $attachedFiles                  = $productPosts->attachedFiles()->get();
+        $attachedFiles = $productPosts->attachedFiles()->get();
         $productPosts['attached_files'] = $attachedFiles;
-        $attachedImages                 = $productPosts->attachedImages()->get();
-        $productPosts['images']         = $attachedImages;
+        $attachedImages = $productPosts->attachedImages()->get();
+        $productPosts['images'] = $attachedImages;
+        $productPosts['creator'] = $productPosts->creator()->get(['first_name', 'last_name']);
+
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts saved successfully');
 
@@ -414,10 +417,11 @@ class ProductPostsAPIController extends AppBaseController
         /** @var ProductPosts $productPosts */
         $productPosts = $this->productPostsRepository->findWhere(['creator_id' => $user_id]);
         foreach ($productPosts as $productPost) {
-            $attachedFiles                 = $productPost->attachedFiles()->get();
+            $attachedFiles = $productPost->attachedFiles()->get();
             $productPost['attached_files'] = $attachedFiles;
-            $attachedImages                = $productPost->attachedImages()->get();
-            $productPost['images']         = $attachedImages;
+            $attachedImages = $productPost->attachedImages()->get();
+            $productPost['images'] = $attachedImages;
+            $productPost['creator'] = $productPost->creator()->get(['first_name', 'last_name']);
         }
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts retrieved successfully');

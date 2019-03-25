@@ -88,6 +88,11 @@ class AttachedFiles extends Model
         'url' => 'required',
     ];
 
+    public function getUrlAttribute($url)
+    {
+        return env('APP_URL') . $url;
+    }
+
     protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
 
 

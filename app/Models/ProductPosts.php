@@ -135,6 +135,12 @@ class ProductPosts extends Model
         return $this->hasMany(AttachedImages::class, 'post_id', 'id');
     }
 
+    public function creator(){
+        return $this->belongsTo(Users::class, 'creator_id', 'id');
+    }
+
+
+
     public function getCreatedAtAttribute($date)
     {
         return strtotime($date) * 1000;
