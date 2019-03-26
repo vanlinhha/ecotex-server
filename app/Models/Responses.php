@@ -121,6 +121,10 @@ class Responses extends Model
         'owner_id'        => 'required'
     ];
 
+    public function product_post(){
+        return $this->belongsTo(ProductPosts::class, 'product_post_id', 'id');
+    }
+
     public function getAcceptedQuantityAttribute($var)
     {
         return $var == 1 ? true : false;
