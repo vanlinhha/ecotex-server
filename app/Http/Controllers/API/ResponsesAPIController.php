@@ -69,6 +69,7 @@ class ResponsesAPIController extends AppBaseController
             $productPost['attached_files'] = $attachedFiles;
             $attachedImages                = $productPost->attachedImages()->get();
             $productPost['images']         = $attachedImages;
+            $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
             $response['product_post']      = $productPost;
         }
 
@@ -122,7 +123,8 @@ class ResponsesAPIController extends AppBaseController
         $productPost['attached_files'] = $attachedFiles;
         $attachedImages                = $productPost->attachedImages()->get();
         $productPost['images']         = $attachedImages;
-        $responses['product_post']      = $productPost;
+        $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
+        $responses['product_post']     = $productPost;
 
 
         return $this->sendResponse($responses->toArray(), 'Responses saved successfully');
@@ -178,7 +180,8 @@ class ResponsesAPIController extends AppBaseController
         $productPost['attached_files'] = $attachedFiles;
         $attachedImages                = $productPost->attachedImages()->get();
         $productPost['images']         = $attachedImages;
-        $responses['product_post']      = $productPost;
+        $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
+        $responses['product_post']     = $productPost;
 
         return $this->sendResponse($responses->toArray(), 'Responses retrieved successfully');
     }
@@ -344,6 +347,7 @@ class ResponsesAPIController extends AppBaseController
             $productPost['attached_files'] = $attachedFiles;
             $attachedImages                = $productPost->attachedImages()->get();
             $productPost['images']         = $attachedImages;
+            $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
             $response['product_post']      = $productPost;
         }
 
