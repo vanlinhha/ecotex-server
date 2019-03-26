@@ -197,7 +197,7 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts['attached_files'] = $attachedFiles;
         $attachedImages = $productPosts->attachedImages()->get();
         $productPosts['images'] = $attachedImages;
-        $productPosts['creator'] = $productPosts->creator()->get(['first_name', 'last_name', 'company_name']);
+        $productPosts['creator'] = $productPosts->creator()->select('first_name', 'last_name', 'company_name')->first();
 
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts saved successfully');
@@ -422,7 +422,7 @@ class ProductPostsAPIController extends AppBaseController
             $productPost['attached_files'] = $attachedFiles;
             $attachedImages = $productPost->attachedImages()->get();
             $productPost['images'] = $attachedImages;
-            $productPost['creator'] = $productPost->creator()->get(['first_name', 'last_name', 'company_name']);
+            $productPost['creator'] = $productPost->creator()->select('first_name', 'last_name', 'company_name')->first();
         }
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts retrieved successfully');
