@@ -145,7 +145,7 @@ class Responses extends Model
         return strtotime($date) * 1000;
     }
 
-    protected $hidden = ['updated_at', 'deleted_at'];
+    protected $hidden = ['updated_at', 'deleted_at', 'product_post_id'];
 
 
 }
