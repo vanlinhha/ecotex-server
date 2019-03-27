@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Image;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\RestController;
@@ -576,13 +577,19 @@ class UserController extends RestController
     }
 
     public function upload(Request $request){
+        dd($request);
+
+        $image = $request->file('file');
+        return gettype($image);
+
         $input = $request->all();
         $file = $request->file('file');
-        $url = "images/photo-" . uniqid() . '.' . 'png';
+        $url = "images/photo-" . uniqid() . '.png';
 
         $path = storage_path('app/public/') . $url;
-        file_put_contents($path, $input);
-        return $file ;
+        \Image::make($image)->resize(800, 600)->save($path);
+
+        return env('APP_URL') . '/storage/' .  $url;
     }
 
     public function testRole(){
