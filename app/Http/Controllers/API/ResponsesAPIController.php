@@ -17,7 +17,6 @@ use JWTAuth;
  * Class ResponsesController
  * @package App\Http\Controllers\API
  */
-
 class ResponsesAPIController extends AppBaseController
 {
     /** @var  ResponsesRepository */
@@ -64,6 +63,16 @@ class ResponsesAPIController extends AppBaseController
         $this->responsesRepository->pushCriteria(new LimitOffsetCriteria($request));
         $responses = $this->responsesRepository->all();
 
+        foreach ($responses as $response) {
+            $productPost                   = $response->product_post()->first();
+            $attachedFiles                 = $productPost->attachedFiles()->get();
+            $productPost['attached_files'] = $attachedFiles;
+            $attachedImages                = $productPost->attachedImages()->get();
+            $productPost['images']         = $attachedImages;
+            $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
+            $response['product_post']      = $productPost;
+        }
+
         return $this->sendResponse($responses->toArray(), 'Responses retrieved successfully');
     }
 
@@ -108,6 +117,15 @@ class ResponsesAPIController extends AppBaseController
         $input = $request->all();
 
         $responses = $this->responsesRepository->create($input);
+
+        $productPost                   = $responses->product_post()->first();
+        $attachedFiles                 = $productPost->attachedFiles()->get();
+        $productPost['attached_files'] = $attachedFiles;
+        $attachedImages                = $productPost->attachedImages()->get();
+        $productPost['images']         = $attachedImages;
+        $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
+        $responses['product_post']     = $productPost;
+
 
         return $this->sendResponse($responses->toArray(), 'Responses saved successfully');
     }
@@ -156,6 +174,14 @@ class ResponsesAPIController extends AppBaseController
         if (empty($responses)) {
             return $this->sendError('Responses not found');
         }
+
+        $productPost                   = $responses->product_post()->first();
+        $attachedFiles                 = $productPost->attachedFiles()->get();
+        $productPost['attached_files'] = $attachedFiles;
+        $attachedImages                = $productPost->attachedImages()->get();
+        $productPost['images']         = $attachedImages;
+        $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
+        $responses['product_post']     = $productPost;
 
         return $this->sendResponse($responses->toArray(), 'Responses retrieved successfully');
     }
@@ -272,7 +298,7 @@ class ResponsesAPIController extends AppBaseController
     /**
      *
      * @SWG\Get(
-     *      path="/responses/{id}",
+     *      path="/response_user",
      *      summary="Display the specified Responses",
      *      tags={"Responses"},
      *      description="Get Responses",
@@ -313,6 +339,16 @@ class ResponsesAPIController extends AppBaseController
 
         if (empty($responses)) {
             return $this->sendError('Responses not found');
+        }
+
+        foreach ($responses as $response) {
+            $productPost                   = $response->product_post()->first();
+            $attachedFiles                 = $productPost->attachedFiles()->get();
+            $productPost['attached_files'] = $attachedFiles;
+            $attachedImages                = $productPost->attachedImages()->get();
+            $productPost['images']         = $attachedImages;
+            $productPost['creator']        = $productPost->creator()->select('id', 'first_name', 'last_name', 'company_name')->first();
+            $response['product_post']      = $productPost;
         }
 
         return $this->sendResponse($responses->toArray(), 'Responses retrieved successfully');

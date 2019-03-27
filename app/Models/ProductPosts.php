@@ -139,7 +139,7 @@ class ProductPosts extends Model
         return $this->belongsTo(Users::class, 'creator_id', 'id');
     }
 
-
+    protected $hidden = ['updated_at', 'deleted_at', 'creator_id'];
 
     public function getCreatedAtAttribute($date)
     {

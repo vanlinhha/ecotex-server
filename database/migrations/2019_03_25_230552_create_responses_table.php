@@ -18,11 +18,11 @@ class CreateResponsesTable extends Migration
             $table->integer('product_post_id');
             $table->integer('owner_id');
             $table->integer('accepted_quantity');
-            $table->string('suggest_quantity');
+            $table->string('suggest_quantity')->nullable();
             $table->integer('accepted_price');
-            $table->string('suggest_price');
+            $table->string('suggest_price')->nullable();
             $table->integer('accepted_delivery');
-            $table->string('suggest_delivery');
+            $table->string('suggest_delivery')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

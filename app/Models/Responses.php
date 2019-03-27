@@ -79,7 +79,7 @@ class Responses extends Model
     use SoftDeletes;
 
     public $table = 'responses';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -101,14 +101,14 @@ class Responses extends Model
      * @var array
      */
     protected $casts = [
-        'product_post_id' => 'integer',
-        'owner_id' => 'integer',
+        'product_post_id'   => 'integer',
+        'owner_id'          => 'integer',
         'accepted_quantity' => 'integer',
-        'suggest_quantity' => 'string',
-        'accepted_price' => 'integer',
-        'suggest_price' => 'string',
+        'suggest_quantity'  => 'string',
+        'accepted_price'    => 'integer',
+        'suggest_price'     => 'string',
         'accepted_delivery' => 'integer',
-        'suggest_delivery' => 'string'
+        'suggest_delivery'  => 'string'
     ];
 
     /**
@@ -118,14 +118,33 @@ class Responses extends Model
      */
     public static $rules = [
         'product_post_id' => 'required',
-        'owner_id' => 'required'
+        'owner_id'        => 'required'
     ];
+
+    public function product_post(){
+        return $this->belongsTo(ProductPosts::class, 'product_post_id', 'id');
+    }
+
+    public function getAcceptedQuantityAttribute($var)
+    {
+        return $var == 1 ? true : false;
+    }
+
+    public function getAcceptedPriceAttribute($var)
+    {
+        return $var == 1 ? true : false;
+    }
+
+    public function getAcceptedDeliveryAttribute($var)
+    {
+        return $var == 1 ? true : false;
+    }
 
     public function getCreatedAtAttribute($date)
     {
         return strtotime($date) * 1000;
     }
 
-    protected $hidden = ['updated_at', 'deleted_at'];
+    protected $hidden = ['updated_at', 'deleted_at', 'product_post_id'];
 
 }
