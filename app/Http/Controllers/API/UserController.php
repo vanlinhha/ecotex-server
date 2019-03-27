@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Permission;
+use App\Repositories\AttachedFilesRepository;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,12 @@ use Tymon\JWTAuth\Token;
 class UserController extends RestController
 {
 
+    private $attachedFilesRepository;
+
+    public function __construct( AttachedFilesRepository $attachedFilesRepo)
+    {
+        $this->attachedFilesRepository = $attachedFilesRepo;
+    }
     /**
      *
      * @return Response
@@ -74,7 +81,7 @@ class UserController extends RestController
 
     public function authenticate(Request $request)
     {
-        $timeExp     = (time() + (24 * 60 * 60)) * 1000;
+        $timeExp = (time() + (24 * 60 * 60)) * 1000;
         $credentials = $request->only('email', 'password');
 
         try {
@@ -91,24 +98,24 @@ class UserController extends RestController
 //            $roles = 0;
 //        }
 
-        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
         $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
-        $role                = $user->roles()->get();
-        $bookmarks           = $user->bookmarks()->get();
+        $mainMaterialGroups = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
+        $role = $user->roles()->get();
+        $bookmarks = $user->bookmarks()->get();
 
-        $user['bookmarks']             = $bookmarks;
-        $user['role']                  = $role;
-        $user['role_type_ids']         = $role_type_ids;
-        $user['main_product_groups']   = $mainProductGroups;
-        $user['main_services']         = $mainServices;
-        $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegmentGroups;
-        $user['main_target_groups']    = $mainTargets;
+        $user['bookmarks'] = $bookmarks;
+        $user['role'] = $role;
+        $user['role_type_ids'] = $role_type_ids;
+        $user['main_product_groups'] = $mainProductGroups;
+        $user['main_services'] = $mainServices;
+        $user['main_material_groups'] = $mainMaterialGroups;
+        $user['main_segment_groups'] = $mainSegmentGroups;
+        $user['main_target_groups'] = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
         //        $user['role_id']               = $roles;
 
@@ -264,17 +271,17 @@ class UserController extends RestController
 
     public function register(Request $request)
     {
-        $main_product_group_IDs  = json_decode($request->main_product_groups);
+        $main_product_group_IDs = json_decode($request->main_product_groups);
         $main_material_group_IDs = json_decode($request->main_material_groups);
-        $main_segment_group_IDs  = json_decode($request->main_segment_groups);
-        $main_target_group_IDs   = json_decode($request->main_target_groups);
-        $role_types              = json_decode($request->role_types);
+        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+        $main_target_group_IDs = json_decode($request->main_target_groups);
+        $role_types = json_decode($request->role_types);
 
         $validator = Validator::make($request->all(), [
-            'email'      => 'string|email|max:255|unique:users',
-            'password'   => 'required|string|min:6',
+            'email' => 'string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
             'first_name' => 'required|string',
-            'last_name'  => 'required|string',
+            'last_name' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -282,31 +289,31 @@ class UserController extends RestController
         }
 
         $user = Users::create([
-            'email'                        => $request->post('email'),
-            'password'                     => Hash::make($request->post('password')),
-            'first_name'                   => $request->post('first_name'),
-            'last_name'                    => $request->post('last_name'),
-            'phone'                        => $request->post('phone'),
-            'country_id'                   => $request->post('country_id'),
-            'company_name'                 => $request->post('company_name'),
-            'company_address'              => $request->post('company_address'),
-            'brief_name'                   => $request->post('brief_name'),
-            'website'                      => $request->post('website'),
-            'description'                  => $request->post('description'),
-            'identity_card'                => $request->post('identity_card'),
-            'minimum_order_quantity'       => $request->post('minimum_order_quantity'),
-            'establishment_year'           => $request->post('establishment_year'),
+            'email' => $request->post('email'),
+            'password' => Hash::make($request->post('password')),
+            'first_name' => $request->post('first_name'),
+            'last_name' => $request->post('last_name'),
+            'phone' => $request->post('phone'),
+            'country_id' => $request->post('country_id'),
+            'company_name' => $request->post('company_name'),
+            'company_address' => $request->post('company_address'),
+            'brief_name' => $request->post('brief_name'),
+            'website' => $request->post('website'),
+            'description' => $request->post('description'),
+            'identity_card' => $request->post('identity_card'),
+            'minimum_order_quantity' => $request->post('minimum_order_quantity'),
+            'establishment_year' => $request->post('establishment_year'),
             'business_registration_number' => $request->post('business_registration_number'),
-            'form_of_ownership'            => $request->post('form_of_ownership'),
-            'number_of_employees'          => $request->post('number_of_employees'),
-            'floor_area'                   => $request->post('floor_area'),
-            'area_of_factory'              => $request->post('area_of_factory'),
-            'commercial_service_type'      => $request->post('commercial_service_type'),
-            'revenue_per_year'             => $request->post('revenue_per_year'),
-            'pieces_per_year'              => $request->post('pieces_per_year'),
-            'compliance'                   => $request->post('compliance'),
-            'activation_code'              => str_random(20),
-            'is_activated'                 => 0,
+            'form_of_ownership' => $request->post('form_of_ownership'),
+            'number_of_employees' => $request->post('number_of_employees'),
+            'floor_area' => $request->post('floor_area'),
+            'area_of_factory' => $request->post('area_of_factory'),
+            'commercial_service_type' => $request->post('commercial_service_type'),
+            'revenue_per_year' => $request->post('revenue_per_year'),
+            'pieces_per_year' => $request->post('pieces_per_year'),
+            'compliance' => $request->post('compliance'),
+            'activation_code' => str_random(20),
+            'is_activated' => 0,
         ]);
 
         $this->user = $user;
@@ -576,25 +583,32 @@ class UserController extends RestController
 
     }
 
-    public function upload(Request $request){
-        $extension = $request->file('file')->getClientOriginalName();
-        return $extension;
-        dd($request->input());
+    public function upload(Request $request)
+    {
+        if (!is_dir(storage_path('app'))) {
+            mkdir(storage_path('app'), 0777);
+        }
 
-        $image = $request->file('file');
-        return gettype($image);
+        if (!is_dir(storage_path('app/public'))) {
+            mkdir(storage_path('app/public'), 0777);
 
-        $input = $request->all();
+        }
+        if (!is_dir(storage_path('app/public/files'))) {
+            mkdir(storage_path('app/public/files'), 0777);
+        }
+
         $file = $request->file('file');
-        $url = "images/photo-" . uniqid() . '.png';
+        $extension = $request->file('file')->getClientOriginalName();
+        $filename = uniqid() . '-' . $extension;
+        $file->move(storage_path('app/public/files'), $filename);
+        $attach_file = $this->attachedFilesRepository->create(['post_id' => 0, 'name' => $extension, 'url' => '/storage/files/' . $filename]);
+        return $attach_file->id;
+//        return env('APP_URL') . '/storage/files/' . $filename;
 
-        $path = storage_path('app/public/') . $url;
-        \Image::make($image)->resize(800, 600)->save($path);
-
-        return env('APP_URL') . '/storage/' .  $url;
     }
 
-    public function testRole(){
+    public function testRole()
+    {
         return JWTAuth::parseToken()->authenticate()->roles()->get();
     }
 
