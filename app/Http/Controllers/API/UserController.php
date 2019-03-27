@@ -7,6 +7,7 @@ use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -575,10 +576,13 @@ class UserController extends RestController
     }
 
     public function upload(Request $request){
-        $image_base64 = base64_decode($request->file);
-        $file =  storage_path() . '/'  . uniqid() . '.png';
-        file_put_contents($file, $image_base64);
-        return $file;
+        $input = $request->all();
+        $file = $request->file('file');
+        $url = "images/photo-" . uniqid() . '.' . 'png';
+
+        $path = storage_path('app/public/') . $url;
+        file_put_contents($path, $input);
+        return $file ;
     }
 
     public function testRole(){
