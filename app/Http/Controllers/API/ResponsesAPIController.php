@@ -298,7 +298,7 @@ class ResponsesAPIController extends AppBaseController
     /**
      *
      * @SWG\Get(
-     *      path="/responses/{id}",
+     *      path="/response_user",
      *      summary="Display the specified Responses",
      *      tags={"Responses"},
      *      description="Get Responses",
