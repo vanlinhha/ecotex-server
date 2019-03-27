@@ -577,7 +577,7 @@ class UserController extends RestController
     }
 
     public function upload(Request $request){
-        dd($request);
+        dd($request->input());
 
         $image = $request->file('file');
         return gettype($image);
