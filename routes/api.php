@@ -136,6 +136,8 @@ Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function
 
 Route::post('/uploads', 'UserController@upload');
 
+Route::post('/uploads_test', 'UserController@uploads_test');
+
 
 
 

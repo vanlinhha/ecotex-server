@@ -602,8 +602,8 @@ class UserController extends RestController
         $filename = uniqid() . '-' . $extension;
         $file->move(storage_path('app/public/files'), $filename);
         $attach_file = $this->attachedFilesRepository->create(['post_id' => 0, 'name' => $extension, 'url' => '/storage/files/' . $filename]);
-        return $attach_file->id;
-//        return env('APP_URL') . '/storage/files/' . $filename;
+//        return $attach_file;
+        return env('APP_URL') . '/storage/files/' . $filename;
 
     }
 
