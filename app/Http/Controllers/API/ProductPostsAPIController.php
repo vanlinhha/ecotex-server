@@ -170,14 +170,22 @@ class ProductPostsAPIController extends AppBaseController
             mkdir(storage_path('app/public/images'), 0777);
         }
 
-        foreach ($request->images as $image) {
+        foreach ($request->file('images') as $image) {
 
-            $base64 = explode(',', $image['base64'])[1];
-            $extension = isset($image['extension']) ? $image['extension'] : 'png';
-            $url = "images/photo-" . uniqid() . '.' . $extension;
-            $path = storage_path('app/public/') . $url;
-            \Image::make($base64)->save($path);
-            $productPosts->attachedImages()->create(['url' => Storage::disk('local')->url($url), 'name' => $image['name']]);
+
+//            $file = $request->file(ơ);
+//            $file = $image['file'];
+            $extension = $image->getClientOriginalName();
+            $filename = uniqid() . '-' . $extension;
+            $image->move(storage_path('app/public/images'), $filename);
+
+//            $base64 = explode(',', $image['base64'])[1];
+//            $extension = isset($image['extension']) ? $image['extension'] : 'png';
+//            $url = "images/photo-" . uniqid() . '.' . $extension;
+//            $path = storage_path('app/public/') . $url;
+//            \Image::make($base64)->save($path);
+
+            $productPosts->attachedImages()->create(['url' => '/storage/images/' . $filename, 'name' => $extension]);
         }
 
 

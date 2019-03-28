@@ -609,6 +609,7 @@ class UserController extends RestController
 
     public function uploads_test(Request $request)
     {
+
         return $request->all();
         if (!is_dir(storage_path('app'))) {
             mkdir(storage_path('app'), 0777);
