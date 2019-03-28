@@ -171,52 +171,21 @@ class ProductPostsAPIController extends AppBaseController
         }
 
         foreach ($request->file('images') as $image) {
-
-
-//            $file = $request->file(ơ);
-//            $file = $image['file'];
             $extension = $image->getClientOriginalName();
             $filename = uniqid() . '-' . $extension;
             $image->move(storage_path('app/public/images'), $filename);
-
-//            $base64 = explode(',', $image['base64'])[1];
-//            $extension = isset($image['extension']) ? $image['extension'] : 'png';
-//            $url = "images/photo-" . uniqid() . '.' . $extension;
-//            $path = storage_path('app/public/') . $url;
-//            \Image::make($base64)->save($path);
 
             $productPosts->attachedImages()->create(['url' => '/storage/images/' . $filename, 'name' => $extension]);
         }
 
         foreach ($request->file('attached_files') as $file) {
 
-
-//            $file = $request->file(ơ);
-//            $file = $image['file'];
             $extension = $file->getClientOriginalName();
             $filename = uniqid() . '-' . $extension;
             $file->move(storage_path('app/public/files'), $filename);
 
-//            $base64 = explode(',', $image['base64'])[1];
-//            $extension = isset($image['extension']) ? $image['extension'] : 'png';
-//            $url = "images/photo-" . uniqid() . '.' . $extension;
-//            $path = storage_path('app/public/') . $url;
-//            \Image::make($base64)->save($path);
-
             $productPosts->attachedFiles()->create(['url' => '/storage/files/' . $filename, 'name' => $extension]);
         }
-
-//        foreach ($request->attached_files as $file) {
-//            $base64 = explode(',', $file['base64'])[1];
-//            $extension = isset($file['extension']) ? $file['extension'] : 'pdf';
-//            $url = "files/file-" . uniqid() . '.' . $extension;
-//            $path = storage_path('app/public/') . $url;
-//
-//            $decoded = base64_decode($base64);
-//            file_put_contents($path, $decoded);
-//
-//            $productPosts->attachedFiles()->create(['url' => Storage::disk('local')->url($url), 'name' => $file['name']]);
-//        }
 
         $attachedFiles = $productPosts->attachedFiles()->get();
         $productPosts['attached_files'] = $attachedFiles;

@@ -20,7 +20,7 @@ class CreateProductPostsTable extends Migration
             $table->float('target_price');
             $table->text('specification');
             $table->integer('type_id');
-            $table->integer('incoterm');
+            $table->string('incoterm');
             $table->integer('creator_id');
             $table->text('title');
             $table->bigInteger('delivery_date');

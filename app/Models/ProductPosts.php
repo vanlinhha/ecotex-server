@@ -108,7 +108,7 @@ class ProductPosts extends Model
         'target_price' => 'float',
         'specification' => 'string',
         'type_id' => 'integer',
-        'incoterm' => 'integer',
+        'incoterm' => 'string',
         'creator_id' => 'integer',
         'title' => 'string',
         'delivery_date' => 'integer'
