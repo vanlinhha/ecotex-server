@@ -607,6 +607,31 @@ class UserController extends RestController
 
     }
 
+    public function uploads_test(Request $request)
+    {
+        return $request->all();
+        if (!is_dir(storage_path('app'))) {
+            mkdir(storage_path('app'), 0777);
+        }
+
+        if (!is_dir(storage_path('app/public'))) {
+            mkdir(storage_path('app/public'), 0777);
+
+        }
+        if (!is_dir(storage_path('app/public/files'))) {
+            mkdir(storage_path('app/public/files'), 0777);
+        }
+
+        $file = $request->file('file');
+        $extension = $request->file('file')->getClientOriginalName();
+        $filename = uniqid() . '-' . $extension;
+        $file->move(storage_path('app/public/files'), $filename);
+        $attach_file = $this->attachedFilesRepository->create(['post_id' => 0, 'name' => $extension, 'url' => '/storage/files/' . $filename]);
+        return $attach_file->id;
+//        return env('APP_URL') . '/storage/files/' . $filename;
+
+    }
+
     public function testRole()
     {
         return JWTAuth::parseToken()->authenticate()->roles()->get();
