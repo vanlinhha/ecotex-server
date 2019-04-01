@@ -108,9 +108,13 @@ class UserController extends RestController
         $role = $user->roles()->get();
         $bookmarks = $user->bookmarks()->get();
         $locations = $user->locations()->get();
+
         $products = $user->products()->get();
-        $productImages = $products->productImages()->get();
-        $products['images'] = $productImages;
+
+        foreach ($products as $product) {
+            $productImages = $product->productImages()->get();
+            $product['images'] = $productImages;
+        }
 
         $user['bookmarks'] = $bookmarks;
         $user['locations'] = $locations;

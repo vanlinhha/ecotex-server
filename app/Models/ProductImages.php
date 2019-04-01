@@ -88,7 +88,7 @@ class ProductImages extends Model
         'url' => 'required',
     ];
 
-    protected $hidden = ['updated_at', 'created_at', 'deleted_at'];
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'product_id'];
 
     public function getUrlAttribute($url)
     {
