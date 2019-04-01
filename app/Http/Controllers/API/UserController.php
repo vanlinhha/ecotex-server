@@ -109,6 +109,8 @@ class UserController extends RestController
         $bookmarks = $user->bookmarks()->get();
         $locations = $user->locations()->get();
         $products = $user->products()->get();
+        $productImages = $products->productImages()->get();
+        $products['images'] = $productImages;
 
         $user['bookmarks'] = $bookmarks;
         $user['locations'] = $locations;
