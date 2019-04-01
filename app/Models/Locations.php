@@ -111,6 +111,7 @@ class Locations extends Model
      */
     public static $rules = [
         'user_id'    => 'required',
+        'name'       => 'required',
         'address'    => 'required',
         'zip_code'   => 'required',
         'country_id' => 'required'
