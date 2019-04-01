@@ -672,10 +672,10 @@ class UsersAPIController extends AppBaseController
     {
         $user = $this->usersRepository->findWithoutFail($request->user_id);
         if (!$user) {
-            return $this->sendError('Users not found!');
+            return $this->sendError('Users not found!', 404);
         }
         if (trim($user->activation_code) == "") {
-            return $this->sendError('Users already activated!');
+            return $this->sendError('Users already activated!', 403);
         }
         if (trim($user->activation_code) === trim($request->activation_code)) {
             $this->usersRepository->update(['activation_code' => ""], $request->user_id);
