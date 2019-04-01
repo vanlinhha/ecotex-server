@@ -77,10 +77,7 @@ class Products extends Model
         'user_id',
         'product_group_id',
         'name',
-        'description',
-        'is_main_product',
-        'minimum_order_quantity_id',
-        'lead_time'
+        'description'
     ];
 
     /**
@@ -92,10 +89,7 @@ class Products extends Model
         'user_id' => 'integer',
         'product_group_id' => 'integer',
         'name' => 'string',
-        'description' => 'string',
-        'is_main_product' => 'boolean',
-        'minimum_order_quantity_id' => 'integer',
-        'lead_time' => 'string'
+        'description' => 'string'
     ];
 
     public function productImages(){
@@ -111,7 +105,6 @@ class Products extends Model
         'user_id' => 'required',
         'product_group_id' => 'required',
         'name' => 'required',
-        'minimum_order_quantity_id' => 'required'
     ];
 
     

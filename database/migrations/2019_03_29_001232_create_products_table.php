@@ -19,9 +19,6 @@ class CreateProductsTable extends Migration
             $table->integer('product_group_id');
             $table->string('name');
             $table->string('description');
-            $table->boolean('is_main_product');
-            $table->integer('minimum_order_quantity_id');
-            $table->string('lead_time');
             $table->timestamps();
             $table->softDeletes();
         });
