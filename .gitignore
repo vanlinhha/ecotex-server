@@ -14,3 +14,4 @@ yarn-error.log
 /nbproject/private/
 .htaccess
 storage/app
+storage/docs/api-docs.json
