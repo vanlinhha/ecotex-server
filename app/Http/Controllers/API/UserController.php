@@ -107,8 +107,12 @@ class UserController extends RestController
         $role_type_ids = $user->roleTypes()->pluck('role_type_id');
         $role = $user->roles()->get();
         $bookmarks = $user->bookmarks()->get();
+        $locations = $user->locations()->get();
+        $products = $user->products()->get();
 
         $user['bookmarks'] = $bookmarks;
+        $user['locations'] = $locations;
+        $user['products'] = $products;
         $user['role'] = $role;
         $user['role_type_ids'] = $role_type_ids;
         $user['main_product_groups'] = $mainProductGroups;
