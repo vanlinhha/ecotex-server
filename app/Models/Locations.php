@@ -72,7 +72,7 @@ class Locations extends Model
     use SoftDeletes;
 
     public $table = 'locations';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -81,6 +81,7 @@ class Locations extends Model
         'user_id',
         'is_headquater',
         'address',
+        'name',
         'zip_code',
         'city',
         'country_id',
@@ -93,12 +94,14 @@ class Locations extends Model
      * @var array
      */
     protected $casts = [
-        'user_id' => 'integer',
+        'user_id'       => 'integer',
         'is_headquater' => 'boolean',
-        'address' => 'string',        'zip_code' => 'string',
-        'city' => 'string',
-        'country_id' => 'integer',
-        'phone' => 'string'
+        'name'          => 'string',
+        'address'       => 'string',
+        'zip_code'      => 'string',
+        'city'          => 'string',
+        'country_id'    => 'integer',
+        'phone'         => 'string'
     ];
 
     /**
@@ -107,11 +110,11 @@ class Locations extends Model
      * @var array
      */
     public static $rules = [
-        'user_id' => 'required',
-        'address' => 'required',
-        'zip_code' => 'required',
+        'user_id'    => 'required',
+        'address'    => 'required',
+        'zip_code'   => 'required',
         'country_id' => 'required'
     ];
 
-    
+
 }

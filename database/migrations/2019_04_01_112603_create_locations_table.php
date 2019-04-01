@@ -17,6 +17,7 @@ class CreateLocationsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->boolean('is_headquater');
+            $table->string('name');
             $table->string('address');
             $table->string('zip_code');
             $table->string('city');
