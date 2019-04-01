@@ -150,3 +150,8 @@ Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@
 
 Route::resource('products', 'ProductsAPIController');
 Route::get('/product_user/{user_id}', 'ProductsAPIController@product_user');
+
+
+
+
+Route::resource('locations', 'LocationsAPIController');
