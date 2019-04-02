@@ -188,6 +188,7 @@ class Users extends Authenticatable implements JWTSubject
         'country_id',
         'company_name',
         'brief_name',
+        'avatar',
         'company_address',
         'website',
         'description',
@@ -223,6 +224,7 @@ class Users extends Authenticatable implements JWTSubject
         'country_id' => 'integer',
         'company_name' => 'string',
         'brief_name' => 'string',
+        'avatar' => 'string',
         'company_address' => 'string',
         'website' => 'string',
         'description' => 'string',
@@ -306,6 +308,11 @@ class Users extends Authenticatable implements JWTSubject
 
     public function getInfo(){
 
+    }
+
+    public function getAvatarAttribute($url)
+    {
+        return env('APP_URL') . $url;
     }
 
     public function getJWTIdentifier()

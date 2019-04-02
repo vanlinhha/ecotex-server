@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('country_id')->nullable();
             $table->string('company_name')->nullable();
             $table->string('brief_name')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('company_address')->nullable();
             $table->string('website')->nullable();
             $table->string('description')->nullable();

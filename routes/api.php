@@ -29,6 +29,7 @@ Route::get('/test_role', 'UserController@testRole');
 Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile', 'role:administrator']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
+    Route::put('/upload_avatar', 'UserController@uploadAvatar');
 });
 
 

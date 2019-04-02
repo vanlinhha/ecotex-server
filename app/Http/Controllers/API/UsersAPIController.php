@@ -12,6 +12,7 @@ use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use JWTAuth;
 
 /**
  * Class UsersController
@@ -689,6 +690,30 @@ class UsersAPIController extends AppBaseController
     public function resendActivationCode(Request $request)
     {
         $user = $this->usersRepository->findWithoutFail($request->user_id);
+    }
+
+    public function uploadAvatar(Request $request)
+    {
+        if (!is_dir(storage_path('app'))) {
+            mkdir(storage_path('app'), 0777);
+        }
+
+        if (!is_dir(storage_path('app/public'))) {
+            mkdir(storage_path('app/public'), 0777);
+
+        }
+        if (!is_dir(storage_path('app/public/avatars/'))) {
+            mkdir(storage_path('app/public/avatars'), 0777);
+        }
+
+        if ($request->hasFile('avatar')) {
+            $extension = $request->file('avatar')->getClientOriginalName();
+            $filename  = uniqid() . '-' . $extension;
+            $request->file('avatar')->move(storage_path('app/public/avatars'), $filename);
+            $user = $this->usersRepository->update(['avatar' => '/storage/avatars/' . $filename], JWTAuth::parseToken()->authenticate()->id);
+        }
+        return $this->sendResponse($user->toArray(), 'User avatar updated successfully');
+
     }
 
 
