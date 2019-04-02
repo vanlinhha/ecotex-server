@@ -107,5 +107,7 @@ class Products extends Model
         'name' => 'required',
     ];
 
-    
+    protected $hidden = ['deleted_at' , 'product_id'];
+
+
 }
