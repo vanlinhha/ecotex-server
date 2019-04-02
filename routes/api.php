@@ -29,7 +29,6 @@ Route::get('/test_role', 'UserController@testRole');
 Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile', 'role:administrator']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
-    Route::put('/upload_avatar', 'UserController@uploadAvatar');
 });
 
 
@@ -94,6 +93,8 @@ Route::put('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
 
 
 //                         MODULE PROFILE
+Route::post('/upload_avatar', 'UsersAPIController@uploadAvatar');
+
 
 //Update user profile
 Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], function () {
@@ -112,6 +113,8 @@ Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], functi
     Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
 
     Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
+
+
 
 
 });
