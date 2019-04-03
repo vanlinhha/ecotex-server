@@ -160,7 +160,7 @@ class MainSegmentGroupsAPIController extends AppBaseController
         $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithUserInfo($id);
 
         if (empty($mainSegmentGroups)) {
-            return $this->sendError('Main Segments not found');
+            return $this->sendError(__('Main Segments not found'));
         }
 
         return $this->sendResponse($mainSegmentGroups->toArray(), 'Main Segments retrieved successfully');
@@ -220,7 +220,7 @@ class MainSegmentGroupsAPIController extends AppBaseController
         $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithoutFail($id);
 
         if (empty($mainSegmentGroups)) {
-            return $this->sendError('Main Segments not found');
+            return $this->sendError(__('Main Segments not found'));
         }
 
         $mainSegmentGroups = $this->mainSegmentGroupsRepository->update($input, $id);
@@ -272,7 +272,7 @@ class MainSegmentGroupsAPIController extends AppBaseController
         $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithoutFail($id);
 
         if (empty($mainSegmentGroups)) {
-            return $this->sendError('Main Segments not found');
+            return $this->sendError(__('Main Segments not found'));
         }
 
         $mainSegmentGroups->delete();
@@ -296,7 +296,7 @@ class MainSegmentGroupsAPIController extends AppBaseController
                 $mainSegmentGroups = $this->mainSegmentGroupsRepository->findWithoutFail($item['id']);
 
                 if (empty($mainSegmentGroups)) {
-                    return $this->sendError('Main Segments not found');
+                    return $this->sendError(__('Main Segments not found'));
                 }
                 $mainSegmentGroups->delete();
             }

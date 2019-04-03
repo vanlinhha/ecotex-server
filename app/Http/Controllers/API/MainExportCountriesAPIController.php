@@ -155,7 +155,7 @@ class MainExportCountriesAPIController extends AppBaseController
         $mainExportCountries = $this->mainExportCountriesRepository->findWithoutFail($id);
 
         if (empty($mainExportCountries)) {
-            return $this->sendError('Main Export Countries not found');
+            return $this->sendError(__('Main Export Countries not found'));
         }
 
         return $this->sendResponse($mainExportCountries->toArray(), 'Main Export Countries retrieved successfully');
@@ -212,7 +212,7 @@ class MainExportCountriesAPIController extends AppBaseController
         $mainExportCountries = $this->mainExportCountriesRepository->findWithoutFail($id);
 
         if (empty($mainExportCountries)) {
-            return $this->sendError('Main Export Countries not found');
+            return $this->sendError(__('Main Export Countries not found'));
         }
 
         $mainExportCountries = $this->mainExportCountriesRepository->update($input, $id);
@@ -262,7 +262,7 @@ class MainExportCountriesAPIController extends AppBaseController
         $mainExportCountries = $this->mainExportCountriesRepository->findWithoutFail($id);
 
         if (empty($mainExportCountries)) {
-            return $this->sendError('Main Export Countries not found');
+            return $this->sendError(__('Main Export Countries not found'));
         }
 
         $mainExportCountries->delete();
@@ -285,7 +285,7 @@ class MainExportCountriesAPIController extends AppBaseController
                 $mainExportCountries = $this->mainExportCountriesRepository->findWithoutFail($item['id']);
 
                 if (empty($mainExportCountries)) {
-                    return $this->sendError('Main export countries not found');
+                    return $this->sendError(__('Main Export Countries not found'));
                 }
                 $mainExportCountries->delete();
             }

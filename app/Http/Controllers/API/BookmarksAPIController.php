@@ -98,7 +98,7 @@ class BookmarksAPIController extends AppBaseController
             }
             return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
         } else {
-            return $this->sendError('Users not found');
+            return $this->sendError(__('User not found'));
         }
 
     }
@@ -194,7 +194,7 @@ class BookmarksAPIController extends AppBaseController
         $bookmarks = $this->bookmarksRepository->findWithoutFail($id);
 
         if (empty($bookmarks)) {
-            return $this->sendError('Bookmarks not found');
+            return $this->sendError(__('Bookmarks not found'));
         }
 
         return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
@@ -254,7 +254,7 @@ class BookmarksAPIController extends AppBaseController
         $bookmarks = $this->bookmarksRepository->findWithoutFail($id);
 
         if (empty($bookmarks)) {
-            return $this->sendError('Bookmarks not found');
+            return $this->sendError(__('Bookmarks not found'));
         }
 
         $bookmarks = $this->bookmarksRepository->update($input, $id);
@@ -306,7 +306,7 @@ class BookmarksAPIController extends AppBaseController
         $bookmarks = $this->bookmarksRepository->findWithoutFail($id);
 
         if (empty($bookmarks)) {
-            return $this->sendError('Bookmarks not found');
+            return $this->sendError(__('Bookmarks not found'));
         }
 
         $bookmarks->delete();

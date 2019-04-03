@@ -176,7 +176,7 @@ class MainProductGroupsAPIController extends AppBaseController
         $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($id);
 
         if (empty($mainProductGroups)) {
-            return $this->sendError('Main Product Groups not found');
+            return $this->sendError(__('Main Product Groups not found'));
         }
 
         return $this->sendResponse($mainProductGroups->toArray(), 'Main Product Groups retrieved successfully');
@@ -236,7 +236,7 @@ class MainProductGroupsAPIController extends AppBaseController
         $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($id);
 
         if (empty($mainProductGroups)) {
-            return $this->sendError('Main Product Groups not found');
+            return $this->sendError(__('Main Product Groups not found'));
         }
 
         $mainProductGroups = $this->mainProductGroupsRepository->update($input, $id);
@@ -288,7 +288,7 @@ class MainProductGroupsAPIController extends AppBaseController
         $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($id);
 
         if (empty($mainProductGroups)) {
-            return $this->sendError('Main Product Groups not found');
+            return $this->sendError(__('Main Product Groups not found'));
         }
 
         $mainProductGroups->delete();
@@ -309,7 +309,7 @@ class MainProductGroupsAPIController extends AppBaseController
                 $mainProductGroups = $this->mainProductGroupsRepository->findWithoutFail($item['id']);
 
                 if (empty($mainProductGroups)) {
-                    return $this->sendError('Main product groups not found');
+                    return $this->sendError(__('Main Product Groups not found'));
                 }
                 $mainProductGroups->delete();
             } else {

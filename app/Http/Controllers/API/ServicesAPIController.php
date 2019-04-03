@@ -157,7 +157,7 @@ class ServicesAPIController extends AppBaseController
         $services = $this->servicesRepository->findWithoutFail($id);
 
         if (empty($services)) {
-            return $this->sendError('Services not found');
+            return $this->sendError(__('Services not found'));
         }
 
         return $this->sendResponse($services->toArray(), 'Services retrieved successfully');
@@ -214,7 +214,7 @@ class ServicesAPIController extends AppBaseController
         $services = $this->servicesRepository->findWithoutFail($id);
 
         if (empty($services)) {
-            return $this->sendError('Services not found');
+            return $this->sendError(__('Services not found'));
         }
 
         $services = $this->servicesRepository->update($input, $id);
@@ -264,7 +264,7 @@ class ServicesAPIController extends AppBaseController
         $services = $this->servicesRepository->findWithoutFail($id);
 
         if (empty($services)) {
-            return $this->sendError('Services not found');
+            return $this->sendError(__('Services not found'));
         }
 
         $services->delete();

@@ -159,7 +159,7 @@ class TargetGroupsAPIController extends AppBaseController
         $targetGroups = $this->targetGroupsRepository->findWithoutFail($id);
 
         if (empty($targetGroups)) {
-            return $this->sendError('Target Groups not found');
+            return $this->sendError(__('Target Groups not found'));
         }
 
         return $this->sendResponse($targetGroups->toArray(), 'Target Groups retrieved successfully');
@@ -219,7 +219,7 @@ class TargetGroupsAPIController extends AppBaseController
         $targetGroups = $this->targetGroupsRepository->findWithoutFail($id);
 
         if (empty($targetGroups)) {
-            return $this->sendError('Target Groups not found');
+            return $this->sendError(__('Target Groups not found'));
         }
 
         $targetGroups = $this->targetGroupsRepository->update($input, $id);
@@ -271,7 +271,7 @@ class TargetGroupsAPIController extends AppBaseController
         $targetGroups = $this->targetGroupsRepository->findWithoutFail($id);
 
         if (empty($targetGroups)) {
-            return $this->sendError('Target Groups not found');
+            return $this->sendError(__('Target Groups not found'));
         }
 
         $targetGroups->delete();

@@ -159,7 +159,7 @@ class AttachedImagesAPIController extends AppBaseController
         $attachedImages = $this->attachedImagesRepository->findWithoutFail($id);
 
         if (empty($attachedImages)) {
-            return $this->sendError('Attached Images not found');
+            return $this->sendError(__('Attached Images not found'));
         }
 
         return $this->sendResponse($attachedImages->toArray(), 'Attached Images retrieved successfully');
@@ -219,7 +219,7 @@ class AttachedImagesAPIController extends AppBaseController
         $attachedImages = $this->attachedImagesRepository->findWithoutFail($id);
 
         if (empty($attachedImages)) {
-            return $this->sendError('Attached Images not found');
+            return $this->sendError(__('Attached Images not found'));
         }
 
         $attachedImages = $this->attachedImagesRepository->update($input, $id);
@@ -271,7 +271,7 @@ class AttachedImagesAPIController extends AppBaseController
         $attachedImages = $this->attachedImagesRepository->findWithoutFail($id);
 
         if (empty($attachedImages)) {
-            return $this->sendError('Attached Images not found');
+            return $this->sendError(__('Attached Images not found'));
         }
 
         $attachedImages->delete();

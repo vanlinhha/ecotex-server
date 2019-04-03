@@ -172,7 +172,7 @@ class ResponsesAPIController extends AppBaseController
         $responses = $this->responsesRepository->findWithoutFail($id);
 
         if (empty($responses)) {
-            return $this->sendError('Responses not found');
+            return $this->sendError(__('Responses not found'));
         }
 
         $productPost                   = $responses->product_post()->first();
@@ -237,7 +237,7 @@ class ResponsesAPIController extends AppBaseController
         $responses = $this->responsesRepository->findWithoutFail($id);
 
         if (empty($responses)) {
-            return $this->sendError('Responses not found');
+            return $this->sendError(__('Responses not found'));
         }
 
         $responses = $this->responsesRepository->update($input, $id);
@@ -287,7 +287,7 @@ class ResponsesAPIController extends AppBaseController
         $responses = $this->responsesRepository->findWithoutFail($id);
 
         if (empty($responses)) {
-            return $this->sendError('Responses not found');
+            return $this->sendError(__('Responses not found'));
         }
 
         $responses->delete();
@@ -338,7 +338,7 @@ class ResponsesAPIController extends AppBaseController
         $responses = $this->responsesRepository->findWhere(['owner_id' => JWTAuth::parseToken()->authenticate()->id]);
 
         if (empty($responses)) {
-            return $this->sendError('Responses not found');
+            return $this->sendError(__('Responses not found'));
         }
 
         foreach ($responses as $response) {

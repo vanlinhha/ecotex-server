@@ -160,7 +160,7 @@ class MainServicesAPIController extends AppBaseController
         $mainServices = $this->mainServicesRepository->findWithoutFail($id);
 
         if (empty($mainServices)) {
-            return $this->sendError('Main Services not found');
+            return $this->sendError(__('Main Services not found'));
         }
 
         return $this->sendResponse($mainServices->toArray(), 'Main Services retrieved successfully');
@@ -220,7 +220,7 @@ class MainServicesAPIController extends AppBaseController
         $mainServices = $this->mainServicesRepository->findWithoutFail($id);
 
         if (empty($mainServices)) {
-            return $this->sendError('Main Services not found');
+            return $this->sendError(__('Main Services not found'));
         }
 
         $mainServices = $this->mainServicesRepository->update($input, $id);
@@ -272,7 +272,7 @@ class MainServicesAPIController extends AppBaseController
         $mainServices = $this->mainServicesRepository->findWithoutFail($id);
 
         if (empty($mainServices)) {
-            return $this->sendError('Main Services not found');
+            return $this->sendError(__('Main Services not found'));
         }
 
         $mainServices->delete();
@@ -295,7 +295,7 @@ class MainServicesAPIController extends AppBaseController
                 $mainServices = $this->mainServicesRepository->findWithoutFail($item['id']);
 
                 if (empty($mainServices)) {
-                    return $this->sendError('Main services not found');
+                    return $this->sendError(__('Main Services not found'));
                 }
                 $mainServices->delete();
             }

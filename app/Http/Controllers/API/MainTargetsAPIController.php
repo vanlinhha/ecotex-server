@@ -160,7 +160,7 @@ class MainTargetsAPIController extends AppBaseController
         $mainTargets = $this->mainTargetsRepository->findWithoutFail($id);
 
         if (empty($mainTargets)) {
-            return $this->sendError('Main Targets not found');
+            return $this->sendError(__('Main Targets not found'));
         }
 
         return $this->sendResponse($mainTargets->toArray(), 'Main Targets retrieved successfully');
@@ -220,7 +220,7 @@ class MainTargetsAPIController extends AppBaseController
         $mainTargets = $this->mainTargetsRepository->findWithoutFail($id);
 
         if (empty($mainTargets)) {
-            return $this->sendError('Main Targets not found');
+            return $this->sendError(__('Main Targets not found'));
         }
 
         $mainTargets = $this->mainTargetsRepository->update($input, $id);
@@ -272,7 +272,7 @@ class MainTargetsAPIController extends AppBaseController
         $mainTargets = $this->mainTargetsRepository->findWithoutFail($id);
 
         if (empty($mainTargets)) {
-            return $this->sendError('Main Targets not found');
+            return $this->sendError(__('Main Targets not found'));
         }
 
         $mainTargets->delete();
@@ -296,7 +296,7 @@ class MainTargetsAPIController extends AppBaseController
                 $mainTargets = $this->mainTargetsRepository->findWithoutFail($item['id']);
 
                 if (empty($mainTargets)) {
-                    return $this->sendError('Main targets not found');
+                    return $this->sendError(__('Main Targets not found'));
                 }
                 $mainTargets->delete();
             }

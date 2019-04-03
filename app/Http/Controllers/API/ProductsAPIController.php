@@ -183,7 +183,7 @@ class ProductsAPIController extends AppBaseController
         $products = $this->productsRepository->findWithoutFail($id);
 
         if (empty($products)) {
-            return $this->sendError('Products not found');
+            return $this->sendError(__('Products not found'));
         }
         $productImages = $products->productImages()->get();
         $products['images'] = $productImages;
@@ -242,7 +242,7 @@ class ProductsAPIController extends AppBaseController
         $products = $this->productsRepository->findWithoutFail($id);
 
         if (empty($products)) {
-            return $this->sendError('Products not found');
+            return $this->sendError(__('Products not found'));
         }
 
         $products = $this->productsRepository->update($input, $id);
@@ -295,7 +295,7 @@ class ProductsAPIController extends AppBaseController
         $products = $this->productsRepository->findWithoutFail($id);
 
         if (empty($products)) {
-            return $this->sendError('Products not found');
+            return $this->sendError(__('Products not found'));
         }
 
         $products->delete();
@@ -345,7 +345,7 @@ class ProductsAPIController extends AppBaseController
         $products = $this->productsRepository->findWhere(['user_id' => $user_id]);
 
         if (empty($products)) {
-            return $this->sendError('Products not found');
+            return $this->sendError(__('Products not found'));
         }
 
         foreach ($products as $product) {

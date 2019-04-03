@@ -249,7 +249,7 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts = $this->productPostsRepository->findWithoutFail($id);
 
         if (empty($productPosts)) {
-            return $this->sendError('Product Posts not found');
+            return $this->sendError(__('Product Posts not found'));
         }
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts retrieved successfully');
@@ -306,7 +306,7 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts = $this->productPostsRepository->findWithoutFail($id);
 
         if (empty($productPosts)) {
-            return $this->sendError('Product Posts not found');
+            return $this->sendError(__('Product Posts not found'));
         }
 
         $productPosts = $this->productPostsRepository->update($input, $id);
@@ -356,7 +356,7 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts = $this->productPostsRepository->findWithoutFail($id);
 
         if (empty($productPosts)) {
-            return $this->sendError('Product Posts not found');
+            return $this->sendError(__('Product Posts not found'));
         }
 
         foreach ($productPosts->attachedFiles()->get() as $item) {

@@ -159,7 +159,7 @@ class MinimumOrderQuantityAPIController extends AppBaseController
         $minimumOrderQuantity = $this->minimumOrderQuantityRepository->findWithoutFail($id);
 
         if (empty($minimumOrderQuantity)) {
-            return $this->sendError('Minimum Order Quantity not found');
+            return $this->sendError(__('Minimum Order Quantity not found'));
         }
 
         return $this->sendResponse($minimumOrderQuantity->toArray(), 'Minimum Order Quantity retrieved successfully');
@@ -219,7 +219,7 @@ class MinimumOrderQuantityAPIController extends AppBaseController
         $minimumOrderQuantity = $this->minimumOrderQuantityRepository->findWithoutFail($id);
 
         if (empty($minimumOrderQuantity)) {
-            return $this->sendError('Minimum Order Quantity not found');
+            return $this->sendError(__('Minimum Order Quantity not found'));
         }
 
         $minimumOrderQuantity = $this->minimumOrderQuantityRepository->update($input, $id);
@@ -271,7 +271,7 @@ class MinimumOrderQuantityAPIController extends AppBaseController
         $minimumOrderQuantity = $this->minimumOrderQuantityRepository->findWithoutFail($id);
 
         if (empty($minimumOrderQuantity)) {
-            return $this->sendError('Minimum Order Quantity not found');
+            return $this->sendError(__('Minimum Order Quantity not found'));
         }
 
         $minimumOrderQuantity->delete();

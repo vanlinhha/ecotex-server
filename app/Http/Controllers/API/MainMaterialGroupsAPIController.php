@@ -160,7 +160,7 @@ class MainMaterialGroupsAPIController extends AppBaseController
         $mainMaterialGroups = $this->mainMaterialGroupsRepository->findWithoutFail($id);
 
         if (empty($mainMaterialGroups)) {
-            return $this->sendError('Main Material Groups not found');
+            return $this->sendError(__('Main Material Groups not found'));
         }
 
         return $this->sendResponse($mainMaterialGroups->toArray(), 'Main Material Groups retrieved successfully');
@@ -220,7 +220,7 @@ class MainMaterialGroupsAPIController extends AppBaseController
         $mainMaterialGroups = $this->mainMaterialGroupsRepository->findWithoutFail($id);
 
         if (empty($mainMaterialGroups)) {
-            return $this->sendError('Main Material Groups not found');
+            return $this->sendError(__('Main Material Groups not found'));
         }
 
         $mainMaterialGroups = $this->mainMaterialGroupsRepository->update($input, $id);
@@ -272,7 +272,7 @@ class MainMaterialGroupsAPIController extends AppBaseController
         $mainMaterialGroups = $this->mainMaterialGroupsRepository->findWithoutFail($id);
 
         if (empty($mainMaterialGroups)) {
-            return $this->sendError('Main Material Groups not found');
+            return $this->sendError(__('Main Material Groups not found'));
         }
 
         $mainMaterialGroups->delete();
@@ -293,7 +293,7 @@ class MainMaterialGroupsAPIController extends AppBaseController
             elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
                 $mainMaterialGroups = $this->mainMaterialGroupsRepository->findWithoutFail($item['id']);
                 if (empty($mainMaterialGroups)) {
-                    return $this->sendError('Main material groups not found');
+                    return $this->sendError(__('Main Material Groups not found'));
                 }
                 $mainMaterialGroups->delete();
             }

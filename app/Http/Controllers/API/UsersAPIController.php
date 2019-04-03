@@ -304,7 +304,7 @@ class UsersAPIController extends AppBaseController
         $user = $this->usersRepository->findWithoutFail($id);
 
         if (empty($user)) {
-            return $this->sendError('User not found');
+            return $this->sendError(__('User not found'), 404);
         }
 
         $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
@@ -381,7 +381,7 @@ class UsersAPIController extends AppBaseController
         $user = $this->usersRepository->findWithoutFail($id);
 
         if (empty($user)) {
-            return $this->sendError('Users not found');
+            return $this->sendError(__('User not found'), 404);
         }
         if (trim($input['password']) != '') {
             $input['password'] = bcrypt($input['password']);
@@ -459,7 +459,7 @@ class UsersAPIController extends AppBaseController
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
-            return $this->sendError('Users not found');
+            return $this->sendError(__('User not found'), 404);
         }
 
         $users->delete();
@@ -473,7 +473,7 @@ class UsersAPIController extends AppBaseController
         $users = $this->usersRepository->findWithoutFail($id);
 
         if (empty($users)) {
-            return $this->sendError('Users not found');
+            return $this->sendError(__('User not found'), 404);
         }
 
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
@@ -666,7 +666,7 @@ class UsersAPIController extends AppBaseController
             }
             return $this->sendResponse($user_ids, 'Users verified successfully!');
         } else {
-            return $this->sendError('Users not found');
+            return $this->sendError(__('User not found'), 404);
         }
     }
 
@@ -674,7 +674,7 @@ class UsersAPIController extends AppBaseController
     {
         $user = $this->usersRepository->findWithoutFail($request->user_id);
         if (!$user) {
-            return $this->sendError('Users not found!', 404);
+            return $this->sendError(__('User not found'), 404);
         }
         if (trim($user->activation_code) == "") {
             return $this->sendError(__('Users already activated!'), 403);
@@ -683,7 +683,7 @@ class UsersAPIController extends AppBaseController
             $this->usersRepository->update(['activation_code' => ""], $request->user_id);
             return $this->sendResponse($request->user_id, 'Users activated successfully!');
         } else {
-            return $this->sendError('Users activated unsuccessfully!');
+            return $this->sendError(__('Users activated unsuccessfully!'), 500);
         }
 
     }

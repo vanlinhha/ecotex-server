@@ -163,7 +163,7 @@ class CountriesAPIController extends AppBaseController
         $countries = $this->countriesRepository->findWithoutFail($id);
 
         if (empty($countries)) {
-            return $this->sendError('Countries not found');
+            return $this->sendError(__('Countries not found'));
         }
 
         return $this->sendResponse($countries->toArray(), 'Countries retrieved successfully');
@@ -223,7 +223,7 @@ class CountriesAPIController extends AppBaseController
         $countries = $this->countriesRepository->findWithoutFail($id);
 
         if (empty($countries)) {
-            return $this->sendError('Countries not found');
+            return $this->sendError(__('Countries not found'));
         }
 
         $countries = $this->countriesRepository->update($input, $id);
@@ -275,7 +275,7 @@ class CountriesAPIController extends AppBaseController
         $countries = $this->countriesRepository->findWithoutFail($id);
 
         if (empty($countries)) {
-            return $this->sendError('Countries not found');
+            return $this->sendError(__('Countries not found'));
         }
 
         $countries->delete();

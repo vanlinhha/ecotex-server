@@ -155,7 +155,7 @@ class LocationsAPIController extends AppBaseController
         $locations = $this->locationsRepository->findWithoutFail($id);
 
         if (empty($locations)) {
-            return $this->sendError('Locations not found');
+            return $this->sendError(__('Locations not found'));
         }
 
         return $this->sendResponse($locations->toArray(), 'Locations retrieved successfully');
@@ -215,7 +215,7 @@ class LocationsAPIController extends AppBaseController
         $locations = $this->locationsRepository->findWithoutFail($id);
 
         if (empty($locations)) {
-            return $this->sendError('Locations not found');
+            return $this->sendError(__('Locations not found'));
         }
 
         $locations = $this->locationsRepository->update($input, $id);
@@ -267,7 +267,7 @@ class LocationsAPIController extends AppBaseController
         $locations = $this->locationsRepository->findWithoutFail($id);
 
         if (empty($locations)) {
-            return $this->sendError('Locations not found');
+            return $this->sendError(__('Locations not found'));
         }
 
         $locations->delete();

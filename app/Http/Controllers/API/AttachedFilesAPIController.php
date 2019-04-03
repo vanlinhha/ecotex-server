@@ -157,7 +157,7 @@ class AttachedFilesAPIController extends AppBaseController
         $attachedFiles = $this->attachedFilesRepository->findWithoutFail($id);
 
         if (empty($attachedFiles)) {
-            return $this->sendError('Attached Files not found');
+            return $this->sendError(__('Attached Files not found'));
         }
 
         return $this->sendResponse($attachedFiles->toArray(), 'Attached Files retrieved successfully');
@@ -217,7 +217,7 @@ class AttachedFilesAPIController extends AppBaseController
         $attachedFiles = $this->attachedFilesRepository->findWithoutFail($id);
 
         if (empty($attachedFiles)) {
-            return $this->sendError('Attached Files not found');
+            return $this->sendError(__('Attached Files not found'));
         }
 
         $attachedFiles = $this->attachedFilesRepository->update($input, $id);
@@ -269,7 +269,7 @@ class AttachedFilesAPIController extends AppBaseController
         $attachedFiles = $this->attachedFilesRepository->findWithoutFail($id);
 
         if (empty($attachedFiles)) {
-            return $this->sendError('Attached Files not found');
+            return $this->sendError(__('Attached Files not found'));
         }
 
         $attachedFiles->delete();

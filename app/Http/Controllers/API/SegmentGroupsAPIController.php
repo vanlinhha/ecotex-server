@@ -160,7 +160,7 @@ class SegmentGroupsAPIController extends AppBaseController
         $segmentGroups = $this->segmentGroupsRepository->findWithoutFail($id);
 
         if (empty($segmentGroups)) {
-            return $this->sendError('Segment Groups not found');
+            return $this->sendError(__('Segment Groups not found'));
         }
 
         return $this->sendResponse($segmentGroups->toArray(), 'Segment Groups retrieved successfully');
@@ -220,7 +220,7 @@ class SegmentGroupsAPIController extends AppBaseController
         $segmentGroups = $this->segmentGroupsRepository->findWithoutFail($id);
 
         if (empty($segmentGroups)) {
-            return $this->sendError('Segment Groups not found');
+            return $this->sendError(__('Segment Groups not found'));
         }
 
         $segmentGroups = $this->segmentGroupsRepository->update($input, $id);
@@ -272,7 +272,7 @@ class SegmentGroupsAPIController extends AppBaseController
         $segmentGroups = $this->segmentGroupsRepository->findWithoutFail($id);
 
         if (empty($segmentGroups)) {
-            return $this->sendError('Segment Groups not found');
+            return $this->sendError(__('Segment Groups not found'));
         }
 
         $segmentGroups->delete();

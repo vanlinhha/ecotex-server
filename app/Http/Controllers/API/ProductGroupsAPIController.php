@@ -165,7 +165,7 @@ class ProductGroupsAPIController extends AppBaseController
         $productGroups = $this->productGroupsRepository->findWithoutFail($id);
 
         if (empty($productGroups)) {
-            return $this->sendError('Product Groups not found');
+            return $this->sendError(__('Product Groups not found'));
         }
 
         return $this->sendResponse($productGroups->toArray(), 'Product Groups retrieved successfully');
@@ -225,7 +225,7 @@ class ProductGroupsAPIController extends AppBaseController
         $productGroups = $this->productGroupsRepository->findWithoutFail($id);
 
         if (empty($productGroups)) {
-            return $this->sendError('Product Groups not found');
+            return $this->sendError(__('Product Groups not found'));
         }
 
         $productGroups = $this->productGroupsRepository->update($input, $id);
@@ -277,7 +277,7 @@ class ProductGroupsAPIController extends AppBaseController
         $productGroups = $this->productGroupsRepository->findWithoutFail($id);
 
         if (empty($productGroups)) {
-            return $this->sendError('Product Groups not found');
+            return $this->sendError(__('Product Groups not found'));
         }
 
         $productGroups->delete();

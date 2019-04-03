@@ -28,8 +28,6 @@ class BrandAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
-     * @return Response
      *
      * @SWG\Get(
      *      path="/brands",
@@ -69,8 +67,6 @@ class BrandAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateBrandAPIRequest $request
-     * @return Response
      *
      * @SWG\Post(
      *      path="/brands",
@@ -159,16 +155,13 @@ class BrandAPIController extends AppBaseController
         $brand = $this->brandRepository->findWithoutFail($id);
 
         if (empty($brand)) {
-            return $this->sendError('Brand not found');
+            return $this->sendError(__('Brand not found'));
         }
 
         return $this->sendResponse($brand->toArray(), 'Brand retrieved successfully');
     }
 
     /**
-     * @param int $id
-     * @param UpdateBrandAPIRequest $request
-     * @return Response
      *
      * @SWG\Put(
      *      path="/brands/{id}",
@@ -219,7 +212,7 @@ class BrandAPIController extends AppBaseController
         $brand = $this->brandRepository->findWithoutFail($id);
 
         if (empty($brand)) {
-            return $this->sendError('Brand not found');
+            return $this->sendError(__('Brand not found'));
         }
 
         $brand = $this->brandRepository->update($input, $id);
@@ -228,8 +221,6 @@ class BrandAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @return Response
      *
      * @SWG\Delete(
      *      path="/brands/{id}",
@@ -271,7 +262,7 @@ class BrandAPIController extends AppBaseController
         $brand = $this->brandRepository->findWithoutFail($id);
 
         if (empty($brand)) {
-            return $this->sendError('Brand not found');
+            return $this->sendError(__('Brand not found'));
         }
 
         $brand->delete();
