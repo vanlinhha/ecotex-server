@@ -11,6 +11,7 @@ use Faker\Provider\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Intervention\Image\Image;
@@ -151,44 +152,53 @@ class ProductPostsAPIController extends AppBaseController
     public function store(Request $request)
     {
 
-        $input        = $request->all();
-        $productPosts = $this->productPostsRepository->create($input);
+        DB::beginTransaction();
+        try{
+            $input        = $request->all();
+            $productPosts = $this->productPostsRepository->create($input);
 
-        if (!is_dir(storage_path('app'))) {
-            mkdir(storage_path('app'), 0777);
-        }
-
-        if (!is_dir(storage_path('app/public'))) {
-            mkdir(storage_path('app/public'), 0777);
-
-        }
-        if (!is_dir(storage_path('app/public/files'))) {
-            mkdir(storage_path('app/public/files'), 0777);
-        }
-
-        if (!is_dir(storage_path('app/public/images'))) {
-            mkdir(storage_path('app/public/images'), 0777);
-        }
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $extension = $image->getClientOriginalName();
-                $filename  = uniqid() . '-' . $extension;
-                $image->move(storage_path('app/public/images'), $filename);
-
-                $productPosts->attachedImages()->create(['url' => '/storage/images/' . $filename, 'name' => $extension]);
+            if (!is_dir(storage_path('app'))) {
+                mkdir(storage_path('app'), 0777);
             }
-        }
 
-        if ($request->hasFile('attached_files')) {
-            foreach ($request->file('attached_files') as $file) {
+            if (!is_dir(storage_path('app/public'))) {
+                mkdir(storage_path('app/public'), 0777);
 
-                $extension = $file->getClientOriginalName();
-                $filename  = uniqid() . '-' . $extension;
-                $file->move(storage_path('app/public/files'), $filename);
-
-                $productPosts->attachedFiles()->create(['url' => '/storage/files/' . $filename, 'name' => $extension]);
             }
+            if (!is_dir(storage_path('app/public/files'))) {
+                mkdir(storage_path('app/public/files'), 0777);
+            }
+
+            if (!is_dir(storage_path('app/public/images'))) {
+                mkdir(storage_path('app/public/images'), 0777);
+            }
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $extension = $image->getClientOriginalName();
+                    $filename  = uniqid() . '-' . $extension;
+                    $image->move(storage_path('app/public/images'), $filename);
+
+                    $productPosts->attachedImages()->create(['url' => '/storage/images/' . $filename, 'name' => $extension]);
+                }
+            }
+
+            if ($request->hasFile('attached_files')) {
+                foreach ($request->file('attached_files') as $file) {
+
+                    $extension = $file->getClientOriginalName();
+                    $filename  = uniqid() . '-' . $extension;
+                    $file->move(storage_path('app/public/files'), $filename);
+
+                    $productPosts->attachedFiles()->create(['url' => '/storage/files/' . $filename, 'name' => $extension]);
+                }
+            }
+            DB::commit();
         }
+        catch (\Exception $exception){
+            DB::rollBack();
+            $this->sendError(__("Can not create posts, please try again later!"), 500);
+        }
+
 
         $attachedFiles                  = $productPosts->attachedFiles()->get();
         $productPosts['attached_files'] = $attachedFiles;
