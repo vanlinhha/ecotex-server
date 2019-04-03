@@ -67,8 +67,6 @@ class AttachedFilesAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateAttachedFilesAPIRequest $request
-     * @return Response
      *
      * @SWG\Post(
      *      path="/attachedFiles",

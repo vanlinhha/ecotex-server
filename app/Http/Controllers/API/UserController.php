@@ -23,7 +23,7 @@ class UserController extends RestController
 
     private $attachedFilesRepository;
 
-    public function __construct( AttachedFilesRepository $attachedFilesRepo)
+    public function __construct(AttachedFilesRepository $attachedFilesRepo)
     {
         $this->attachedFilesRepository = $attachedFilesRepo;
     }
@@ -94,11 +94,11 @@ class UserController extends RestController
         }
         $user = JWTAuth::user();
 
-        if(trim($user['activation_code'])){
+        if (trim($user['activation_code'])) {
             return response()->json(['success' => false, 'message' => __('invalid_credentials')], 403);
         }
 
-        if($user['is_activated'] !== 1){
+        if ($user['is_activated'] !== 1) {
             return response()->json(['success' => false, 'message' => __('account_not_verified')], 403);
         }
 
@@ -332,10 +332,11 @@ class UserController extends RestController
 
         $this->user = $user;
 
-        Mail::raw('Sign up successfully, click on this link to complete your registration, ' . env('APP_CLIENT_BASE_PATH') . '/verify/' . $this->user->id . '/' . $this->user->activation_code . ' .Thank you!', function ($mail) {
+        Mail::raw(__("Sign up successfully, click on this link to complete your registration, ") .
+            env('APP_CLIENT_BASE_PATH') . '/verify/' . $this->user->id . '/' . $this->user->activation_code, function ($mail) {
             $mail->to($this->user->email)
                 ->from('support@ecotexvietnam.com', 'Ecotex')
-                ->subject('One more step to join us, ' . $this->user->first_name . '!');
+                ->subject(__("Ecotex: Please verify your email, ") . $this->user->first_name . '!');
         });
 
         if (intval($request->role_id)) {
