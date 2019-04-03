@@ -23,6 +23,7 @@ class CreateResponsesTable extends Migration
             $table->string('suggest_price')->nullable();
             $table->integer('accepted_delivery');
             $table->string('suggest_delivery')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

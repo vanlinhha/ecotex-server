@@ -92,7 +92,8 @@ class Responses extends Model
         'accepted_price',
         'suggest_price',
         'accepted_delivery',
-        'suggest_delivery'
+        'suggest_delivery',
+        'comment'
     ];
 
     /**
@@ -108,7 +109,8 @@ class Responses extends Model
         'accepted_price'    => 'integer',
         'suggest_price'     => 'string',
         'accepted_delivery' => 'integer',
-        'suggest_delivery'  => 'string'
+        'suggest_delivery'  => 'string',
+        'comment'  => 'string'
     ];
 
     /**
