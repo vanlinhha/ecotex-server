@@ -23,6 +23,7 @@ class LaratrustSeeder extends Seeder
             'email'                  => 'admin@gmail.com',
             'password'               => bcrypt('123456'),
             'phone'                  => $faker->phoneNumber,
+            'avatar'                  => "",
             'country_id'             => random_int(1, 239),
             'company_name'           => $faker->company,
             'brief_name'             => $faker->companySuffix,
@@ -43,7 +44,7 @@ class LaratrustSeeder extends Seeder
             // Create a new role
             $role = \App\Role::create([
                 'name'          => $key,
-                'is_enterprise' => in_array($key, ['enterprise buyer', 'paid supplier', 'supplier', 'paid manufacture', 'manufacture']) ? 1 : 0,
+                'is_enterprise' => in_array($key, ['buyer', 'paid supplier', 'supplier', 'paid manufacture', 'manufacture']) ? 1 : 0,
                 'is_paid'       => in_array($key, ['paid supplier', 'paid manufacture']) ? 1 : 0,
                 //                'display_name' => ucwords(str_replace('_', ' ', $key)),
                 'description'   => ucwords(str_replace('_', ' ', $key))
@@ -111,6 +112,7 @@ class LaratrustSeeder extends Seeder
                         'last_name'              => $faker->lastName,
                         'email'                  => $faker->companyEmail,
                         'password'               => bcrypt('123456'),
+                        'avatar'                 => "",
                         'phone'                  => $faker->phoneNumber,
                         'country_id'             => random_int(1, 239),
                         'company_name'           => $faker->company,
@@ -132,6 +134,7 @@ class LaratrustSeeder extends Seeder
                         'last_name'                    => $faker->lastName,
                         'email'                        => $faker->companyEmail,
                         'password'                     => bcrypt('123456'),
+                        'avatar'                       => "",
                         'phone'                        => $faker->phoneNumber,
                         'country_id'                   => random_int(1, 239),
                         'company_name'                 => $faker->company,
@@ -249,6 +252,7 @@ class LaratrustSeeder extends Seeder
                                 'last_name'              => $faker->lastName,
                                 'email'                  => $faker->companyEmail,
                                 'password'               => bcrypt('password'),
+                                'avatar'                  => "",
                                 'phone'                  => $faker->phoneNumber,
                                 'country_id'             => random_int(1, 239),
                                 'company_name'           => $faker->company,
@@ -270,6 +274,7 @@ class LaratrustSeeder extends Seeder
                                 'last_name'                    => $faker->lastName,
                                 'email'                        => $faker->companyEmail,
                                 'password'                     => bcrypt('password'),
+                                'avatar'                  => "",
                                 'phone'                        => $faker->phoneNumber,
                                 'country_id'                   => random_int(1, 239),
                                 'company_name'                 => $faker->company,

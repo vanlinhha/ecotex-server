@@ -2,5 +2,7 @@
   "test" : "Welcome to En!",
   "invalid_credentials" : "Invalid email or password!",
   "could_not_create_token" : "Could not create token!",
-  "user_not_found" : "User not found"
+  "user_not_found" : "User not found",
+  "email_not_verified": "Please verify your email by clicking on the link we have sent you in your email!",
+  "account_not_verified": "We are verifying your information, you will be notified when we finished, thank you!"
 }

@@ -6,6 +6,8 @@
   "user_not_found" : "Người dùng không tồn tại!",
   "Token is Invalid" : "Token không hợp lệ",
   "Token is Expired" : "Phiên đăng nhập đã hết hạn",
-  "Authorization Token not found" : "Không tìm thấy token"
-
+  "Authorization Token not found" : "Không tìm thấy token",
+  "email_not_verified": "Vui lòng xác thực email của bạn bằng cách click vào đường link chúng tôi đã gửi vào email của bạn!",
+  "account_not_verified": "Tài khoản chưa được kích hoạt, chúng tôi đang tiến hành xác minh tài khoản của bạn. Bạn sẽ nhận được email thông báo khi chúng tôi hoàn thành xác minh tài khoản!",
+  "Users already activated!": "Tài khoản đã được kích hoạt!"
 }

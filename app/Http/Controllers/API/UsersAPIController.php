@@ -11,6 +11,7 @@ use App\Repositories\MainTargetsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use JWTAuth;
 
@@ -148,7 +149,7 @@ class UsersAPIController extends AppBaseController
      */
     public function index(Request $request, MainProductGroupsRepository $mainProductGroupsRepository, MainTargetsRepository $mainTargetsRepository, MainSegmentGroupsRepository $mainSegmentGroupsRepository)
     {
-//        $this->usersRepository->pushCriteria(new RequestCriteria($request));
+        $this->usersRepository->pushCriteria(new RequestCriteria($request));
 //        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
 
         if (isset($request->paginate)) {
@@ -249,7 +250,7 @@ class UsersAPIController extends AppBaseController
         $user['main_material_groups']  = $mainMaterialGroups;
         $user['main_segment_groups']   = $mainSegmentGroups;
         $user['main_target_groups']    = $mainTargets;
-        $user['main_services']         = $mainServices;
+//        $user['main_services']         = $mainServices;
     }
 
     public function store(CreateUsersAPIRequest $request)
@@ -676,7 +677,7 @@ class UsersAPIController extends AppBaseController
             return $this->sendError('Users not found!', 404);
         }
         if (trim($user->activation_code) == "") {
-            return $this->sendError('Users already activated!', 403);
+            return $this->sendError(__('Users already activated!'), 403);
         }
         if (trim($user->activation_code) === trim($request->activation_code)) {
             $this->usersRepository->update(['activation_code' => ""], $request->user_id);

@@ -27,6 +27,7 @@ class UserController extends RestController
     {
         $this->attachedFilesRepository = $attachedFilesRepo;
     }
+
     /**
      *
      * @return Response
@@ -86,17 +87,20 @@ class UserController extends RestController
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['success' => false, 'error' => __('invalid_credentials')], 404);
+                return response()->json(['success' => false, 'message' => __('invalid_credentials')], 404);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => __('could_not_create_token')], 500);
+            return response()->json(['message' => __('could_not_create_token')], 500);
         }
         $user = JWTAuth::user();
-//        if ($user->roles()->get(['id'])->count()) {
-//            $roles = $user->roles()->get()[0]['id'];
-//        } else {
-//            $roles = 0;
-//        }
+
+        if(trim($user['activation_code'])){
+            return response()->json(['success' => false, 'message' => __('invalid_credentials')], 403);
+        }
+
+        if($user['is_activated'] !== 1){
+            return response()->json(['success' => false, 'message' => __('account_not_verified')], 403);
+        }
 
         $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
         $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
@@ -295,7 +299,7 @@ class UserController extends RestController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => __($validator->errors()->toJson()), 'success' => false], 422);
+            return response()->json(['message' => __($validator->errors()->toJson()), 'success' => false], 422);
         }
 
         $user = Users::create([
@@ -354,16 +358,16 @@ class UserController extends RestController
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['success' => false, 'error' => __('user_not_found')], 404);
+                return response()->json(['success' => false, 'message' => __('user_not_found')], 404);
             }
 
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
-            return response()->json(['success' => false, 'error' => __('token_expired')], $e->getStatusCode());
+            return response()->json(['success' => false, 'message' => __('token_expired')], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
-            return response()->json(['success' => false, 'error' => __('token_invalid')], $e->getStatusCode());
+            return response()->json(['success' => false, 'message' => __('token_invalid')], $e->getStatusCode());
 
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
