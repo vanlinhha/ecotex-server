@@ -312,7 +312,7 @@ class Users extends Authenticatable implements JWTSubject
 
     public function getAvatarAttribute($url)
     {
-        return env('APP_URL') . $url;
+        return trim($url) ? env('APP_URL') . $url : "";
     }
 
     public function getJWTIdentifier()

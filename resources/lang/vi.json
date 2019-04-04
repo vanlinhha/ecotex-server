@@ -8,7 +8,7 @@
   "Token is Expired" : "Phiên đăng nhập đã hết hạn",
   "Authorization Token not found" : "Không tìm thấy token",
   "email_not_verified": "Vui lòng xác thực email của bạn bằng cách click vào đường link chúng tôi đã gửi vào email của bạn!",
-  "account_not_verified": "Tài khoản chưa được kích hoạt, chúng tôi đang tiến hành xác minh tài khoản của bạn. Bạn sẽ nhận được email thông báo khi chúng tôi hoàn thành xác minh tài khoản!",
+  "account_not_verified": "Tài khoản chưa được kích hoạt. Bạn sẽ nhận được email thông báo khi chúng tôi hoàn thành xác minh tài khoản!",
   "Users already activated!": "Tài khoản đã được kích hoạt!",
   "Users activated unsuccessfully!": "Không thể kích hoạt tài khoản, vui lòng thử lại sau!",
   "User not found": "Không tìm thấy người dùng!",
