@@ -169,18 +169,22 @@ class UsersAPIController extends AppBaseController
             }
         }
 
-//        $main_target_group_IDs = json_decode($request->main_target_groups);
+        if(isset($request->main_target_groups)){
+            $main_target_group_IDs = json_decode($request->main_target_groups);
+            if (count($main_target_group_IDs)) {
+                $user_IDs2     = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
+            }
+        }
 
-//        if (count($main_target_group_IDs)) {
-//            $user_IDs2     = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
-//            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
-//        }
-//
-//        $main_segment_group_IDs = json_decode($request->main_segment_groups);
-//        if (count($main_segment_group_IDs)) {
-//            $user_IDs3     = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
-//            $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
-//        }
+        if(isset($request->main_segment_groups)){
+            $main_segment_group_IDs = json_decode($request->main_segment_groups);
+            if (count($main_segment_group_IDs)) {
+                $user_IDs3     = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
+            }
+        }
+
 
         $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
         $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
