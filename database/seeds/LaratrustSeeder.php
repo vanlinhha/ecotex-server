@@ -156,7 +156,7 @@ class LaratrustSeeder extends Seeder
                         'revenue_per_year'             => rand(10000, 2000000),
                         'pieces_per_year'              => random_int(1, 100),
                         'compliance'                   => str_random(6),
-                        'activation_code'              => str_random(10),
+                        'activation_code'              => "",
                         'is_activated'                 => random_int(0, 1),
                     ]);
                 }
@@ -295,7 +295,7 @@ class LaratrustSeeder extends Seeder
                                 'revenue_per_year'             => rand(10000, 2000000),
                                 'pieces_per_year'              => random_int(1, 100),
                                 'compliance'                   => str_random(6),
-                                'activation_code'              => str_random(10),
+                                'activation_code'              => "",
                                 'is_activated'                 => random_int(0, 1),
                             ]);
                         }
