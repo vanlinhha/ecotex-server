@@ -229,12 +229,6 @@ class UsersAPIController extends AppBaseController
 
     public function getInfo(&$user)
     {
-        if ($user->roles()->get(['id'])->count()) {
-            $roles = $user->roles()->get()[0]['id'];
-        } else {
-            $roles = 0;
-        }
-
         $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
         $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
         $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
@@ -242,15 +236,28 @@ class UsersAPIController extends AppBaseController
         $mainTargets = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
         $mainSegmentGroups = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
         $role_type_ids = $user->roleTypes()->pluck('role_type_id');
+        $role = $user->roles()->first();
+        $bookmarks = $user->bookmarks()->get();
+        $locations = $user->locations()->get();
 
+        $products = $user->products()->get();
+
+        foreach ($products as $product) {
+            $productImages = $product->productImages()->get();
+            $product['images'] = $productImages;
+        }
+
+        $user['bookmarks'] = $bookmarks;
+        $user['locations'] = $locations;
+        $user['products'] = $products;
+        $user['role'] = $role;
         $user['role_type_ids'] = $role_type_ids;
-        $user['role_id'] = $roles;
         $user['main_product_groups'] = $mainProductGroups;
-        $user['main_export_countries'] = $mainExportCountries;
+        $user['main_services'] = $mainServices;
         $user['main_material_groups'] = $mainMaterialGroups;
         $user['main_segment_groups'] = $mainSegmentGroups;
         $user['main_target_groups'] = $mainTargets;
-//        $user['main_services']         = $mainServices;
+        $user['main_export_countries'] = $mainExportCountries;
     }
 
     public function store(CreateUsersAPIRequest $request)
