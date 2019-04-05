@@ -74,26 +74,31 @@ class ProductPostsAPIController extends AppBaseController
         $text_search   = $request->text_search ? $request->text_search : "";
         $list_post_IDS = $this->productPostsRepository->findWhere([['title', 'like', "%" . $text_search . "%"]])->pluck('id')->all();
 
-        $type_IDs = json_decode($request->type_id);
-        if (count($type_IDs)) {
-            $post_IDs      = $this->productPostsRepository->findWhereIn('type_id', $type_IDs)->pluck('id')->all();
-            $list_post_IDS = array_intersect($list_post_IDS, $post_IDs);
+        if(isset($request->type_id)){
+            $type_IDs = json_decode($request->type_id);
+            if (count($type_IDs)) {
+                $post_IDs      = $this->productPostsRepository->findWhereIn('type_id', $type_IDs)->pluck('id')->all();
+                $list_post_IDS = array_intersect($list_post_IDS, $post_IDs);
+            }
         }
 
-        $product_group_IDs = json_decode($request->product_group_id);
-        if (count($product_group_IDs)) {
-            $post_IDs2     = $this->productPostsRepository->findWhereIn('product_group_id', $product_group_IDs)->pluck('id')->all();
-            $list_post_IDS = array_intersect($list_post_IDS, $post_IDs2);
+        if(isset($request->product_group_id)){
+            $product_group_IDs = json_decode($request->product_group_id);
+            if (count($product_group_IDs)) {
+                $post_IDs2     = $this->productPostsRepository->findWhereIn('product_group_id', $product_group_IDs)->pluck('id')->all();
+                $list_post_IDS = array_intersect($list_post_IDS, $post_IDs2);
+            }
         }
 
-        if ($request->creator == "me") {
-            $post_IDs3     = $this->productPostsRepository->findWhereIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
-            $list_post_IDS = array_intersect($list_post_IDS, $post_IDs3);
-        } elseif ($request->creator == "other") {
-            $post_IDs4     = $this->productPostsRepository->findWhereNotIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
-            $list_post_IDS = array_intersect($list_post_IDS, $post_IDs4);
+        if(isset($request->creator)){
+            if ($request->creator == "me") {
+                $post_IDs3     = $this->productPostsRepository->findWhereIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
+                $list_post_IDS = array_intersect($list_post_IDS, $post_IDs3);
+            } elseif ($request->creator == "other") {
+                $post_IDs4     = $this->productPostsRepository->findWhereNotIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
+                $list_post_IDS = array_intersect($list_post_IDS, $post_IDs4);
+            }
         }
-
 
         $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
         $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
