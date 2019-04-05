@@ -397,8 +397,8 @@ class UserController extends RestController
             'revenue_per_year' => $request->post('revenue_per_year'),
             'pieces_per_year' => $request->post('pieces_per_year'),
             'compliance' => $request->post('compliance'),
-            'activation_code' => str_random(50),
-            'is_activated' => 0,
+            'activation_code' => "",
+            'is_activated' => 1,
         ]);
 
 
