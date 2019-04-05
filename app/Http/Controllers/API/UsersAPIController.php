@@ -162,6 +162,10 @@ class UsersAPIController extends AppBaseController
         if(trim($text_search)){
             $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
         }
+        else{
+            $list_user_IDs = $this->usersRepository->findWhere([ ['is_activated', '=', 1]])->pluck('id')->all();
+
+        }
 
         if (isset($request->main_product_groups)) {
             $main_product_group_IDs = json_decode($request->main_product_groups);
