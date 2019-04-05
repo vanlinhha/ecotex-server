@@ -88,7 +88,7 @@ Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users
     Route::put('/verify_users', 'UsersAPIController@verifyUsers');
 //Verify user by activation code
     //Create user
-    Route::post('/createUser', 'UserController@createUser');
+    Route::post('/create_user', 'UserController@createUser');
 
 });
 
