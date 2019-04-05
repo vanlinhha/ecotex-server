@@ -73,13 +73,13 @@ Route::resource('responses', 'ResponsesAPIController');
 
 
 
+Route::resource('users', 'UsersAPIController');
 
 
 //                         MODULE USERS
 
 Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users|read-profile']], function () {
 
-    Route::resource('users', 'UsersAPIController');
 //Get all inactivated users
     Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
 //Get all users

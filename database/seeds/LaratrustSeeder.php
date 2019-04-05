@@ -102,7 +102,7 @@ class LaratrustSeeder extends Seeder
 
             $this->command->info("Creating '{$key}' user");
 
-            for ($i = 0; $i < 100; $i++) {
+            for ($i = 0; $i < 15; $i++) {
                 // Create default user for each role
 
                 if ($i % 2 == 0) {
@@ -239,144 +239,144 @@ class LaratrustSeeder extends Seeder
         }
 
         // Creating user with permissions
-        if (!empty($userPermission)) {
-
-            foreach ($userPermission as $key => $modules) {
-
-                foreach ($modules as $module => $value) {
-                    for ($i = 0; $i < 30; $i++) {
-                        if ($i % 2 == 0) {
-                            // Create default user for each permission set
-                            $user = \App\Models\Users::create([
-                                'first_name'             => $faker->firstName,
-                                'last_name'              => $faker->lastName,
-                                'email'                  => $faker->companyEmail,
-                                'password'               => bcrypt('123456'),
-                                'avatar'                 => "",
-                                'phone'                  => $faker->phoneNumber,
-                                'country_id'             => random_int(1, 239),
-                                'company_name'           => $faker->company,
-                                'brief_name'             => $faker->companySuffix,
-                                'company_address'        => $faker->address,
-                                'website'                => $faker->address,
-                                'description'            => $faker->sentence(),
-                                'minimum_order_quantity' => random_int(1, 5),
-
-                                //personal
-                                'address'                => $faker->address,
-                                'identity_card'          => mt_rand(100000000, 999999999),
-
-                            ]);
-                        } else {
-                            // Create default user for each permission set
-                            $user = \App\Models\Users::create([
-                                'first_name'                   => $faker->firstName,
-                                'last_name'                    => $faker->lastName,
-                                'email'                        => $faker->companyEmail,
-                                'password'                     => bcrypt('123456'),
-                                'avatar'                       => "",
-                                'phone'                        => $faker->phoneNumber,
-                                'country_id'                   => random_int(1, 239),
-                                'company_name'                 => $faker->company,
-                                'brief_name'                   => $faker->companySuffix,
-                                'company_address'              => $faker->address,
-                                'website'                      => $faker->address,
-                                'description'                  => $faker->sentence(),
-                                'minimum_order_quantity'       => random_int(1, 5),
-
-                                //enterprise
-                                'establishment_year'           => random_int(2000, 2019),
-                                'business_registration_number' => $faker->creditCardNumber(),
-                                'form_of_ownership'            => '',
-                                'number_of_employees'          => random_int(15, 5000),
-                                'floor_area'                   => random_int(10000, 100000),
-                                'area_of_factory'              => random_int(100000, 5000000),
-                                'commercial_service_type'      => str_random(29),
-                                'revenue_per_year'             => rand(10000, 2000000),
-                                'pieces_per_year'              => random_int(1, 100),
-                                'compliance'                   => str_random(6),
-                                'activation_code'              => str_random(10),
-                                'is_activated'                 => random_int(0, 1),
-                            ]);
-                        }
-
-                        DB::table('main_services')->insert([
-
-                                [
-                                    'user_id'    => $user->id,
-                                    'service_id' => random_int(1, 3),
-                                ]
-                            ]
-
-                        );
-
-                        DB::table('main_export_countries')->insert([
-
-                                [
-                                    'user_id'    => $user->id,
-                                    'country_id' => random_int(1, 249),
-                                ]
-                            ]
-
-                        );
-
-                        DB::table('main_product_groups')->insert([
-
-                                [
-                                    'user_id'          => $user->id,
-                                    'product_group_id' => random_int(1, 5),
-                                ]
-                            ]
-
-                        );
-
-                        DB::table('main_segment_groups')->insert([
-
-                                [
-                                    'user_id'          => $user->id,
-                                    'segment_group_id' => random_int(1, 4),
-                                    'percent'          => random_int(30, 40)
-                                ]
-                            ]
-
-                        );
-
-
-                        DB::table('main_targets')->insert([
-
-                                [
-                                    'user_id'         => $user->id,
-                                    'target_group_id' => random_int(1, 4),
-                                    'percent'         => random_int(30, 40)
-                                ]
-                            ]
-
-                        );
-
-                    }
-
-
-                    $permissions = [];
-
-                    foreach (explode(',', $value) as $p => $perm) {
-
-                        $permissionValue = $mapPermission->get($perm);
-
-                        $permissions[] = \App\Permission::firstOrCreate([
-                            'name'        => $permissionValue ? $permissionValue . '-' . $module : $module,
-                            //                            'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
-                            'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
-                        ])->id;
-
-                        $this->command->info('Creating Permission to ' . $permissionValue . ' for ' . $module);
-                    }
-
-                }
-
-                // Attach all permissions to the user
-                $user->permissions()->sync($permissions);
-            }
-        }
+//        if (!empty($userPermission)) {
+//
+//            foreach ($userPermission as $key => $modules) {
+//
+//                foreach ($modules as $module => $value) {
+//                    for ($i = 0; $i < 10; $i++) {
+//                        if ($i % 2 == 0) {
+//                            // Create default user for each permission set
+//                            $user = \App\Models\Users::create([
+//                                'first_name'             => $faker->firstName,
+//                                'last_name'              => $faker->lastName,
+//                                'email'                  => $faker->companyEmail,
+//                                'password'               => bcrypt('123456'),
+//                                'avatar'                 => "",
+//                                'phone'                  => $faker->phoneNumber,
+//                                'country_id'             => random_int(1, 239),
+//                                'company_name'           => $faker->company,
+//                                'brief_name'             => $faker->companySuffix,
+//                                'company_address'        => $faker->address,
+//                                'website'                => $faker->address,
+//                                'description'            => $faker->sentence(),
+//                                'minimum_order_quantity' => random_int(1, 5),
+//
+//                                //personal
+//                                'address'                => $faker->address,
+//                                'identity_card'          => mt_rand(100000000, 999999999),
+//
+//                            ]);
+//                        } else {
+//                            // Create default user for each permission set
+//                            $user = \App\Models\Users::create([
+//                                'first_name'                   => $faker->firstName,
+//                                'last_name'                    => $faker->lastName,
+//                                'email'                        => $faker->companyEmail,
+//                                'password'                     => bcrypt('123456'),
+//                                'avatar'                       => "",
+//                                'phone'                        => $faker->phoneNumber,
+//                                'country_id'                   => random_int(1, 239),
+//                                'company_name'                 => $faker->company,
+//                                'brief_name'                   => $faker->companySuffix,
+//                                'company_address'              => $faker->address,
+//                                'website'                      => $faker->address,
+//                                'description'                  => $faker->sentence(),
+//                                'minimum_order_quantity'       => random_int(1, 5),
+//
+//                                //enterprise
+//                                'establishment_year'           => random_int(2000, 2019),
+//                                'business_registration_number' => $faker->creditCardNumber(),
+//                                'form_of_ownership'            => '',
+//                                'number_of_employees'          => random_int(15, 5000),
+//                                'floor_area'                   => random_int(10000, 100000),
+//                                'area_of_factory'              => random_int(100000, 5000000),
+//                                'commercial_service_type'      => str_random(29),
+//                                'revenue_per_year'             => rand(10000, 2000000),
+//                                'pieces_per_year'              => random_int(1, 100),
+//                                'compliance'                   => str_random(6),
+//                                'activation_code'              => str_random(10),
+//                                'is_activated'                 => random_int(0, 1),
+//                            ]);
+//                        }
+//
+//                        DB::table('main_services')->insert([
+//
+//                                [
+//                                    'user_id'    => $user->id,
+//                                    'service_id' => random_int(1, 3),
+//                                ]
+//                            ]
+//
+//                        );
+//
+//                        DB::table('main_export_countries')->insert([
+//
+//                                [
+//                                    'user_id'    => $user->id,
+//                                    'country_id' => random_int(1, 249),
+//                                ]
+//                            ]
+//
+//                        );
+//
+//                        DB::table('main_product_groups')->insert([
+//
+//                                [
+//                                    'user_id'          => $user->id,
+//                                    'product_group_id' => random_int(1, 5),
+//                                ]
+//                            ]
+//
+//                        );
+//
+//                        DB::table('main_segment_groups')->insert([
+//
+//                                [
+//                                    'user_id'          => $user->id,
+//                                    'segment_group_id' => random_int(1, 4),
+//                                    'percent'          => random_int(30, 40)
+//                                ]
+//                            ]
+//
+//                        );
+//
+//
+//                        DB::table('main_targets')->insert([
+//
+//                                [
+//                                    'user_id'         => $user->id,
+//                                    'target_group_id' => random_int(1, 4),
+//                                    'percent'         => random_int(30, 40)
+//                                ]
+//                            ]
+//
+//                        );
+//
+//                    }
+//
+//
+//                    $permissions = [];
+//
+//                    foreach (explode(',', $value) as $p => $perm) {
+//
+//                        $permissionValue = $mapPermission->get($perm);
+//
+//                        $permissions[] = \App\Permission::firstOrCreate([
+//                            'name'        => $permissionValue ? $permissionValue . '-' . $module : $module,
+//                            //                            'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
+//                            'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
+//                        ])->id;
+//
+//                        $this->command->info('Creating Permission to ' . $permissionValue . ' for ' . $module);
+//                    }
+//
+//                }
+//
+//                // Attach all permissions to the user
+//                $user->permissions()->sync($permissions);
+//            }
+//        }
 
         \App\Models\Users::find(1)->attachRole(1);
 
