@@ -354,6 +354,69 @@ class UserController extends RestController
         return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user], 'message' => "Created user successfully"], 201);
     }
 
+    public function createUser(Request $request)
+    {
+        $main_product_group_IDs = json_decode($request->main_product_groups);
+        $main_material_group_IDs = json_decode($request->main_material_groups);
+        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+        $main_target_group_IDs = json_decode($request->main_target_groups);
+        $role_types = json_decode($request->role_types);
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => __($validator->errors()->toJson()), 'success' => false], 422);
+        }
+
+        $user = Users::create([
+            'email' => $request->post('email'),
+            'password' => Hash::make($request->post('password')),
+            'first_name' => $request->post('first_name'),
+            'last_name' => $request->post('last_name'),
+            'phone' => $request->post('phone'),
+            'country_id' => $request->post('country_id'),
+            'company_name' => $request->post('company_name'),
+            'company_address' => $request->post('company_address'),
+            'brief_name' => $request->post('brief_name'),
+            'website' => $request->post('website'),
+            'description' => $request->post('description'),
+            'identity_card' => $request->post('identity_card'),
+            'minimum_order_quantity' => $request->post('minimum_order_quantity'),
+            'establishment_year' => $request->post('establishment_year'),
+            'business_registration_number' => $request->post('business_registration_number'),
+            'form_of_ownership' => $request->post('form_of_ownership'),
+            'number_of_employees' => $request->post('number_of_employees'),
+            'floor_area' => $request->post('floor_area'),
+            'area_of_factory' => $request->post('area_of_factory'),
+            'commercial_service_type' => $request->post('commercial_service_type'),
+            'revenue_per_year' => $request->post('revenue_per_year'),
+            'pieces_per_year' => $request->post('pieces_per_year'),
+            'compliance' => $request->post('compliance'),
+            'activation_code' => str_random(50),
+            'is_activated' => 0,
+        ]);
+
+
+        if (intval($request->role_id)) {
+            $user->roles()->attach(intval($request->role_id));
+        }
+
+        $user->mainProductGroups()->sync($main_product_group_IDs);
+        $user->mainMaterialGroups()->sync($main_material_group_IDs);
+        $user->mainTargets()->sync($main_target_group_IDs);
+        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
+        $user->roleTypes()->sync($role_types);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user], 'message' => "Created user successfully"], 201);
+    }
+
     public function getAuthenticatedUser()
     {
         try {
