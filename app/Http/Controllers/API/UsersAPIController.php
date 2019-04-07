@@ -149,7 +149,7 @@ class UsersAPIController extends AppBaseController
      */
     public function index(Request $request, MainProductGroupsRepository $mainProductGroupsRepository, MainTargetsRepository $mainTargetsRepository, MainSegmentGroupsRepository $mainSegmentGroupsRepository)
     {
-        $this->usersRepository->pushCriteria(new RequestCriteria($request));
+//        $this->usersRepository->pushCriteria(new RequestCriteria($request));
 //        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
 
         if (isset($request->paginate)) {
