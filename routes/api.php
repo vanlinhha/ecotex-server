@@ -78,8 +78,8 @@ Route::resource('responses', 'ResponsesAPIController');
 //                         MODULE USERS
 
 Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users|read-profile']], function () {
-
     Route::resource('users', 'UsersAPIController');
+
 //Get all inactivated users
     Route::get('/inactivated_users', 'UsersAPIController@getInactivatedUser');
 //Get all users
@@ -87,6 +87,9 @@ Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users
 //Verify users
     Route::put('/verify_users', 'UsersAPIController@verifyUsers');
 //Verify user by activation code
+    //Create user
+    Route::post('/create_user', 'UserController@createUser');
+
 });
 
 Route::put('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
