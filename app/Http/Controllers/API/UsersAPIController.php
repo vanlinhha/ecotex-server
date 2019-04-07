@@ -192,7 +192,7 @@ class UsersAPIController extends AppBaseController
         }
 
 
-        $limit     = isset($request->limit) ? config('repository.pagination.limit', 5) : intval($request->limit);
+        $limit     = isset($request->limit) ? intval($request->limit)  :config('repository.pagination.limit', 5) ;
         $order_by  = isset($request->order_by) ? $request->order_by : 'id';
         $direction = (isset($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
 
