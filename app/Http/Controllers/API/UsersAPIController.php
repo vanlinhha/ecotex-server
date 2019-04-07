@@ -192,9 +192,9 @@ class UsersAPIController extends AppBaseController
         }
 
 
-        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
-        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
-        $direction = (is_null($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
+        $limit     = isset($request->limit) ? config('repository.pagination.limit', 5) : intval($request->limit);
+        $order_by  = isset($request->order_by) ? 'id' : $request->order_by;
+        $direction = (isset($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
 
         $users = $this->usersRepository->findWhereInAndPaginate('id', $list_user_IDs, $order_by, $direction, $limit, $paginate, ['*']);
 
