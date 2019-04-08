@@ -18,7 +18,7 @@
         "laravelcollective/html": "^5.6.0",
         "mits87/eloquent-nested-attributes": "^0.0.6",
         "mpociot/laravel-apidoc-generator": "^3.3",
-        
+        "nahid/talk": "^2.2",
         "santigarcor/laratrust": "5.0.*",
         "tymon/jwt-auth": "dev-develop",
         "unisharp/laravel-filemanager": "~1.8"
