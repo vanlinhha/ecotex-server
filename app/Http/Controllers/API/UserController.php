@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Image;
 use JWTAuth;
+use Nahid\Talk\Talk;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\RestController;
 use App\Models\Users;
@@ -661,27 +662,12 @@ class UserController extends RestController
 
     }
 
-    public function upload(Request $request)
+    public function chat(Request $request)
     {
-        if (!is_dir(storage_path('app'))) {
-            mkdir(storage_path('app'), 0777);
-        }
+        Talk::setAuthUserId(auth()->user()->id);
+        $inboxes = Talk::user(auth()->user()->id)->threads();
+        return $inboxes;
 
-        if (!is_dir(storage_path('app/public'))) {
-            mkdir(storage_path('app/public'), 0777);
-
-        }
-        if (!is_dir(storage_path('app/public/files'))) {
-            mkdir(storage_path('app/public/files'), 0777);
-        }
-
-        $file = $request->file('file');
-        $extension = $request->file('file')->getClientOriginalName();
-        $filename = uniqid() . '-' . $extension;
-        $file->move(storage_path('app/public/files'), $filename);
-        $attach_file = $this->attachedFilesRepository->create(['post_id' => 0, 'name' => $extension, 'url' => '/storage/files/' . $filename]);
-//        return $attach_file;
-        return env('APP_URL') . '/storage/files/' . $filename;
 
     }
 
