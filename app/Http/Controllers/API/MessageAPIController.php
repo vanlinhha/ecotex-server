@@ -60,15 +60,17 @@ class MessageAPIController extends AppBaseController
     {
         $body = $request->input('message');
         $userId = $request->input('user_id');
-        if ($message = Talk::sendMessageByUserId($userId, $body)) {
-            return response()->json(['status'=>'success'], 200);
+        if (Talk::sendMessageByUserId($userId, $body)) {
+            return response()->json(['success'=>'true', 'message'=>'OK'], 201);
         }
     }
 
 
 
-    public function chat()
+    public function test()
     {
-        dd(Talk::channel());
+        return view('test');
+
+        return talk_live(['user'=>["id"=>auth()->user()->id]]);
     }
 }

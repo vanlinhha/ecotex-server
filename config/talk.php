@@ -6,11 +6,11 @@ return [
     ],
     'broadcast' => [
         'enable' => true,
-        'app_name' => 'your-app-name',
+        'app_name' => 'ecotex',
         'pusher' => [
-            'app_id' => '730885',
-            'app_key' => '09a1966d4d5a3c582104',
-            'app_secret' => 'f867ced5df6149395154',
+            'app_id' => '730883',
+            'app_key' => 'de78cb5d7124e33189ac',
+            'app_secret' => '50a201dcf469ff676812',
             'options' => [
                 'cluster' => 'ap1',
                 'encrypted' => true
