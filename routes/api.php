@@ -142,7 +142,9 @@ Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function
 });
 
 
-Route::get('/chat', 'MessageAPIController@chat');
+Route::post('/chat', 'MessageAPIController@tests');
+Route::post('/chat_history/{id}', 'MessageAPIController@chatHistory');
+
 
 Route::post('/uploads_test', 'UserController@uploads_test');
 

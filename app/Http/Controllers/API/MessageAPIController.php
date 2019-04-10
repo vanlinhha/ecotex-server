@@ -4,8 +4,6 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Nahid\Talk\Facades\Talk;
-use Illuminate\Support\Facades\Auth;
-use View;
 use JWTAuth;
 class MessageAPIController extends AppBaseController
 {
@@ -21,7 +19,7 @@ class MessageAPIController extends AppBaseController
         $user = '';
         $messages = [];
         if(!$conversations) {
-            $user = User::find($id);
+            $user = Users::find($id);
         } else {
             $user = $conversations->withUser;
             $messages = $conversations->messages;
@@ -29,7 +27,8 @@ class MessageAPIController extends AppBaseController
         if (count($messages) > 0) {
             $messages = $messages->sortBy('id');
         }
-        return view('messages.conversations', compact('messages', 'user'));
+        return $messages;
+
     }
     public function ajaxSendMessage(Request $request)
     {
@@ -57,10 +56,16 @@ class MessageAPIController extends AppBaseController
         }
     }
 
-    public function tests()
+    public function tests(Request $request)
     {
-        dd(Talk::channel());
+        $body = $request->input('message');
+        $userId = $request->input('user_id');
+        if ($message = Talk::sendMessageByUserId($userId, $body)) {
+            return response()->json(['status'=>'success'], 200);
+        }
     }
+
+
 
     public function chat()
     {
