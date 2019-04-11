@@ -11,11 +11,10 @@
         encrypted: true
     });
 
-    var userChannel = pusher.subscribe('ecotex-user-2');
-    userChannel.bind('Webcast', function (data) {
+    var userChannel = pusher.subscribe('c95ded77c0d61d126cecb336918aea939fa08115');
+    userChannel.bind('talk-send-message', function (data) {
         console.log(1);
         console.log(data);
     });
-    console.log(2);
 
 </script>
