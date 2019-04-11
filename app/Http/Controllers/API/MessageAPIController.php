@@ -1,27 +1,35 @@
 <?php
+
 namespace App\Http\Controllers\API;
+
 use App\Http\Controllers\AppBaseController;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Nahid\Talk\Facades\Talk;
 use JWTAuth;
+
 class MessageAPIController extends AppBaseController
 {
     protected $authUser;
+
     public function __construct()
     {
-        $this->middleware('jwt.verify');
         Talk::setAuthUserId(JWTAuth::parseToken()->authenticate()->id);
     }
-    public function chatHistory($id)
+
+    public function chatHistory($user_id, Request $request)
     {
-        $conversations = Talk::getMessagesByUserId($id, 0, 5);
+        $start = isset($request->start) ? intval($request->start) : 0;
+        $offset = isset($request->offset) ? intval($request->offset) : 10;
+
+        $conversations = Talk::getMessagesByUserId($user_id, $start, $offset);
         $user = '';
         $messages = [];
-        if(!$conversations) {
-            $user = Users::find($id);
+        if (!$conversations) {
+            $user = Users::find($user_id);
         } else {
             $user = $conversations->withUser;
+
             $messages = $conversations->messages;
         }
         if (count($messages) > 0) {
@@ -30,47 +38,34 @@ class MessageAPIController extends AppBaseController
         return $messages;
 
     }
-    public function ajaxSendMessage(Request $request)
+
+    public function deleteMessage(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $rules = [
-                'message-data'=>'required',
-                '_id'=>'required'
-            ];
-            $this->validate($request, $rules);
-            $body = $request->input('message-data');
-            $userId = $request->input('_id');
-            if ($message = Talk::sendMessageByUserId($userId, $body)) {
-                $html = view('ajax.newMessageHtml', compact('message'))->render();
-                return response()->json(['status'=>'success', 'html'=>$html], 200);
-            }
+        if (Talk::deleteMessage($id)) {
+            return response()->json(['success' => true, 'message' => 'Message deleted successfully!'], 200);
         }
-    }
-    public function ajaxDeleteMessage(Request $request, $id)
-    {
-        if ($request->ajax()) {
-            if(Talk::deleteMessage($id)) {
-                return response()->json(['status'=>'success'], 200);
-            }
-            return response()->json(['status'=>'errors', 'msg'=>'something went wrong'], 401);
-        }
+        return response()->json(['success' => false, 'message' => 'Something went wrong'], 401);
     }
 
-    public function tests(Request $request)
+    public function sendMessage(Request $request)
     {
         $body = $request->input('message');
         $userId = $request->input('user_id');
         if (Talk::sendMessageByUserId($userId, $body)) {
-            return response()->json(['success'=>'true', 'message'=>'OK'], 201);
+            return response()->json(['success' => true, 'message' => 'Message sent successfully!'], 201);
         }
     }
 
+    public function getInbox(){
+        return Talk::getInbox();
+    }
 
 
     public function test()
     {
-        return view('test');
 
-        return talk_live(['user'=>["id"=>auth()->user()->id]]);
+        $threads = Talk::threads();
+        return $threads;
+//        return view('test');
     }
 }

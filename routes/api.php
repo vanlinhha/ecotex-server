@@ -25,7 +25,6 @@ Route::get('/403', function () {
 
 //                  MODULE TEST
 
-Route::get('/test_role', 'UserController@testRole');
 Route::get('/open', 'DataController@open')->middleware(['jwt.verify', 'permission:delete-profile', 'role:administrator']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
@@ -141,16 +140,16 @@ Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function
     Route::get('/all_roles_and_permissions', 'UserController@getAllRolesAndPermissions');
 });
 
-
-Route::get('/test', 'MessageAPIController@test');
-Route::post('/chat', 'MessageAPIController@tests');
-Route::post('/chat_history/{id}', 'MessageAPIController@chatHistory');
+Route::group(['middleware' => ['jwt.verify']], function () {
+    Route::get('/test', 'MessageAPIController@test');
+    Route::get('/get_inbox', 'MessageAPIController@getInbox');
+    Route::post('/send', 'MessageAPIController@sendMessage');
+    Route::post('/chat_history/{user_id}', 'MessageAPIController@chatHistory');
+    Route::delete('/delete_message/{id}', 'MessageAPIController@deleteMessage');
+});
 
 
 Route::post('/uploads_test', 'UserController@uploads_test');
-
-
-
 
 
 Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@getOwnPosts');
