@@ -19,12 +19,12 @@ class MessageAPIController extends AppBaseController
 
     public function chatHistory($user_id, Request $request)
     {
-        $start = isset($request->start) ? intval($request->start) : 0;
+        $start  = isset($request->start) ? intval($request->start) : 0;
         $offset = isset($request->offset) ? intval($request->offset) : 10;
 
         $conversations = Talk::getMessagesByUserId($user_id, $start, $offset);
-        $user = '';
-        $messages = [];
+        $user          = '';
+        $messages      = [];
         if (!$conversations) {
             $user = Users::find($user_id);
         } else {
@@ -49,15 +49,49 @@ class MessageAPIController extends AppBaseController
 
     public function sendMessage(Request $request)
     {
-        $body = $request->input('message');
+        $body   = $request->input('message');
         $userId = $request->input('user_id');
         if (Talk::sendMessageByUserId($userId, $body)) {
             return response()->json(['success' => true, 'message' => 'Message sent successfully!'], 201);
         }
     }
 
-    public function getInbox(){
-        return Talk::getInbox();
+    public function getInbox(Request $request)
+    {
+
+        $offset = isset($request->offset) ? intval($request->offset) : 0;
+        $take   = isset($request->take) ? intval($request->take) : 20;
+        $order  = isset($request->order) ? $request->order : "desc";
+        return Talk::getInbox($order, $offset, $take);
+    }
+
+    public function getConversationsById($id, Request $request)
+    {
+        $offset = isset($request->offset) ? intval($request->offset) : 0;
+        $take   = isset($request->take) ? intval($request->take) : 20;
+
+        $conversations = Talk::getConversationsById($id, $offset, $take);
+        $messages      = $conversations->messages;
+        $withUser      = $conversations->withUser;
+        return $messages;
+    }
+
+    public function getConversationsByUserId($id, Request $request)
+    {
+        $offset = isset($request->offset) ? intval($request->offset) : 0;
+        $take   = isset($request->take) ? intval($request->take) : 20;
+        $conversations = Talk::getConversationsByUserId($id, $offset, $take);
+        $messages      = $conversations->messages;
+        $withUser      = $conversations->withUser;
+        return $messages;
+    }
+
+    public function makeSeen($message_id)
+    {
+        if(Talk::makeSeen($message_id)){
+            return response()->json(['success' => true, 'message' => 'Message updated successfully!'], 200);
+        };
+        return response()->json(['success' => false, 'message' => 'Message updated unsuccessfully!'], 400);
     }
 
 

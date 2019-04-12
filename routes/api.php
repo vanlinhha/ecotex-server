@@ -143,7 +143,10 @@ Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/test', 'MessageAPIController@test');
     Route::get('/get_inbox', 'MessageAPIController@getInbox');
+    Route::get('/get_conversation/{id}', 'MessageAPIController@getConversationsById');
+    Route::get('/get_conversation_by_user/{user_id}', 'MessageAPIController@getConversationsByUserId');
     Route::post('/send', 'MessageAPIController@sendMessage');
+    Route::put('/make_seen/{message_id}', 'MessageAPIController@makeSeen');
     Route::post('/chat_history/{user_id}', 'MessageAPIController@chatHistory');
     Route::delete('/delete_message/{id}', 'MessageAPIController@deleteMessage');
 });
