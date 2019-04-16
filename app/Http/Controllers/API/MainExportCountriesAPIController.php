@@ -290,9 +290,6 @@ class MainExportCountriesAPIController extends AppBaseController
                 $mainExportCountries->delete();
             }
             else{
-                if(!Laratrust::canAndOwns('update-profile', $item)){
-
-                }
                 $this->mainExportCountriesRepository->update($item, $item['id']);
             }
         }
