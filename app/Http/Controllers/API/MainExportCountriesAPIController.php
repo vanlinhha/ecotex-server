@@ -280,7 +280,7 @@ class MainExportCountriesAPIController extends AppBaseController
                 $this->mainExportCountriesRepository->create($item);
             }
 
-            elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+            elseif ($item['_destroy'] == true) {
 
                 $mainExportCountries = $this->mainExportCountriesRepository->findWithoutFail($item['id']);
 

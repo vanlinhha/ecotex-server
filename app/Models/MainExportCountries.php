@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class MainExportCountries extends Model
 {
-    use SoftDeletes;
+//    use SoftDeletes;
 
     public $table = 'main_export_countries';
     
