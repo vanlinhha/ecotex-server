@@ -22,9 +22,7 @@ RUN apt-get update && apt-get install -y \
 
 #install composer
 RUN apt-get install curl
-RUN curl -sL https://deb.nodesource.com/setup_11.12.0 | -E bash -
-RUN apt-get install nodejs
-
+RUN apt-get install -y nodejs
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
