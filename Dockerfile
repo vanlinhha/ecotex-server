@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y \
       zip \
       nano\
       unzip \
-      nodejs \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
@@ -21,6 +20,10 @@ RUN apt-get update && apt-get install -y \
       opcache
 
 #install composer
+RUN curl -sL https://deb.nodesource.com/setup_8.12 -o nodesource_setup.sh
+RUN bash nodesource_setup.sh
+RUN apt-get install nodejs
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
 #set our application folder as an environment variable
