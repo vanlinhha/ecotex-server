@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
       opcache
 
 #install composer
-RUN apt-get install curl python-software-properties
+RUN apt-get install curl
 RUN curl -sL https://deb.nodesource.com/setup_11.12.0 | sudo -E bash -
 RUN apt-get install nodejs
 
