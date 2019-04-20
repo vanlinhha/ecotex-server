@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
       zip \
       nano\
       unzip \
-      node \
+      nodejs \
       npm \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
