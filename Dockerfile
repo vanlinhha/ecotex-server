@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
       nano\
       unzip \
       nodejs \
-      npm \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
