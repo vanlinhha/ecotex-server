@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 
 #install composer
 RUN apt-get install curl
-RUN curl -sL https://deb.nodesource.com/setup_11.12.0 | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_11.12.0 | -E bash -
 RUN apt-get install nodejs
 
 
