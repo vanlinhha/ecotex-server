@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get -y install build-essential
-RUN add-apt-repository -y ppa:chris-lea/node.js
+RUN add-apt-repository ppa:chris-lea/node.js
 RUN apt-get update
 RUN apt-get -y install nodejs
 
