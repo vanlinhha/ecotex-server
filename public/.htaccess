@@ -4,7 +4,7 @@
     </IfModule>
 
     RewriteEngine On
-	RewriteBase /ecotex/
+	RewriteBase /ecotex-server/
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

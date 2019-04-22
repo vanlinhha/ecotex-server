@@ -35,7 +35,7 @@ class MessageAPIController extends AppBaseController
         if (count($messages) > 0) {
             $messages = $messages->sortBy('id');
         }
-        return $messages;
+        return ['data' => $messages, 'success' => true] ;
 
     }
 
@@ -62,7 +62,7 @@ class MessageAPIController extends AppBaseController
         $offset = isset($request->offset) ? intval($request->offset) : 0;
         $take   = isset($request->take) ? intval($request->take) : 20;
         $order  = isset($request->order) ? $request->order : "desc";
-        return Talk::getInbox($order, $offset, $take);
+        return ['data' => Talk::getInbox($order, $offset, $take), 'success' => true] ;
     }
 
     public function getConversationsById($id, Request $request)
@@ -73,7 +73,8 @@ class MessageAPIController extends AppBaseController
         $conversations = Talk::getConversationsById($id, $offset, $take);
         $messages      = $conversations->messages;
         $withUser      = $conversations->withUser;
-        return $messages;
+        return ['data' => $messages, 'success' => true] ;
+
     }
 
     public function getConversationsByUserId($id, Request $request)
@@ -83,7 +84,7 @@ class MessageAPIController extends AppBaseController
         $conversations = Talk::getConversationsByUserId($id, $offset, $take);
         $messages      = $conversations->messages;
         $withUser      = $conversations->withUser;
-        return $messages;
+        return ['data' => $messages, 'success' => true] ;
     }
 
     public function makeSeen($message_id)
