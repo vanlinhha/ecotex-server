@@ -165,6 +165,9 @@ Route::resource('products', 'ProductsAPIController');
 Route::get('/product_user/{user_id}', 'ProductsAPIController@product_user');
 
 
-
-
 Route::resource('locations', 'LocationsAPIController');
+
+Route::resource('categories', 'CategoryAPIController');
+
+
+
