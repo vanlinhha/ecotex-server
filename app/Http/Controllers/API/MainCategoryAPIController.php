@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Criteria\CategoryTypeCriteria;
-use App\Http\Requests\API\CreateCategoryAPIRequest;
-use App\Http\Requests\API\UpdateCategoryAPIRequest;
-use App\Models\Category;
-use App\Repositories\CategoryRepository;
+use App\Http\Requests\API\CreateMainCategoryAPIRequest;
+use App\Http\Requests\API\UpdateMainCategoryAPIRequest;
+use App\Models\MainCategory;
+use App\Repositories\MainCategoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -14,22 +14,18 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class CategoryController
+ * Class MainCategoryController
  * @package App\Http\Controllers\API
  */
 
-
-class CategoryAPIController extends AppBaseController
+class MainCategoryAPIController extends AppBaseController
 {
-    protected $type = ['material', 'segment', 'product', 'target', 'service'];
-    /** @var  CategoryRepository */
-    private $categoryRepository;
+    /** @var  MainCategoryRepository */
+    private $mainCategoryRepository;
 
-    public function __construct(CategoryRepository $categoryRepo, Request $request)
+    public function __construct(MainCategoryRepository $mainCategoryRepo)
     {
-        $this->categoryRepository = $categoryRepo;
-        $this->categoryRepository->pushCriteria(new CategoryTypeCriteria($request));
-
+        $this->mainCategoryRepository = $mainCategoryRepo;
     }
 
     /**
@@ -37,10 +33,10 @@ class CategoryAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/categories",
-     *      summary="Get a listing of the Categories.",
-     *      tags={"Category"},
-     *      description="Get all Categories",
+     *      path="/mainCategories",
+     *      summary="Get a listing of the MainCategories.",
+     *      tags={"MainCategory"},
+     *      description="Get all MainCategories",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -54,7 +50,7 @@ class CategoryAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Category")
+     *                  @SWG\Items(ref="#/definitions/MainCategory")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -66,29 +62,29 @@ class CategoryAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->categoryRepository->pushCriteria(new RequestCriteria($request));
-        $this->categoryRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $categories = $this->categoryRepository->all();
+        $this->mainCategoryRepository->pushCriteria(new RequestCriteria($request));
+        $this->mainCategoryRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $mainCategories = $this->mainCategoryRepository->all();
 
-        return $this->sendResponse($categories->toArray(), 'Categories retrieved successfully');
+        return $this->sendResponse($mainCategories->toArray(), 'Main Categories retrieved successfully');
     }
 
     /**
-     * @param CreateCategoryAPIRequest $request
+     * @param CreateMainCategoryAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/categories",
-     *      summary="Store a newly created Category in storage",
-     *      tags={"Category"},
-     *      description="Store Category",
+     *      path="/mainCategories",
+     *      summary="Store a newly created MainCategory in storage",
+     *      tags={"MainCategory"},
+     *      description="Store MainCategory",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Category that should be stored",
+     *          description="MainCategory that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Category")
+     *          @SWG\Schema(ref="#/definitions/MainCategory")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -101,7 +97,7 @@ class CategoryAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Category"
+     *                  ref="#/definitions/MainCategory"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -111,17 +107,13 @@ class CategoryAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateCategoryAPIRequest $request)
+    public function store(CreateMainCategoryAPIRequest $request)
     {
         $input = $request->all();
 
-        if (!in_array($request->type, $this->type)) {
-            return $this->sendError('Category type not found');
-        }
+        $mainCategories = $this->mainCategoryRepository->create($input);
 
-        $categories = $this->categoryRepository->create($input);
-
-        return $this->sendResponse($categories->toArray(), 'Category saved successfully');
+        return $this->sendResponse($mainCategories->toArray(), 'Main Category saved successfully');
     }
 
     /**
@@ -129,14 +121,14 @@ class CategoryAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/categories/{id}",
-     *      summary="Display the specified Category",
-     *      tags={"Category"},
-     *      description="Get Category",
+     *      path="/mainCategories/{id}",
+     *      summary="Display the specified MainCategory",
+     *      tags={"MainCategory"},
+     *      description="Get MainCategory",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Category",
+     *          description="id of MainCategory",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -152,7 +144,7 @@ class CategoryAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Category"
+     *                  ref="#/definitions/MainCategory"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -164,30 +156,30 @@ class CategoryAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Category $category */
-        $category = $this->categoryRepository->findWithoutFail($id);
+        /** @var MainCategory $mainCategory */
+        $mainCategory = $this->mainCategoryRepository->findWithoutFail($id);
 
-        if (empty($category)) {
-            return $this->sendError('Category not found');
+        if (empty($mainCategory)) {
+            return $this->sendError('Main Category not found');
         }
 
-        return $this->sendResponse($category->toArray(), 'Category retrieved successfully');
+        return $this->sendResponse($mainCategory->toArray(), 'Main Category retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateCategoryAPIRequest $request
+     * @param UpdateMainCategoryAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/categories/{id}",
-     *      summary="Update the specified Category in storage",
-     *      tags={"Category"},
-     *      description="Update Category",
+     *      path="/mainCategories/{id}",
+     *      summary="Update the specified MainCategory in storage",
+     *      tags={"MainCategory"},
+     *      description="Update MainCategory",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Category",
+     *          description="id of MainCategory",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -195,9 +187,9 @@ class CategoryAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Category that should be updated",
+     *          description="MainCategory that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Category")
+     *          @SWG\Schema(ref="#/definitions/MainCategory")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -210,7 +202,7 @@ class CategoryAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Category"
+     *                  ref="#/definitions/MainCategory"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -220,20 +212,20 @@ class CategoryAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateCategoryAPIRequest $request)
+    public function update($id, UpdateMainCategoryAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Category $category */
-        $category = $this->categoryRepository->findWithoutFail($id);
+        /** @var MainCategory $mainCategory */
+        $mainCategory = $this->mainCategoryRepository->findWithoutFail($id);
 
-        if (empty($category)) {
-            return $this->sendError('Category not found');
+        if (empty($mainCategory)) {
+            return $this->sendError('Main Category not found');
         }
 
-        $category = $this->categoryRepository->update($input, $id);
+        $mainCategory = $this->mainCategoryRepository->update($input, $id);
 
-        return $this->sendResponse($category->toArray(), 'Category updated successfully');
+        return $this->sendResponse($mainCategory->toArray(), 'MainCategory updated successfully');
     }
 
     /**
@@ -241,14 +233,14 @@ class CategoryAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/categories/{id}",
-     *      summary="Remove the specified Category from storage",
-     *      tags={"Category"},
-     *      description="Delete Category",
+     *      path="/mainCategories/{id}",
+     *      summary="Remove the specified MainCategory from storage",
+     *      tags={"MainCategory"},
+     *      description="Delete MainCategory",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Category",
+     *          description="id of MainCategory",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -276,15 +268,15 @@ class CategoryAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Category $category */
-        $category = $this->categoryRepository->findWithoutFail($id);
+        /** @var MainCategory $mainCategory */
+        $mainCategory = $this->mainCategoryRepository->findWithoutFail($id);
 
-        if (empty($category)) {
-            return $this->sendError('Category not found');
+        if (empty($mainCategory)) {
+            return $this->sendError('Main Category not found');
         }
 
-        $category->delete();
+        $mainCategory->delete();
 
-        return $this->sendResponse($id, 'Category deleted successfully');
+        return $this->sendResponse($id, 'Main Category deleted successfully');
     }
 }

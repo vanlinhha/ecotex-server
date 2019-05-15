@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @SWG\Definition(
- *      definition="Category",
- *      required={"name", "type"},
+ *      definition="MainCategory",
+ *      required={"user_id", "category_id"},
  *      @SWG\Property(
  *          property="id",
  *          description="id",
@@ -16,20 +16,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          format="int32"
  *      ),
  *      @SWG\Property(
- *          property="name",
- *          description="name",
- *          type="string"
- *      ),
- *      @SWG\Property(
- *          property="parent_id",
- *          description="parent_id",
+ *          property="user_id",
+ *          description="user_id",
  *          type="integer",
  *          format="int32"
  *      ),
  *      @SWG\Property(
- *          property="type",
- *          description="type",
- *          type="string"
+ *          property="category_id",
+ *          description="category_id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="percent",
+ *          description="percent",
+ *          type="number",
+ *          format="float"
  *      ),
  *      @SWG\Property(
  *          property="created_at",
@@ -45,21 +47,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *      )
  * )
  */
-class Category extends Model
+class MainCategory extends Model
 {
     use SoftDeletes;
 
-    public $table = 'categories';
+    public $table = 'main_categories';
+    
 
     protected $dates = ['deleted_at'];
 
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'role_id'];
 
     public $fillable = [
-        'name',
-        'role_id',
-        'parent_id',
-        'type'
+        'user_id',
+        'category_id',
+        'percent'
     ];
 
     /**
@@ -68,10 +69,9 @@ class Category extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string',
-        'role_id' => 'integer',
-        'parent_id' => 'integer',
-        'type' => 'string'
+        'user_id' => 'integer',
+        'category_id' => 'integer',
+        'percent' => 'float'
     ];
 
     /**
@@ -80,8 +80,8 @@ class Category extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
-        'type' => 'required',
+        'user_id' => 'required',
+        'category_id' => 'required'
     ];
 
     

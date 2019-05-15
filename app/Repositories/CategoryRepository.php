@@ -22,6 +22,7 @@ class CategoryRepository extends BaseRepository
     protected $fieldSearchable = [
         'name',
         'parent_id',
+        'role_id',
         'type'
     ];
 

@@ -24,6 +24,7 @@ class CreateCategoryAPIRequest extends APIRequest
      */
     public function rules()
     {
+
         return Category::$rules;
     }
 }
