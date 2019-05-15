@@ -23,10 +23,17 @@ RUN apt-get update && apt-get install -y \
 
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get -y install build-essential
-RUN add-apt-repository ppa:chris-lea/node.js
-RUN apt-get update
-RUN apt-get -y install nodejs
+
+RUN apt-get update && \
+    apt-get install -y --allow-unauthenticated --no-install-recommends gnupg && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends nodejs && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends yarn && \
+    npm install -g npm
 
 RUN apt-get install curl
 
