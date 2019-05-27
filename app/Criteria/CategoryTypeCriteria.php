@@ -34,6 +34,14 @@ class CategoryTypeCriteria implements CriteriaInterface
             $model = $model->where('type', '=', $this->request->type);
         }
 
+        if (trim($this->request->role_id) != '') {
+            $model = $model->where('role_id', '=', $this->request->role_id);
+        }
+
+        if (trim($this->request->parent_id) != '') {
+            $model = $model->where('parent_id', '=', $this->request->parent_id);
+        }
+
         return $model;
     }
 }

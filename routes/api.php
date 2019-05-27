@@ -80,7 +80,7 @@ Route::put('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
 
 //                         MODULE PROFILE
 
-Route::resource('categories', 'CategoryAPIController');
+    Route::resource('categories', 'CategoryAPIController');
 
 Route::resource('main_categories', 'MainCategoryAPIController');
 
