@@ -334,7 +334,7 @@ class UsersAPIController extends AppBaseController
         $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
         $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
-        $role                = $user->roles()->get();
+        $role                = $user->roles()->first();
         $bookmarks           = $user->bookmarks()->get();
 
         $user['bookmarks']             = $bookmarks;
