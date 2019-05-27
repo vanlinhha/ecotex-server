@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('parent_id');
-            $table->enum('type',['material', 'segment', 'product', 'target', 'service', 'quantity', 'export_country']);
+            $table->enum('type',['material', 'segment', 'product', 'target', 'service', 'quantity', 'country']);
             $table->integer('role_id');
             $table->timestamps();
             $table->softDeletes();
