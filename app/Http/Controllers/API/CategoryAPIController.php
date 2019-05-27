@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Criteria\CategoryTypeCriteria;
-use App\Http\Requests\API\CreateCategoryAPIRequest;
-use App\Http\Requests\API\UpdateCategoryAPIRequest;
+//use App\Http\Requests\API\CreateCategoryAPIRequest;
+//use App\Http\Requests\API\UpdateCategoryAPIRequest;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
@@ -111,7 +111,7 @@ class CategoryAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateCategoryAPIRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
 
@@ -220,11 +220,10 @@ class CategoryAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateCategoryAPIRequest $request)
+    public function update($id, Request $request)
     {
         $input = $request->all();
 
-        /** @var Category $category */
         $category = $this->categoryRepository->findWithoutFail($id);
 
         if (empty($category)) {
