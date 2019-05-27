@@ -21,7 +21,7 @@ use Response;
 
 class CategoryAPIController extends AppBaseController
 {
-    protected $type = ['material', 'segment', 'product', 'target', 'service'];
+    protected $type = ['material', 'segment', 'product', 'target', 'service', 'quantity', 'export_country'];
     /** @var  CategoryRepository */
     private $categoryRepository;
 
