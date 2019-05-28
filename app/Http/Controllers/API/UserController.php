@@ -24,6 +24,15 @@ class UserController extends RestController
 
     private $attachedFilesRepository;
 
+    public $mainType = [
+        'material' => 'main_material_groups',
+        'segment' => 'main_segment_groups',
+        'product' => 'main_product_groups',
+        'target' => 'main_target_groups',
+        'service' => 'main_services',
+        'country' => 'main_export_country',
+        'quantity' => 'minimum_order_quantity'];
+
     public function __construct(AttachedFilesRepository $attachedFilesRepo)
     {
         $this->attachedFilesRepository = $attachedFilesRepo;
@@ -81,6 +90,49 @@ class UserController extends RestController
 
     protected $user;
 
+    public function getCategoryByType($categories = array(), $type = "")
+    {
+        if (trim($type) == "") {
+            return $categories;
+        }
+        $temp = [];
+        foreach ($categories as $item) {
+            if ($item['type'] == $type) {
+                $temp[] = $item;
+            }
+        }
+        return $temp;
+    }
+
+    public function getInfo(&$user)
+    {
+        $locations = $user->locations()->get();
+        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
+        $role = $user->roles()->first();
+        $bookmarks = $user->bookmarks()->get();
+
+        $categories = $user->categories()->get(['*']);
+        foreach ($this->mainType as $type => $mainType) {
+            $user[$mainType] = $this->getCategoryByType($categories, $type);
+        }
+
+        $user['role_type_ids'] = $role_type_ids;
+        $user['role'] = $role;
+        $user['bookmarks'] = $bookmarks;
+        $user['locations'] = $locations;
+
+    }
+
+    public function getProductsOfUser(&$user)
+    {
+        $products = $user->products()->get();
+        foreach ($products as $product) {
+            $productImages = $product->productImages()->get();
+            $product['images'] = $productImages;
+        }
+        return $products;
+    }
+
     public function authenticate(Request $request)
     {
         $timeExp = (time() + (24 * 60 * 60)) * 1000;
@@ -103,37 +155,8 @@ class UserController extends RestController
             return response()->json(['success' => false, 'message' => __('account_not_verified')], 403);
         }
 
-        $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
-        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
-        $role = $user->roles()->first();
-        $bookmarks = $user->bookmarks()->get();
-        $locations = $user->locations()->get();
-
-        $products = $user->products()->get();
-
-        foreach ($products as $product) {
-            $productImages = $product->productImages()->get();
-            $product['images'] = $productImages;
-        }
-
-        $user['bookmarks'] = $bookmarks;
-        $user['locations'] = $locations;
-        $user['products'] = $products;
-        $user['role'] = $role;
-        $user['role_type_ids'] = $role_type_ids;
-        $user['main_product_groups'] = $mainProductGroups;
-        $user['main_services'] = $mainServices;
-        $user['main_material_groups'] = $mainMaterialGroups;
-        $user['main_segment_groups'] = $mainSegmentGroups;
-        $user['main_target_groups'] = $mainTargets;
-        $user['main_export_countries'] = $mainExportCountries;
-        //        $user['role_id']               = $roles;
-
+        $this->getInfo($user);
+        $user['products'] = $this->getProductsOfUser($user);
 
         return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user, 'expired_at' => $timeExp], 'message' => 'Log in successfully'], 201, []);
     }

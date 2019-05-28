@@ -19,6 +19,16 @@ use Response;
  */
 class AppBaseController extends Controller
 {
+    public $type = ['material', 'segment', 'product', 'target', 'service', 'country', 'quantity'];
+    public $mainType = [
+        'material' => 'main_material_groups',
+        'segment' => 'main_segment_groups',
+        'product' => 'main_product_groups',
+        'target' => 'main_target_groups',
+        'service' => 'main_services',
+        'country' => 'main_export_country',
+        'quantity' => 'minimum_order_quantity'];
+
     public function sendResponse($result, $message)
     {
         return Response::json(ResponseUtil::makeResponse($message, $result));

@@ -23,6 +23,7 @@ class UsersAPIController extends AppBaseController
 {
     /** @var  UsersRepository */
     private $usersRepository;
+//    protected $type;
 
     public function __construct(UsersRepository $usersRepo)
     {
@@ -242,43 +243,38 @@ class UsersAPIController extends AppBaseController
 
     public function getInfo(&$user)
     {
-        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
-        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+        $locations           = $user->locations()->get();
         $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
         $role                = $user->roles()->first();
         $bookmarks           = $user->bookmarks()->get();
-        $locations           = $user->locations()->get();
 
-        $products = $user->products()->get();
-
-        foreach ($products as $product) {
-            $productImages     = $product->productImages()->get();
-            $product['images'] = $productImages;
+        $categories   = $user->categories()->get(['*']);
+        foreach ($this->mainType as $type => $mainType){
+            $user[$mainType] = $this->getCategoryByType($categories, $type);
         }
 
+        $user['role_type_ids']         = $role_type_ids;
+        $user['role']                  = $role;
         $user['bookmarks']             = $bookmarks;
         $user['locations']             = $locations;
-        $user['products']              = $products;
-        $user['role']                  = $role;
-        $user['role_type_ids']         = $role_type_ids;
-        $user['main_product_groups']   = $mainProductGroups;
-        $user['main_services']         = $mainServices;
-        $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegmentGroups;
-        $user['main_target_groups']    = $mainTargets;
-        $user['main_export_countries'] = $mainExportCountries;
+
+
+    }
+
+    public function getProductsOfUser(&$user)
+    {
+        $products = $user->products()->get();
+        foreach ($products as $product) {
+            $productImages = $product->productImages()->get();
+            $product['images'] = $productImages;
+        }
+        return $products;
     }
 
     public function store(CreateUsersAPIRequest $request)
     {
         $input = $request->all();
-
         $users = $this->usersRepository->create($input);
-
         return $this->sendResponse($users->toArray(), 'Users saved successfully');
     }
 
@@ -326,28 +322,22 @@ class UsersAPIController extends AppBaseController
         if (empty($user)) {
             return $this->sendError(__('User not found'), 404);
         }
-
-        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
-        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
-        $role                = $user->roles()->first();
-        $bookmarks           = $user->bookmarks()->get();
-
-        $user['bookmarks']             = $bookmarks;
-        $user['role']                  = $role;
-        $user['role_type_ids']         = $role_type_ids;
-        $user['main_product_groups']   = $mainProductGroups;
-        $user['main_services']         = $mainServices;
-        $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegmentGroups;
-        $user['main_target_groups']    = $mainTargets;
-        $user['main_export_countries'] = $mainExportCountries;
+        $this->getInfo($user);
 
         return $this->sendResponse($user->toArray(), 'Users retrieved successfully');
+    }
+
+    public function getCategoryByType($categories = array(), $type = ""){
+        if(trim($type) == ""){
+            return $categories;
+        }
+        $temp = [];
+        foreach ($categories as $item){
+            if($item['type'] == $type){
+                $temp[] = $item;
+            }
+        }
+        return $temp;
     }
 
     /**
@@ -409,30 +399,8 @@ class UsersAPIController extends AppBaseController
             unset($input['password']);
         }
 
-        $user = $this->usersRepository->update($input, $id);
-
-        if ($user->roles()->get(['id'])->count()) {
-            $roles = $user->roles()->get()[0]['id'];
-        } else {
-            $roles = 0;
-        }
-
-        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
-        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
-
-        $user['role_type_ids']         = $role_type_ids;
-        $user['role_id']               = $roles;
-        $user['main_product_groups']   = $mainProductGroups;
-        $user['main_services']         = $mainServices;
-        $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegmentGroups;
-        $user['main_target_groups']    = $mainTargets;
-        $user['main_export_countries'] = $mainExportCountries;
+        $this->usersRepository->update($input, $id);
+        $this->getInfo($user);
 
         return $this->sendResponse($user->toArray(), 'Users updated successfully');
     }

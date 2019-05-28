@@ -107,7 +107,7 @@ class MainCategoryAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateMainCategoryAPIRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
 
@@ -212,7 +212,7 @@ class MainCategoryAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateMainCategoryAPIRequest $request)
+    public function update($id, Request $request)
     {
         $input = $request->all();
 
