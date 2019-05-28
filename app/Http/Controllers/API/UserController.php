@@ -310,10 +310,10 @@ class UserController extends RestController
 
     public function register(Request $request)
     {
-        $main_product_group_IDs = json_decode($request->main_product_groups);
-        $main_material_group_IDs = json_decode($request->main_material_groups);
-        $main_segment_group_IDs = json_decode($request->main_segment_groups);
-        $main_target_group_IDs = json_decode($request->main_target_groups);
+        $main_category_IDs = json_decode($request->main_categories);
+//        $main_material_group_IDscategory = json_decode($request->main_material_groups);
+//        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+//        $main_target_group_IDs = json_decode($request->main_target_groups);
         $role_types = json_decode($request->role_types);
 
         $validator = Validator::make($request->all(), [
@@ -368,10 +368,10 @@ class UserController extends RestController
             $user->roles()->attach(intval($request->role_id));
         }
 
-        $user->mainProductGroups()->sync($main_product_group_IDs);
-        $user->mainMaterialGroups()->sync($main_material_group_IDs);
-        $user->mainTargets()->sync($main_target_group_IDs);
-        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
+        $user->categories()->sync($main_category_IDs);
+//        $user->mainMaterialGroups()->sync($main_material_group_IDs);
+//        $user->mainTargets()->sync($main_target_group_IDs);
+//        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
         $user->roleTypes()->sync($role_types);
 
         $token = JWTAuth::fromUser($user);
@@ -381,10 +381,12 @@ class UserController extends RestController
 
     public function createUser(Request $request)
     {
-        $main_product_group_IDs = json_decode($request->main_product_groups);
-        $main_material_group_IDs = json_decode($request->main_material_groups);
-        $main_segment_group_IDs = json_decode($request->main_segment_groups);
-        $main_target_group_IDs = json_decode($request->main_target_groups);
+        $main_category_IDs = json_decode($request->main_categories);
+
+//        $main_product_group_IDs = json_decode($request->main_product_groups);
+//        $main_material_group_IDs = json_decode($request->main_material_groups);
+//        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+//        $main_target_group_IDs = json_decode($request->main_target_groups);
         $role_types = json_decode($request->role_types);
 
         $validator = Validator::make($request->all(), [
@@ -430,11 +432,12 @@ class UserController extends RestController
         if (intval($request->role_id)) {
             $user->roles()->attach(intval($request->role_id));
         }
+        $user->categories()->sync($main_category_IDs);
 
-        $user->mainProductGroups()->sync($main_product_group_IDs);
-        $user->mainMaterialGroups()->sync($main_material_group_IDs);
-        $user->mainTargets()->sync($main_target_group_IDs);
-        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
+//        $user->mainProductGroups()->sync($main_product_group_IDs);
+//        $user->mainMaterialGroups()->sync($main_material_group_IDs);
+//        $user->mainTargets()->sync($main_target_group_IDs);
+//        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
         $user->roleTypes()->sync($role_types);
 
         $token = JWTAuth::fromUser($user);

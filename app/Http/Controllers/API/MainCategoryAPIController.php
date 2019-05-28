@@ -6,6 +6,7 @@ use App\Criteria\CategoryTypeCriteria;
 use App\Http\Requests\API\CreateMainCategoryAPIRequest;
 use App\Http\Requests\API\UpdateMainCategoryAPIRequest;
 use App\Models\MainCategory;
+use App\Models\Users;
 use App\Repositories\MainCategoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -278,5 +279,38 @@ class MainCategoryAPIController extends AppBaseController
         $mainCategory->delete();
 
         return $this->sendResponse($id, 'Main Category deleted successfully');
+    }
+
+    public function updateMainCategories($id, Request $request)
+    {
+        foreach ($request->main_categories as $item) {
+            if(!isset($item['id'])){
+                $item['id'] = null;
+            }
+            if(!isset($item['_destroy'])){
+                $item['_destroy'] = false;
+            }
+
+            if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
+                continue;
+            }
+            if ($item['id'] == 'null' || $item['id'] == null) {
+                $this->mainCategoryRepository->create($item);
+            } elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+
+                $mainCategories = $this->mainCategoryRepository->findWithoutFail($item['id']);
+
+                if (empty($mainCategories)) {
+                    return $this->sendError(__('Main category not found'));
+                }
+                $mainCategories->delete();
+            } else {
+
+                $this->mainCategoryRepository->update($item, $item['id']);
+            }
+        }
+        $mainCategories = Users::find($id)->categories()->get(['*']);
+        return $this->sendResponse($mainCategories, 'Main category updated successfully');
+
     }
 }
