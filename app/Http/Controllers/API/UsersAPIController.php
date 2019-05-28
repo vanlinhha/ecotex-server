@@ -250,15 +250,29 @@ class UsersAPIController extends AppBaseController
 
         $categories   = $user->categories()->get(['*']);
         foreach ($this->mainType as $type => $mainType){
-            $user[$mainType] = $this->getCategoryByType($categories, $type);
+            if(trim($mainType) != 'minimum_order_quantity'){
+                $user[$mainType] = $this->getCategoryByType($categories, $type);
+            }
         }
 
         $user['role_type_ids']         = $role_type_ids;
         $user['role']                  = $role;
         $user['bookmarks']             = $bookmarks;
         $user['locations']             = $locations;
+    }
 
+    public function getCategoryByType($categories = array(), $type = ""){
+        if(trim($type) == ""){
+            return $categories;
+        }
 
+        $temp = [];
+        foreach ($categories as $item){
+            if($item['type'] == $type){
+                $temp[] = $item;
+            }
+        }
+        return $temp;
     }
 
     public function getProductsOfUser(&$user)
@@ -327,18 +341,7 @@ class UsersAPIController extends AppBaseController
         return $this->sendResponse($user->toArray(), 'Users retrieved successfully');
     }
 
-    public function getCategoryByType($categories = array(), $type = ""){
-        if(trim($type) == ""){
-            return $categories;
-        }
-        $temp = [];
-        foreach ($categories as $item){
-            if($item['type'] == $type){
-                $temp[] = $item;
-            }
-        }
-        return $temp;
-    }
+
 
     /**
      *

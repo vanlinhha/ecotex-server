@@ -106,21 +106,22 @@ class UserController extends RestController
 
     public function getInfo(&$user)
     {
-        $locations = $user->locations()->get();
-        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
-        $role = $user->roles()->first();
-        $bookmarks = $user->bookmarks()->get();
+        $locations           = $user->locations()->get();
+        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
+        $role                = $user->roles()->first();
+        $bookmarks           = $user->bookmarks()->get();
 
-        $categories = $user->categories()->get(['*']);
-        foreach ($this->mainType as $type => $mainType) {
-            $user[$mainType] = $this->getCategoryByType($categories, $type);
+        $categories   = $user->categories()->get(['*']);
+        foreach ($this->mainType as $type => $mainType){
+            if(trim($mainType) != 'minimum_order_quantity'){
+                $user[$mainType] = $this->getCategoryByType($categories, $type);
+            }
         }
 
-        $user['role_type_ids'] = $role_type_ids;
-        $user['role'] = $role;
-        $user['bookmarks'] = $bookmarks;
-        $user['locations'] = $locations;
-
+        $user['role_type_ids']         = $role_type_ids;
+        $user['role']                  = $role;
+        $user['bookmarks']             = $bookmarks;
+        $user['locations']             = $locations;
     }
 
     public function getProductsOfUser(&$user)
