@@ -267,7 +267,7 @@ class UsersAPIController extends AppBaseController
         $role                = $user->roles()->first();
         $bookmarks           = $user->bookmarks()->get();
 
-        $mainCategories = $user->mainCategories()->get();
+        $mainCategories = $user->categories()->get();
         foreach ($this->mainType as $type => $mainType) {
             if (trim($mainType) != 'minimum_order_quantity') {
                 $user[$mainType] = $this->getMainCategoryByType($mainCategories, $type);
