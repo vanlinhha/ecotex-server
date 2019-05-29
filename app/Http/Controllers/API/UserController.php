@@ -31,7 +31,7 @@ class UserController extends RestController
         'product' => 'main_product_groups',
         'target' => 'main_target_groups',
         'service' => 'main_services',
-        'country' => 'main_export_country',
+        'country' => 'main_export_countries',
         'quantity' => 'minimum_order_quantity'];
 
     public function __construct(AttachedFilesRepository $attachedFilesRepo, CategoryRepository $categoryRepository)

@@ -26,7 +26,7 @@ class AppBaseController extends Controller
         'product' => 'main_product_groups',
         'target' => 'main_target_groups',
         'service' => 'main_services',
-        'country' => 'main_export_country',
+        'country' => 'main_export_countries',
         'quantity' => 'minimum_order_quantity'];
 
     public function sendResponse($result, $message)
