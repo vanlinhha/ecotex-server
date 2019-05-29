@@ -116,6 +116,8 @@ Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], functi
 
     Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
 
+    Route::put('/users/main_categories/{id}', 'MainCategoryAPIController@updateMainCategories');
+
 
 
     Route::post('/upload_avatar', 'UsersAPIController@uploadAvatar');
