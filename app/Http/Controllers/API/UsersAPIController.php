@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreateUsersAPIRequest;
 use App\Http\Requests\API\UpdateUsersAPIRequest;
 use App\Models\Users;
+use App\Repositories\CategoryRepository;
 use App\Repositories\MainProductGroupsRepository;
 use App\Repositories\MainSegmentGroupsRepository;
 use App\Repositories\MainTargetsRepository;
@@ -23,11 +24,14 @@ class UsersAPIController extends AppBaseController
 {
     /** @var  UsersRepository */
     private $usersRepository;
+    private $categoryRepository;
+
 //    protected $type;
 
-    public function __construct(UsersRepository $usersRepo)
+    public function __construct(UsersRepository $usersRepo, CategoryRepository $categoryRepository)
     {
         $this->usersRepository = $usersRepo;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -159,42 +163,41 @@ class UsersAPIController extends AppBaseController
             $paginate = true;
         }
 
-        $text_search   = $request->text_search ? $request->text_search : "";
-        if(trim($text_search)){
+        $text_search = $request->text_search ? $request->text_search : "";
+        if (trim($text_search)) {
             $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
-        }
-        else{
-            $list_user_IDs = $this->usersRepository->findWhere([ ['is_activated', '=', 1]])->pluck('id')->all();
+        } else {
+            $list_user_IDs = $this->usersRepository->findWhere([['is_activated', '=', 1]])->pluck('id')->all();
 
         }
 
         if (isset($request->main_product_groups)) {
             $main_product_group_IDs = json_decode($request->main_product_groups);
             if (count($main_product_group_IDs)) {
-                $user_IDs      = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
+                $user_IDs = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs);
             }
         }
 
-        if(isset($request->main_target_groups)){
+        if (isset($request->main_target_groups)) {
             $main_target_group_IDs = json_decode($request->main_target_groups);
             if (count($main_target_group_IDs)) {
-                $user_IDs2     = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $user_IDs2 = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
             }
         }
 
-        if(isset($request->main_segment_groups)){
+        if (isset($request->main_segment_groups)) {
             $main_segment_group_IDs = json_decode($request->main_segment_groups);
             if (count($main_segment_group_IDs)) {
-                $user_IDs3     = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $user_IDs3 = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
             }
         }
 
 
-        $limit     = isset($request->limit) ? intval($request->limit)  : 5 ;
-        $order_by  = isset($request->order_by) ? $request->order_by : 'id';
+        $limit = isset($request->limit) ? intval($request->limit) : 5;
+        $order_by = isset($request->order_by) ? $request->order_by : 'id';
         $direction = (isset($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
 
         $users = $this->usersRepository->findWhereInAndPaginate('id', $list_user_IDs, $order_by, $direction, $limit, $paginate, ['*']);
@@ -241,6 +244,22 @@ class UsersAPIController extends AppBaseController
      * )
      */
 
+    public function getMainCategoryByType($mainCategories = array(), $type = "")
+    {
+        if (trim($type) == "") {
+            return $mainCategories;
+        }
+
+        $temp = [];
+        foreach ($mainCategories as $item) {
+            $category_type = $this->categoryRepository->findWithoutFail(intval($item['category_id']))['type'];
+            if ($category_type == $type) {
+                $temp[] = $item;
+            }
+        }
+        return $temp;
+    }
+
     public function getInfo(&$user)
     {
         $locations           = $user->locations()->get();
@@ -248,34 +267,16 @@ class UsersAPIController extends AppBaseController
         $role                = $user->roles()->first();
         $bookmarks           = $user->bookmarks()->get();
 
-
-//        $categories   = $user->categories()->get(['*']);
-//        foreach ($this->mainType as $type => $mainType){
-//            if(trim($mainType) != 'minimum_order_quantity'){
-//                $user[$mainType] = $this->getCategoryByType($mainCategories, $type);
-//            }
-//        }
         $mainCategories = $user->mainCategories()->get();
-
-        $user['main_categories']         = $mainCategories;
+        foreach ($this->mainType as $type => $mainType) {
+            if (trim($mainType) != 'minimum_order_quantity') {
+                $user[$mainType] = $this->getMainCategoryByType($mainCategories, $type);
+            }
+        }
         $user['role_type_ids']         = $role_type_ids;
         $user['role']                  = $role;
         $user['bookmarks']             = $bookmarks;
         $user['locations']             = $locations;
-    }
-
-    public function getCategoryByType($categories = array(), $type = ""){
-        if(trim($type) == ""){
-            return $categories;
-        }
-
-        $temp = [];
-        foreach ($categories as $item){
-            if($item['type'] == $type){
-                $temp[] = $item;
-            }
-        }
-        return $temp;
     }
 
     public function getProductsOfUser(&$user)
@@ -343,7 +344,6 @@ class UsersAPIController extends AppBaseController
 
         return $this->sendResponse($user->toArray(), 'Users retrieved successfully');
     }
-
 
 
     /**
@@ -547,8 +547,8 @@ class UsersAPIController extends AppBaseController
             $paginate = true;
         }
 
-        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
-        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $limit = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = is_null($request->direction) ? 'asc' : $request->direction;
 
 //        $this->usersRepository->pushCriteria(new RequestCriteria($request));
@@ -630,8 +630,8 @@ class UsersAPIController extends AppBaseController
      */
     public function getAllUser(Request $request)
     {
-        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
-        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $limit = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = is_null($request->direction) ? 'asc' : $request->direction;
 
         if (isset($request->paginate)) {
@@ -703,7 +703,7 @@ class UsersAPIController extends AppBaseController
 
         if ($request->hasFile('avatar')) {
             $extension = $request->file('avatar')->getClientOriginalName();
-            $filename  = uniqid() . '-' . $extension;
+            $filename = uniqid() . '-' . $extension;
             $request->file('avatar')->move(storage_path('app/public/avatars'), $filename);
             $user = $this->usersRepository->update(['avatar' => '/storage/avatars/' . $filename], JWTAuth::parseToken()->authenticate()->id);
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Permission;
 use App\Repositories\AttachedFilesRepository;
+use App\Repositories\CategoryRepository;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,9 +34,11 @@ class UserController extends RestController
         'country' => 'main_export_country',
         'quantity' => 'minimum_order_quantity'];
 
-    public function __construct(AttachedFilesRepository $attachedFilesRepo)
+    public function __construct(AttachedFilesRepository $attachedFilesRepo, CategoryRepository $categoryRepository)
     {
         $this->attachedFilesRepository = $attachedFilesRepo;
+        $this->categoryRepository = $categoryRepository;
+
     }
 
     /**
@@ -89,15 +92,19 @@ class UserController extends RestController
      */
 
     protected $user;
+    private $categoryRepository;
 
-    public function getCategoryByType($categories = array(), $type = "")
+
+    public function getMainCategoryByType($mainCategories = array(), $type = "")
     {
         if (trim($type) == "") {
-            return $categories;
+            return $mainCategories;
         }
+
         $temp = [];
-        foreach ($categories as $item) {
-            if ($item['type'] == $type) {
+        foreach ($mainCategories as $item) {
+            $category_type = $this->categoryRepository->findWithoutFail(intval($item['category_id']))['type'];
+            if ($category_type == $type) {
                 $temp[] = $item;
             }
         }
@@ -111,21 +118,30 @@ class UserController extends RestController
         $role                = $user->roles()->first();
         $bookmarks           = $user->bookmarks()->get();
 
-//        $categories   = $user->mainCategories()->get(['*']);
-//        foreach ($this->mainType as $type => $mainType){
-//            if(trim($mainType) != 'minimum_order_quantity'){
-//                $user[$mainType] = $this->getCategoryByType($categories, $type);
-//            }
-//        }
-
         $mainCategories = $user->mainCategories()->get();
-
-        $user['main_categories']         = $mainCategories;
-
+        foreach ($this->mainType as $type => $mainType) {
+            if (trim($mainType) != 'minimum_order_quantity') {
+                $user[$mainType] = $this->getMainCategoryByType($mainCategories, $type);
+            }
+        }
         $user['role_type_ids']         = $role_type_ids;
         $user['role']                  = $role;
         $user['bookmarks']             = $bookmarks;
         $user['locations']             = $locations;
+    }
+
+    public function getCategoryByType($categories = array(), $type = "")
+    {
+        if (trim($type) == "") {
+            return $categories;
+        }
+        $temp = [];
+        foreach ($categories as $item) {
+            if ($item['type'] == $type) {
+                $temp[] = $item;
+            }
+        }
+        return $temp;
     }
 
     public function getProductsOfUser(&$user)
