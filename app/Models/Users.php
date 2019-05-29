@@ -281,6 +281,10 @@ class Users extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Category::class, "main_categories", "user_id", "category_id");
     }
 
+    public function mainCategories(){
+        return $this->hasMany(MainCategory::class, "user_id", 'id');
+    }
+
     public function roleTypes(){
         return $this->belongsToMany(RoleTypes::class, 'user_role_types', 'user_id','role_type_id');
     }
