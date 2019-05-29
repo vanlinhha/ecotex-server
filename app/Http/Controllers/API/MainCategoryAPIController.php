@@ -309,7 +309,9 @@ class MainCategoryAPIController extends AppBaseController
                 $this->mainCategoryRepository->update($item, $item['id']);
             }
         }
-        $mainCategories = Users::find($id)->categories()->get(['*']);
+        $mainCategories = $this->mainCategoryRepository->findWhere(['user_id' => $id, 'deleted_at' => NULL]);
+
+//        $mainCategories = Users::find($id)->categories()->get(['*']);
         return $this->sendResponse($mainCategories, 'Main category updated successfully');
 
     }

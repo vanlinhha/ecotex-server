@@ -84,5 +84,8 @@ class MainCategory extends Model
         'category_id' => 'required'
     ];
 
-    
+    protected $hidden = ['updated_at', 'created_at', 'deleted_at', 'pivot'];
+
+
+
 }
