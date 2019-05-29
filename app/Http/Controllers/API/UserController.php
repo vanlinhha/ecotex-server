@@ -388,7 +388,7 @@ class UserController extends RestController
             $user->roles()->attach(intval($request->role_id));
         }
 
-        $user->categories()->sync($main_category_IDs);
+        $user->mainCategories()->sync($main_category_IDs);
 //        $user->mainMaterialGroups()->sync($main_material_group_IDs);
 //        $user->mainTargets()->sync($main_target_group_IDs);
 //        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
@@ -452,7 +452,7 @@ class UserController extends RestController
         if (intval($request->role_id)) {
             $user->roles()->attach(intval($request->role_id));
         }
-        $user->categories()->sync($main_category_IDs);
+        $user->mainCategories()->sync($main_category_IDs);
 
 //        $user->mainProductGroups()->sync($main_product_group_IDs);
 //        $user->mainMaterialGroups()->sync($main_material_group_IDs);
