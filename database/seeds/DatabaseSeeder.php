@@ -641,7 +641,11 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Zimbabwe', 'code' => 'ZW'],
         ];
 
-        DB::table('countries')->insert($countries);
+        foreach ($countries as $country){
+            DB::table('categories')->insert(['name' => $country['name'], 'parent_id' => 0, 'role_id' => 0, 'type' => 'country']);
+        }
+
+//        DB::table('countries')->insert($countries);
 
 
 //        );
