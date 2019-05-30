@@ -18,6 +18,50 @@ class DatabaseSeeder extends Seeder
 
         DB::table('categories')->insert([
                 [
+                    'name'      => 'Áo',
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
+                ],
+
+                [
+                    'name'      => 'Quần',
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
+                ],
+
+                [
+                    'name'      => 'Váy',
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
+                ],
+
+                [
+                    'name'      => 'Đồ lót',
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
+                ],
+
+                [
+                    'name'      => 'Vest & jacket',
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
+                ],
+                [
+                    'name'      => 'Phụ kiện',
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
+                ]
+            ]
+        );
+
+        DB::table('categories')->insert([
+                [
                     'name' => 'baby',
                     'parent_id' => 0,
                     'type' => 'target',
@@ -77,49 +121,7 @@ class DatabaseSeeder extends Seeder
 
         );
 
-        DB::table('categories')->insert([
-                [
-                    'name'      => 'Áo',
-                    'parent_id' => 0,
-                    'type' => 'product',
-                    'role_id' => 0
-                ],
 
-                [
-                    'name'      => 'Quần',
-                    'parent_id' => 0,
-                    'type' => 'product',
-                    'role_id' => 0
-                ],
-
-                [
-                    'name'      => 'Váy',
-                    'parent_id' => 0,
-                    'type' => 'product',
-                    'role_id' => 0
-                ],
-
-                [
-                    'name'      => 'Đồ lót',
-                    'parent_id' => 0,
-                    'type' => 'product',
-                    'role_id' => 0
-                ],
-
-                [
-                    'name'      => 'Vest & jacket',
-                    'parent_id' => 0,
-                    'type' => 'product',
-                    'role_id' => 0
-                ],
-                [
-                    'name'      => 'Phụ kiện',
-                    'parent_id' => 0,
-                    'type' => 'product',
-                    'role_id' => 0
-                ]
-            ]
-        );
 
         DB::table('categories')->insert([
                 [
