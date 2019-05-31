@@ -389,7 +389,7 @@ class UsersAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateUsersAPIRequest $request)
+    public function update($id, Request $request)
     {
         $input = $request->all();
 
@@ -399,10 +399,12 @@ class UsersAPIController extends AppBaseController
         if (empty($user)) {
             return $this->sendError(__('User not found'), 404);
         }
-        if (trim($input['password']) != '') {
-            $input['password'] = bcrypt($input['password']);
-        } else {
-            unset($input['password']);
+        if(isset($input['password'])){
+            if (trim($input['password']) != '') {
+                $input['password'] = bcrypt($input['password']);
+            } else {
+                unset($input['password']);
+            }
         }
 
         $this->usersRepository->update($input, $id);
