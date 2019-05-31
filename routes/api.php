@@ -30,20 +30,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
 });
 
-
-//Route::resource('main_product_groups', 'MainProductGroupsAPIController');
-//
-//Route::resource('main_segment_groups', 'MainSegmentGroupsAPIController');
-//
-//Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.verify');
-//
-//Route::resource('main_services', 'MainServicesAPIController');
-//
-//Route::resource('main_export_countries', 'MainExportCountriesAPIController');
-
-
-
-
 Route::resource('minimum_order_quantities', 'MinimumOrderQuantityAPIController');
 
 Route::resource('countries', 'CountriesAPIController');
@@ -80,41 +66,22 @@ Route::put('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
 
 //                         MODULE PROFILE
 
-    Route::resource('categories', 'CategoryAPIController');
+Route::get('/categories/all_parent', 'CategoryAPIController@showParentCategories');
+
+Route::get('/categories/parent_with_children', 'CategoryAPIController@getCategoriesByParent');
+
+
+Route::resource('categories', 'CategoryAPIController');
 
 Route::resource('main_categories', 'MainCategoryAPIController');
 
-Route::get('/product_groups/all_parent/', 'ProductGroupsAPIController@showParentProductGroups');
 
-Route::get('/product_groups/parent_with_children/', 'ProductGroupsAPIController@getProductCategoryByParent');
-
-Route::resource('product_groups', 'ProductGroupsAPIController');
-
-Route::resource('segment_groups', 'SegmentGroupsAPIController');
-
-Route::resource('target_groups', 'TargetGroupsAPIController');
-
-Route::resource('material_groups', 'MaterialGroupsAPIController');
-
-Route::resource('services', 'ServicesAPIController');
 
 //Update user profile
 Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], function () {
     Route::get('/bookmarks/user/{user_id}/', 'BookmarksAPIController@index');
 
     Route::put('/users/brands/{id}', 'UserController@updateBrands');
-
-    Route::put('/users/main_segment_groups/{id}', 'MainSegmentGroupsAPIController@updateMainSegmentGroups');
-
-    Route::put('/users/main_product_groups/{id}', 'MainProductGroupsAPIController@updateMainProductGroups');
-
-    Route::put('/users/main_material_groups/{id}', 'MainMaterialGroupsAPIController@updateMainMaterialGroups');
-
-    Route::put('/users/main_target_groups/{id}', 'MainTargetsAPIController@updateMainTargets');
-
-    Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
-
-    Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
 
     Route::put('/users/main_categories/{id}', 'MainCategoryAPIController@updateMainCategories');
 
