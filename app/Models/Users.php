@@ -293,28 +293,6 @@ class Users extends Authenticatable implements JWTSubject
         return $this->belongsToMany(MainCategory::class, "main_categories", 'user_id', 'category_id');
     }
 
-
-//
-//    public function mainMaterialGroups(){
-//        return $this->belongsToMany(MaterialGroups::class, "main_material_groups", 'user_id', 'material_group_id');
-//    }
-//
-//    public function mainTargets(){
-//        return $this->belongsToMany(TargetGroups::class, 'main_targets', 'user_id','target_group_id');
-//    }
-//
-//    public function mainExportCountries(){
-//        return $this->belongsToMany(Countries::class, 'main_export_countries', 'user_id','country_id');
-//    }
-//
-//    public function mainSegmentGroups(){
-//        return $this->belongsToMany(SegmentGroups::class, 'main_segment_groups', 'user_id','segment_group_id');
-//    }
-//    public function services(){
-//        return $this->belongsToMany(Services::class, 'main_services', 'user_id','service_id');
-//    }
-
-
     public function getInfo(){
 
     }

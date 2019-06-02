@@ -120,5 +120,9 @@ class JobPosts extends Model
         'position' => 'required'
     ];
 
+    public function creator(){
+        return $this->belongsTo(Users::class, 'creator_id', 'id');
+    }
+
     
 }

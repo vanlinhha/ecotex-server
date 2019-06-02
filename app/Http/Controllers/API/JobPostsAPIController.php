@@ -108,6 +108,8 @@ class JobPostsAPIController extends AppBaseController
 
         $jobPosts = $this->jobPostsRepository->create($input);
 
+        $jobPosts['creator'] = $jobPosts->creator()->select('id', 'first_name', 'last_name', 'company_name', 'avatar')->first();
+
         return $this->sendResponse($jobPosts->toArray(), 'Job Posts saved successfully');
     }
 
@@ -157,6 +159,8 @@ class JobPostsAPIController extends AppBaseController
         if (empty($jobPosts)) {
             return $this->sendError('Job Posts not found');
         }
+
+        $jobPosts['creator'] = $jobPosts->creator()->select('id', 'first_name', 'last_name', 'company_name', 'avatar')->first();
 
         return $this->sendResponse($jobPosts->toArray(), 'Job Posts retrieved successfully');
     }
@@ -219,6 +223,7 @@ class JobPostsAPIController extends AppBaseController
         }
 
         $jobPosts = $this->jobPostsRepository->update($input, $id);
+        $jobPosts['creator'] = $jobPosts->creator()->select('id', 'first_name', 'last_name', 'company_name', 'avatar')->first();
 
         return $this->sendResponse($jobPosts->toArray(), 'JobPosts updated successfully');
     }
