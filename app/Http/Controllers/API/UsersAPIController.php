@@ -442,6 +442,36 @@ class UsersAPIController extends AppBaseController
         return $this->sendResponse($user->toArray(), 'Users updated successfully');
     }
 
+    public function updateMainCategories($id, Request $request)
+    {
+        foreach ($request->main_categories as $item) {
+            if(!isset($item['id'])){
+                $item['id'] = null;
+            }
+            if(!isset($item['_destroy'])){
+                $item['_destroy'] = false;
+            }
+            if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
+                continue;
+            }
+            if ($item['id'] == 'null' || $item['id'] == null) {
+                $this->mainCategoryRepository->create($item);
+            } elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+                $mainCategories = $this->mainCategoryRepository->findWithoutFail($item['id']);
+                if (empty($mainCategories)) {
+                    return $this->sendError(__('Main category not found'));
+                }
+                $mainCategories->delete();
+            } else {
+                $this->mainCategoryRepository->update($item, $item['id']);
+            }
+        }
+        $mainCategories = $this->mainCategoryRepository->findWhere(['user_id' => $id, 'deleted_at' => NULL]);
+        //        $mainCategories = Users::find($id)->categories()->get(['*']);
+        return $this->sendResponse($mainCategories, 'Main category updated successfully');
+    }
+
+
     /**
      *
      * @SWG\Delete(
