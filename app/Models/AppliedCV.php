@@ -105,5 +105,9 @@ class AppliedCV extends Model
         'foreign_language' => 'other text text'
     ];
 
+    public function user(){
+        return $this->belongsTo(Users::class, 'user_id', 'id');
+    }
+
     
 }

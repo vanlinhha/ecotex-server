@@ -62,6 +62,9 @@ class JobPostsAPIController extends AppBaseController
 
 
         $jobPosts = $this->jobPostsRepository->all();
+        foreach ($jobPosts as $jobPost){
+            $jobPost['creator'] = $jobPost->creator()->select('id', 'first_name', 'last_name', 'company_name', 'avatar')->first();
+        }
 
         return $this->sendResponse($jobPosts->toArray(), 'Job Posts retrieved successfully');
     }

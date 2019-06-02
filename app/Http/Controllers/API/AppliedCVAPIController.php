@@ -59,16 +59,23 @@ class AppliedCVAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->appliedCVRepository->pushCriteria(new RequestCriteria($request));
-        $this->appliedCVRepository->pushCriteria(new LimitOffsetCriteria($request));
+//        $this->appliedCVRepository->pushCriteria(new RequestCriteria($request));
+//        $this->appliedCVRepository->pushCriteria(new LimitOffsetCriteria($request));
         $appliedCVs = $this->appliedCVRepository->all();
 
         return $this->sendResponse($appliedCVs->toArray(), 'Applied C Vs retrieved successfully');
     }
 
+    public function getAllCVInAPost($job_post_id, Request $request){
+        $appliedCVs = $this->appliedCVRepository->findWhere([['job_post_id', '=', $job_post_id]])->all();
+        foreach ($appliedCVs as $appliedCV){
+            $appliedCV['user'] = $appliedCV->user()->select('id', 'email', 'last_name', 'first_name', 'phone', 'country_id')->first();
+        }
+
+        return $this->sendResponse($appliedCVs, 'Applied C Vs retrieved successfully');
+    }
+
     /**
-     * @param CreateAppliedCVAPIRequest $request
-     * @return Response
      *
      * @SWG\Post(
      *      path="/appliedCVs",

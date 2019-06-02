@@ -128,4 +128,6 @@ Route::resource('locations', 'LocationsAPIController');
 
 Route::resource('job_posts', 'JobPostsAPIController');
 
-Route::resource('applied_c_vs', 'AppliedCVAPIController');
+Route::resource('apply_cv', 'AppliedCVAPIController');
+
+Route::get('/cvs/job_post/{job_post_id}', 'AppliedCVAPIController@getAllCVInAPost');
