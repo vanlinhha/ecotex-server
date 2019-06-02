@@ -614,7 +614,15 @@ class UsersAPIController extends AppBaseController
 
 //        $this->usersRepository->pushCriteria(new RequestCriteria($request));
 //        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $users = $this->usersRepository->findWhereInAndPaginate('is_activated', [0], $order_by, $direction, $limit, $paginate, ['*']);
+        $text_search = $request->text_search ? $request->text_search : "";
+        if (trim($text_search)) {
+            $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 0]])->pluck('id')->all();
+        } else {
+            $list_user_IDs = $this->usersRepository->findWhere([['is_activated', '=', 0]])->pluck('id')->all();
+
+        }
+
+        $users = $this->usersRepository->findWhereInAndPaginate('id', $list_user_IDs, $order_by, $direction, $limit, $paginate, ['*']);
 
         foreach ($users as $user) {
             $this->getInfo($user);
