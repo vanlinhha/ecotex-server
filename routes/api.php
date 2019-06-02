@@ -127,3 +127,5 @@ Route::resource('locations', 'LocationsAPIController');
 
 
 Route::resource('job_posts', 'JobPostsAPIController');
+
+Route::resource('applied_c_vs', 'AppliedCVAPIController');

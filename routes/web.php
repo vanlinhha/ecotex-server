@@ -43,3 +43,6 @@
 
 
 
+
+
+Route::resource('appliedCVs', 'AppliedCVController');
