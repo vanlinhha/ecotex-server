@@ -152,7 +152,7 @@ class UsersAPIController extends AppBaseController
      *      )
      * )
      */
-    public function index(Request $request, MainProductGroupsRepository $mainProductGroupsRepository, MainTargetsRepository $mainTargetsRepository, MainSegmentGroupsRepository $mainSegmentGroupsRepository)
+    public function index(Request $request, MainCategoryRepository $mainCategoryRepo)
     {
 //        $this->usersRepository->pushCriteria(new RequestCriteria($request));
 //        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
@@ -174,7 +174,7 @@ class UsersAPIController extends AppBaseController
         if (isset($request->main_product_groups)) {
             $main_product_group_IDs = json_decode($request->main_product_groups);
             if (count($main_product_group_IDs)) {
-                $user_IDs = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
+                $user_IDs = $mainCategoryRepo->findWhereIn('category_id', $main_product_group_IDs)->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs);
             }
         }
@@ -182,7 +182,7 @@ class UsersAPIController extends AppBaseController
         if (isset($request->main_target_groups)) {
             $main_target_group_IDs = json_decode($request->main_target_groups);
             if (count($main_target_group_IDs)) {
-                $user_IDs2 = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $user_IDs2 = $mainCategoryRepo->findWhereIn('category_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
             }
         }
@@ -190,11 +190,10 @@ class UsersAPIController extends AppBaseController
         if (isset($request->main_segment_groups)) {
             $main_segment_group_IDs = json_decode($request->main_segment_groups);
             if (count($main_segment_group_IDs)) {
-                $user_IDs3 = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $user_IDs3 = $mainCategoryRepo->findWhereIn('category_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
             }
         }
-
 
         $limit = isset($request->limit) ? intval($request->limit) : 5;
         $order_by = isset($request->order_by) ? $request->order_by : 'id';
@@ -413,33 +412,30 @@ class UsersAPIController extends AppBaseController
             return $this->sendError(__('User not found'), 404);
         }
 
-        foreach ($request->main_categories as $item) {
-            if(!isset($item['id'])){
-                $item['id'] = null;
-            }
-            if(!isset($item['_destroy'])){
-                $item['_destroy'] = false;
-            }
-            if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
-                continue;
-            }
-            if ($item['id'] == 'null' || $item['id'] == null) {
-                $this->mainCategoryRepository->create($item);
-            } elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
-                $mainCategories = $this->mainCategoryRepository->findWithoutFail($item['id']);
-                if (empty($mainCategories)) {
-                    return $this->sendError(__('Main category not found'));
+        if(isset($request->main_categories)){
+            foreach ($request->main_categories as $item) {
+                if(!isset($item['id'])){
+                    $item['id'] = null;
                 }
-                $mainCategories->delete();
-            } else {
-                $this->mainCategoryRepository->update($item, $item['id']);
+                if(!isset($item['_destroy'])){
+                    $item['_destroy'] = false;
+                }
+                if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
+                    continue;
+                }
+                if ($item['id'] == 'null' || $item['id'] == null) {
+                    $this->mainCategoryRepository->create($item);
+                } elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+                    $mainCategories = $this->mainCategoryRepository->findWithoutFail($item['id']);
+                    if (empty($mainCategories)) {
+                        return $this->sendError(__('Main category not found'));
+                    }
+                    $mainCategories->delete();
+                } else {
+                    $this->mainCategoryRepository->update($item, $item['id']);
+                }
             }
         }
-//        $mainCategories = $this->mainCategoryRepository->findWhere(['user_id' => $id, 'deleted_at' => NULL]);
-        //        $mainCategories = Users::find($id)->categories()->get(['*']);
-//        return $this->sendResponse($mainCategories, 'Main category updated successfully');
-
-
 
         $this->getInfo($user);
 
