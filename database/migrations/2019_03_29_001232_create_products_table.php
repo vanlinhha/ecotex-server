@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('user_id');
             $table->integer('product_group_id');
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('company_address')->nullable();
             $table->string('website')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('minimum_order_quantity')->nullable();
             $table->string('address')->nullable();
             $table->string('identity_card')->nullable();
