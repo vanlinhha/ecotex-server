@@ -6,9 +6,7 @@ use App\Http\Requests\API\CreateUsersAPIRequest;
 use App\Http\Requests\API\UpdateUsersAPIRequest;
 use App\Models\Users;
 use App\Repositories\CategoryRepository;
-use App\Repositories\MainProductGroupsRepository;
-use App\Repositories\MainSegmentGroupsRepository;
-use App\Repositories\MainTargetsRepository;
+use App\Repositories\MainCategoryRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -25,13 +23,15 @@ class UsersAPIController extends AppBaseController
     /** @var  UsersRepository */
     private $usersRepository;
     private $categoryRepository;
+    private $mainCategoryRepository;
 
 //    protected $type;
 
-    public function __construct(UsersRepository $usersRepo, CategoryRepository $categoryRepository)
+    public function __construct(UsersRepository $usersRepo, CategoryRepository $categoryRepository, MainCategoryRepository $mainCategoryRepo)
     {
         $this->usersRepository = $usersRepo;
         $this->categoryRepository = $categoryRepository;
+        $this->mainCategoryRepository = $mainCategoryRepo;
     }
 
     /**
@@ -412,6 +412,35 @@ class UsersAPIController extends AppBaseController
         if (empty($user)) {
             return $this->sendError(__('User not found'), 404);
         }
+
+        foreach ($request->main_categories as $item) {
+            if(!isset($item['id'])){
+                $item['id'] = null;
+            }
+            if(!isset($item['_destroy'])){
+                $item['_destroy'] = false;
+            }
+            if (($item['id'] == 'null' || $item['id'] == null) && $item['_destroy'] == true) {
+                continue;
+            }
+            if ($item['id'] == 'null' || $item['id'] == null) {
+                $this->mainCategoryRepository->create($item);
+            } elseif (isset($item['_destroy']) && ($item['_destroy'] == true)) {
+                $mainCategories = $this->mainCategoryRepository->findWithoutFail($item['id']);
+                if (empty($mainCategories)) {
+                    return $this->sendError(__('Main category not found'));
+                }
+                $mainCategories->delete();
+            } else {
+                $this->mainCategoryRepository->update($item, $item['id']);
+            }
+        }
+//        $mainCategories = $this->mainCategoryRepository->findWhere(['user_id' => $id, 'deleted_at' => NULL]);
+        //        $mainCategories = Users::find($id)->categories()->get(['*']);
+//        return $this->sendResponse($mainCategories, 'Main category updated successfully');
+
+
+
         $this->getInfo($user);
 
         return $this->sendResponse($user->toArray(), 'Users updated successfully');
