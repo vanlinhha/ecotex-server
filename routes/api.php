@@ -73,7 +73,7 @@ Route::get('/categories/parent_with_children', 'CategoryAPIController@getCategor
 
 Route::resource('categories', 'CategoryAPIController');
 
-Route::resource('main_categories', 'MainCategoryAPIController');
+//Route::resource('main_categories', 'MainCategoryAPIController');
 
 
 
@@ -83,7 +83,7 @@ Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], functi
 
     Route::put('/users/brands/{id}', 'UserController@updateBrands');
 
-    Route::put('/users/main_categories/{id}', 'MainCategoryAPIController@updateMainCategories');
+    Route::put('/users/main_categories/{id}', 'UsersAPIController@updateMainCategories');
 
 
 
@@ -124,3 +124,6 @@ Route::get('/product_user/{user_id}', 'ProductsAPIController@product_user');
 
 Route::resource('locations', 'LocationsAPIController');
 
+
+
+Route::resource('job_posts', 'JobPostsAPIController');
