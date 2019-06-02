@@ -286,4 +286,28 @@ class CategoryAPIController extends AppBaseController
 
         return $this->sendResponse($id, 'Category deleted successfully');
     }
+
+    public function showParentCategories(Request $request)
+    {
+//        $this->categoryRepository->pushCriteria(new RequestCriteria($request));
+//        $this->categoryRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $categories = $this->categoryRepository->findWhere([['parent_id', '=', 0], ['type', '=', $request->type]], ['*']);
+
+        return $this->sendResponse($categories->toArray(), 'Categories retrieved successfully');
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $categories = $this->categoryRepository->findWhere([['parent_id', '=', 0], ['type', '=', $request->type]], ['*']);
+        $arr_data = [];
+
+        foreach ($categories as &$category){
+            $children = $this->categoryRepository->findWhere([['parent_id', '=', $category['id']]]);
+            $category['children'] = $children;
+
+        }
+
+        return $this->sendResponse($categories, 'Categories retrieved successfully');
+    }
+    
 }
