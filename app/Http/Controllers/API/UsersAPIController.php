@@ -165,7 +165,12 @@ class UsersAPIController extends AppBaseController
 
         $text_search = $request->text_search ? $request->text_search : "";
         if (trim($text_search)) {
-            $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
+            $list_user_IDs_1 = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
+            $list_user_IDs_2 = $this->usersRepository->findWhere([['first_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
+            $list_user_IDs_3 = $this->usersRepository->findWhere([['last_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
+            $list_user_IDs_4 = $this->usersRepository->findWhere([['email', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
+            $list_user_IDs = array_merge($list_user_IDs_1, $list_user_IDs_2, $list_user_IDs_3, $list_user_IDs_4);
+
         } else {
             $list_user_IDs = $this->usersRepository->findWhere([['is_activated', '=', 1]])->pluck('id')->all();
 
@@ -616,7 +621,12 @@ class UsersAPIController extends AppBaseController
 //        $this->usersRepository->pushCriteria(new LimitOffsetCriteria($request));
         $text_search = $request->text_search ? $request->text_search : "";
         if (trim($text_search)) {
-            $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 0]])->pluck('id')->all();
+//            $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 0]])->pluck('id')->all();
+            $list_user_IDs_1 = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 0]])->pluck('id')->all();
+            $list_user_IDs_2 = $this->usersRepository->findWhere([['first_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 0]])->pluck('id')->all();
+            $list_user_IDs_3 = $this->usersRepository->findWhere([['last_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 0]])->pluck('id')->all();
+            $list_user_IDs_4 = $this->usersRepository->findWhere([['email', 'like', "%" . $text_search . "%"], ['is_activated', '=', 0]])->pluck('id')->all();
+            $list_user_IDs = array_merge($list_user_IDs_1, $list_user_IDs_2, $list_user_IDs_3, $list_user_IDs_4);
         } else {
             $list_user_IDs = $this->usersRepository->findWhere([['is_activated', '=', 0]])->pluck('id')->all();
 
