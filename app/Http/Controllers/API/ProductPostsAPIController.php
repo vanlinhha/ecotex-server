@@ -156,7 +156,7 @@ class ProductPostsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateProductPostsAPIRequest $request)
+    public function store(Request $request)
     {
 
         DB::beginTransaction();
