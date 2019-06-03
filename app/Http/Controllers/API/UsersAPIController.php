@@ -34,6 +34,11 @@ class UsersAPIController extends AppBaseController
         $this->mainCategoryRepository = $mainCategoryRepo;
     }
 
+    static function makeInstance(UsersRepository $usersRepo, CategoryRepository $categoryRepository, MainCategoryRepository $mainCategoryRepo)
+    {
+        return new self($usersRepo, $categoryRepository, $mainCategoryRepo);
+    }
+
     /**
      *
      * @SWG\Get(
