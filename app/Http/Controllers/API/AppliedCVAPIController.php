@@ -11,6 +11,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use JWTAuth;
 
 /**
  * Class AppliedCVController
@@ -73,6 +74,12 @@ class AppliedCVAPIController extends AppBaseController
         }
 
         return $this->sendResponse($appliedCVs, 'Applied C Vs retrieved successfully');
+    }
+
+    public function getAllPostApplied(){
+        $appliedPosts = $this->appliedCVRepository->findWhere([['user_id', '=', JWTAuth::parseToken()->authenticate()->id]])->pluck('job_post_id');
+        return $this->sendResponse($appliedPosts, 'Applied Post retrieved successfully');
+
     }
 
     /**
