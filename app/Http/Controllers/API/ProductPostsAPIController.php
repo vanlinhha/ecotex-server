@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateProductPostsAPIRequest;
 use App\Http\Requests\API\UpdateProductPostsAPIRequest;
+use App\Models\AttachedFiles;
+use App\Models\AttachedImages;
 use App\Models\ProductPosts;
 use App\Repositories\ProductPostsRepository;
 use App\Repositories\AttachedFilesRepository;
@@ -336,7 +338,8 @@ class ProductPostsAPIController extends AppBaseController
                     foreach ($productPosts->attachedImages()->get() as &$item) {
                         if(in_array($item['id'], $delete_images )){
                             unlink(substr($item['url'], 1));
-                            $item->delete();
+//                            $item->delete();
+                            AttachedImages::find($item['id'])->delete();
                         }
                     }
                 }
@@ -348,7 +351,8 @@ class ProductPostsAPIController extends AppBaseController
                     foreach ($productPosts->attachedFiles()->get() as &$item) {
                         if(in_array($item['id'], $delete_files )){
                             unlink(substr($item['url'], 1));
-                            $item->delete();
+//                            $item->delete();
+                            AttachedFiles::find($item['id'])->delete();
                         }
                     }
 
