@@ -4,50 +4,57 @@ return [
     'role_structure'       => [
 
         'administrator' => [
-            'users'      => 'm',
+            'account'      => 'm',
             'acl'        => 'm',
-            'posting'    => 'm',
-            'ordering'   => 'm',
-            'evaluating' => 'm',
+            'posting'    => '',
             'profile'    => 'm,r,u',
+            'showroom'   => '',
+            'newsfeed'   => '',
+            'search'     => '',
+            'bookmark'     => '',
+            'response'     => '',
+            'category'     => '',
+            'reporting'     => '',
+
         ],
 
         'personal buyer' => [
-            'newsfeed'   => 'r',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
-            'evaluating' => '',
+            'showroom'   => '',
+            'newsfeed'   => '',
             'profile'    => 'r,u',
+            'search'     => '',
         ],
 
         'buyer' => [
-            'newsfeed'   => 'r',
+            'newsfeed'   => '',
             'posting'    => '',
-            'ordering'   => '',
             'messaging'  => '',
-            'evaluating' => '',
+            'ranking'  => '',
             'profile'    => 'r,u',
+            'showroom'   => '',
+            'search'     => '',
+            'bookmark'     => '',
+            'response'     => '',
         ],
 
         'supplier' => [
             'showroom'   => '',
-            'newsfeed'   => 'r',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
-            'evaluating' => '',
+            'newsfeed'   => '',
             'profile'    => 'r,u',
+            'search'     => '',
+            'bookmark'     => '',
         ],
 
         'paid supplier' => [
             'showroom'   => '',
-            'newsfeed'   => 'r',
+            'newsfeed'   => '',
             'posting'    => '',
-            'ordering'   => '',
             'messaging'  => '',
-            'evaluating' => '',
+            'ranking'  => '',
             'profile'    => 'r,u',
+            'search'     => '',
+            'bookmark'     => '',
+            'response'     => '',
 
         ],
 
@@ -55,11 +62,9 @@ return [
             'profile'    => 'r,u',
             'showroom'   => '',
             'newsfeed'   => '',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
             'evaluating' => '',
-
+            'search'     => '',
+            'bookmark'     => '',
         ],
 
         'paid manufacture' => [
@@ -67,14 +72,17 @@ return [
             'showroom'   => '',
             'newsfeed'   => '',
             'posting'    => '',
-            'ordering'   => '',
             'messaging'  => '',
-            'evaluating' => '',
-        ],
+            'ranking'  => '',
+            'search'     => '',
+            'bookmark'     => '',
+            'response'     => '',
+            ],
 
         'human resource' => [
             'profile' => 'r,u',
-            'apply'   => ''
+            'apply'   => '',
+            'newsfeed'   => '',
         ],
     ],
     'permission_structure' => [
