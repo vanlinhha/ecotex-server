@@ -131,3 +131,4 @@ Route::resource('job_posts', 'JobPostsAPIController');
 Route::resource('apply_cv', 'AppliedCVAPIController');
 
 Route::get('/cvs/job_post/{job_post_id}', 'AppliedCVAPIController@getAllCVInAPost');
+Route::get('/report', 'ReportAPIController@index');
