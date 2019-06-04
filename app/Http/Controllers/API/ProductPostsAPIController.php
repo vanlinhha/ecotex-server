@@ -330,33 +330,45 @@ class ProductPostsAPIController extends AppBaseController
 
         $productPosts = $this->productPostsRepository->update($input, $id);
 
-//        $productPosts = $this->productPostsRepository->update($input, $id);
+        $delete_images = array_map('intval', explode(',', $request->delete_images ));
+        if(count($delete_images)){
+            foreach ($productPosts->attachedImages()->get() as &$item) {
+
+                if(in_array($item['id'], $delete_images )){
+
+//                    unlink(substr($item['url'], 1));
+                            $item->delete();
+//                    AttachedImages::find($item['id'])->delete();
+                }
+            }
+        }
+
 
         DB::beginTransaction();
         try{
 
-
             if(isset($request->delete_images)){
-                $delete_images = count($request->delete_images) ? $request->delete_images : [];
+
+                $delete_images = array_map('intval', explode(',', $request->delete_images ));
                 if(count($delete_images)){
                     foreach ($productPosts->attachedImages()->get() as &$item) {
                         if(in_array($item['id'], $delete_images )){
-                            unlink(substr($item['url'], 1));
-//                            $item->delete();
-                            AttachedImages::find($item['id'])->delete();
+//                            unlink(substr($item['url'], 1));
+                            $item->delete();
+//                            AttachedImages::find($item['id'])->delete();
                         }
                     }
                 }
             }
 
             if(isset($request->delete_files)){
-                $delete_files = count($request->delete_files) ? $request->delete_files : [];
+                $delete_files = array_map('intval', explode(',', $request->delete_files ));
                 if(count($delete_files)){
                     foreach ($productPosts->attachedFiles()->get() as &$item) {
                         if(in_array($item['id'], $delete_files )){
-                            unlink(substr($item['url'], 1));
-//                            $item->delete();
-                            AttachedFiles::find($item['id'])->delete();
+//                            unlink(substr($item['url'], 1));
+                            $item->delete();
+//                            AttachedFiles::find($item['id'])->delete();
                         }
                     }
 
