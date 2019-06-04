@@ -658,14 +658,18 @@ class UserController extends RestController
 
     public function updatePermissions(Request $request)
     {
-        $role = Role::find($request->role_id);
-        if (empty($role)) {
-            return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+        foreach ($request->roles_permissions as $roles_permission){
+            $role = Role::find($roles_permission->role_id);
+            if (empty($role)) {
+                return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+            }
+            $permission_ids = json_decode($roles_permission->permission_ids);
+            $role->syncPermissions($permission_ids);
+            $permissions = $role->permissions()->get();
         }
-        $permission_ids = json_decode($request->permission_ids);
-        $role->syncPermissions($permission_ids);
-        $permissions = $role->permissions()->get();
-        return response()->json(['success' => true, 'data' => $permissions, 'message' => 'Update permissions successfully'], 200);
+
+        return $this->getAllRolesAndPermissions();
+//        return response()->json(['success' => true, 'data' => $permissions, 'message' => 'Update permissions successfully'], 200);
     }
 
     public function getRolePermissions($id, Request $request)
