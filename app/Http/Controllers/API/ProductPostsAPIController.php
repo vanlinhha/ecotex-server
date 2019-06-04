@@ -326,13 +326,15 @@ class ProductPostsAPIController extends AppBaseController
             return $this->sendError(__('Product Posts not found'));
         }
 
+        $input = $request->all();
+
+        $productPosts = $this->productPostsRepository->update($input, $id);
+
 //        $productPosts = $this->productPostsRepository->update($input, $id);
 
         DB::beginTransaction();
         try{
-            $input = $request->all();
 
-            $productPosts = $this->productPostsRepository->update($input, $id);
 
             if(isset($request->delete_images)){
                 $delete_images = count($request->delete_images) ? $request->delete_images : [];
