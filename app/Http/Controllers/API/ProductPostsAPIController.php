@@ -179,6 +179,7 @@ class ProductPostsAPIController extends AppBaseController
             if (!is_dir(storage_path('app/public/images'))) {
                 mkdir(storage_path('app/public/images'), 0777);
             }
+
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $extension = $image->getClientOriginalName();
@@ -317,7 +318,6 @@ class ProductPostsAPIController extends AppBaseController
      */
     public function update($id, Request $request)
     {
-        $input = $request->all();
 
         /** @var ProductPosts $productPosts */
         $productPosts = $this->productPostsRepository->findWithoutFail($id);
@@ -330,6 +330,8 @@ class ProductPostsAPIController extends AppBaseController
 
         DB::beginTransaction();
         try{
+            $input = $request->all();
+
             $productPosts = $this->productPostsRepository->update($input, $id);
 
             if(isset($request->delete_images)){
