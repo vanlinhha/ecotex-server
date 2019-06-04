@@ -73,6 +73,7 @@ class AppliedCVAPIController extends AppBaseController
         return $this->sendResponse($appliedCVs->toArray(), 'Applied C Vs retrieved successfully');
     }
 
+
     public function getAllCVInAPost($job_post_id, Request $request){
         $appliedCVs = $this->appliedCVRepository->findWhere([['job_post_id', '=', $job_post_id]])->all();
         foreach ($appliedCVs as $appliedCV){
