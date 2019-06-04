@@ -330,18 +330,18 @@ class ProductPostsAPIController extends AppBaseController
 
         $productPosts = $this->productPostsRepository->update($input, $id);
 
-        $delete_images = array_map('intval', explode(',', $request->delete_images ));
-        if(count($delete_images)){
-            foreach ($productPosts->attachedImages()->get() as &$item) {
-
-                if(in_array($item['id'], $delete_images )){
-
-//                    unlink(substr($item['url'], 1));
-                            $item->delete();
-//                    AttachedImages::find($item['id'])->delete();
-                }
-            }
-        }
+//        $delete_images = array_map('intval', explode(',', $request->delete_images ));
+//        if(count($delete_images)){
+//            foreach ($productPosts->attachedImages()->get() as &$item) {
+//
+//                if(in_array($item['id'], $delete_images )){
+//
+////                    unlink(substr($item['url'], 1));
+//                            $item->delete();
+////                    AttachedImages::find($item['id'])->delete();
+//                }
+//            }
+//        }
 
 
         DB::beginTransaction();
