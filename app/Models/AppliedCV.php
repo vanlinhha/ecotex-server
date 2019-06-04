@@ -109,5 +109,10 @@ class AppliedCV extends Model
         return $this->belongsTo(Users::class, 'user_id', 'id');
     }
 
+    public function job_post(){
+        return $this->belongsTo(JobPosts::class, 'job_post_id', 'id');
+    }
+
+
     
 }

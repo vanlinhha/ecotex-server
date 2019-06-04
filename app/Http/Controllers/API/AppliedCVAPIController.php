@@ -6,11 +6,14 @@ use App\Http\Requests\API\CreateAppliedCVAPIRequest;
 use App\Http\Requests\API\UpdateAppliedCVAPIRequest;
 use App\Models\AppliedCV;
 use App\Repositories\AppliedCVRepository;
+use App\Repositories\JobPostsRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use JWTAuth;
+
 
 /**
  * Class AppliedCVController
@@ -21,10 +24,13 @@ class AppliedCVAPIController extends AppBaseController
 {
     /** @var  AppliedCVRepository */
     private $appliedCVRepository;
+    private $jobPostsRepository;
 
-    public function __construct(AppliedCVRepository $appliedCVRepo)
+    public function __construct(AppliedCVRepository $appliedCVRepo, JobPostsRepository $jobPostsRepo)
     {
         $this->appliedCVRepository = $appliedCVRepo;
+        $this->jobPostsRepository = $jobPostsRepo;
+
     }
 
     /**
@@ -70,6 +76,18 @@ class AppliedCVAPIController extends AppBaseController
         $appliedCVs = $this->appliedCVRepository->findWhere([['job_post_id', '=', $job_post_id]])->all();
         foreach ($appliedCVs as $appliedCV){
             $appliedCV['user'] = $appliedCV->user()->select('id', 'email', 'last_name', 'first_name', 'phone', 'country_id')->first();
+        }
+
+        return $this->sendResponse($appliedCVs, 'Applied C Vs retrieved successfully');
+    }
+
+    public function getAllCVApplied(Request $request){
+        $job_post_ids = $this->jobPostsRepository->findWhere([['creator_id', '=', JWTAuth::parseToken()->authenticate()->id]])->pluck('id')->toArray();
+        $job_post_ids = count($job_post_ids) ? $job_post_ids : [];
+        $appliedCVs = $this->appliedCVRepository->findWhereIn('job_post_id', $job_post_ids)->all();
+        foreach ($appliedCVs as $appliedCV){
+            $appliedCV['user'] = $appliedCV->user()->select('id', 'email', 'last_name', 'first_name', 'phone', 'country_id')->first();
+            $appliedCV['job_post'] = $appliedCV->job_post()->select('title')->first();
         }
 
         return $this->sendResponse($appliedCVs, 'Applied C Vs retrieved successfully');
