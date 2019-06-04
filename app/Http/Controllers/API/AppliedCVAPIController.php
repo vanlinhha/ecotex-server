@@ -24,10 +24,14 @@ class AppliedCVAPIController extends AppBaseController
 {
     /** @var  AppliedCVRepository */
     private $appliedCVRepository;
+    private $jobPostsRepository;
 
-    public function __construct(AppliedCVRepository $appliedCVRepo)
+
+    public function __construct(AppliedCVRepository $appliedCVRepo, JobPostsRepository $jobPostsRepo)
     {
         $this->appliedCVRepository = $appliedCVRepo;
+        $this->jobPostsRepository = $jobPostsRepo;
+
     }
 
     /**
