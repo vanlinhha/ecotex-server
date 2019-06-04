@@ -158,11 +158,11 @@ class ProductPostsAPIController extends AppBaseController
      */
     public function store(Request $request)
     {
-
+        $input        = $request->all();
+        $productPosts = $this->productPostsRepository->create($input);
         DB::beginTransaction();
         try{
-            $input        = $request->all();
-            $productPosts = $this->productPostsRepository->create($input);
+
 
             if (!is_dir(storage_path('app'))) {
                 mkdir(storage_path('app'), 0777);
