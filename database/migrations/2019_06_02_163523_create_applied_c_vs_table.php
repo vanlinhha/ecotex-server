@@ -21,6 +21,7 @@ class CreateAppliedCVsTable extends Migration
             $table->text('experience')->nullable();
             $table->text('skill')->nullable();
             $table->text('foreign_language')->nullable();
+            $table->text('other')->nullable();
             $table->timestamps();
 //            $table->softDeletes();
         });
