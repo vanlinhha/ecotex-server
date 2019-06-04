@@ -7,6 +7,9 @@ use App\Http\Requests\API\UpdateBookmarksAPIRequest;
 use App\Models\Bookmarks;
 use App\Models\Users;
 use App\Repositories\BookmarksRepository;
+use App\Repositories\CategoryRepository;
+use App\Repositories\MainCategoryRepository;
+use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -21,10 +24,16 @@ class BookmarksAPIController extends AppBaseController
 {
     /** @var  BookmarksRepository */
     private $bookmarksRepository;
+    private $usersRepository;
+    private $categoryRepository;
+    private $mainCategoryRepository;
 
-    public function __construct(BookmarksRepository $bookmarksRepo)
+    public function __construct(BookmarksRepository $bookmarksRepo, UsersRepository $usersRepo, CategoryRepository $categoryRepository, MainCategoryRepository $mainCategoryRepo)
     {
         $this->bookmarksRepository = $bookmarksRepo;
+        $this->usersRepository = $usersRepo;
+        $this->categoryRepository = $categoryRepository;
+        $this->mainCategoryRepository = $mainCategoryRepo;
     }
 
     /**
@@ -75,25 +84,7 @@ class BookmarksAPIController extends AppBaseController
             foreach ($bookmarks as $bookmark){
 
                 $bookmark['follower'] = Users::find($bookmark['follower_id']);
-
-                $mainProductGroups   = $bookmark['follower']->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-                $mainServices        = $bookmark['follower']->services()->get(['*', 'name', 'service_id', 'role_id']);
-                $mainExportCountries = $bookmark['follower']->mainExportCountries()->get(['*', 'country_id', 'percent']);
-                $mainMaterialGroups  = $bookmark['follower']->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-                $mainTargets         = $bookmark['follower']->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-                $mainSegmentGroups   = $bookmark['follower']->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-                $role_type_ids       = $bookmark['follower']->roleTypes()->pluck('role_type_id');
-                $role                = $bookmark['follower']->roles()->get();
-
-                $bookmark['follower']['role']                  = $role;
-                $bookmark['follower']['role_type_ids']         = $role_type_ids;
-                $bookmark['follower']['main_product_groups']   = $mainProductGroups;
-                $bookmark['follower']['main_services']         = $mainServices;
-                $bookmark['follower']['main_material_groups']  = $mainMaterialGroups;
-                $bookmark['follower']['main_segment_groups']   = $mainSegmentGroups;
-                $bookmark['follower']['main_target_groups']    = $mainTargets;
-                $bookmark['follower']['main_export_countries'] = $mainExportCountries;
-
+                UsersAPIController::makeInstance($this->usersRepository,$this->categoryRepository, $this->mainCategoryRepository  )->getInfo($bookmark['follower']);
                 unset($bookmark['follower_id']);
             }
             return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
@@ -104,8 +95,6 @@ class BookmarksAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateBookmarksAPIRequest $request
-     * @return Response
      *
      * @SWG\Post(
      *      path="/bookmarks",
@@ -141,7 +130,7 @@ class BookmarksAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateBookmarksAPIRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
 
@@ -246,7 +235,7 @@ class BookmarksAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateBookmarksAPIRequest $request)
+    public function update($id, Request $request)
     {
         $input = $request->all();
 

@@ -24,13 +24,10 @@ class AppliedCVAPIController extends AppBaseController
 {
     /** @var  AppliedCVRepository */
     private $appliedCVRepository;
-    private $jobPostsRepository;
 
-    public function __construct(AppliedCVRepository $appliedCVRepo, JobPostsRepository $jobPostsRepo)
+    public function __construct(AppliedCVRepository $appliedCVRepo)
     {
         $this->appliedCVRepository = $appliedCVRepo;
-        $this->jobPostsRepository = $jobPostsRepo;
-
     }
 
     /**
@@ -91,6 +88,12 @@ class AppliedCVAPIController extends AppBaseController
         }
 
         return $this->sendResponse($appliedCVs, 'Applied C Vs retrieved successfully');
+    }
+
+    public function getAllPostApplied(){
+        $appliedPosts = $this->appliedCVRepository->findWhere([['user_id', '=', JWTAuth::parseToken()->authenticate()->id]])->pluck('job_post_id');
+        return $this->sendResponse($appliedPosts, 'Applied Post retrieved successfully');
+
     }
 
     /**

@@ -1,80 +1,88 @@
 <?php
 
 return [
-    'role_structure'       => [
+    'role_structure' => [
 
         'administrator' => [
-            'users'      => 'm',
-            'acl'        => 'm',
-            'posting'    => 'm',
-            'ordering'   => 'm',
-            'evaluating' => 'm',
-            'profile'    => 'm,r,u',
+            'account' => 'm',
+            'acl' => 'm',
+            'posting' => '',
+            'profile' => 'm,r,u',
+            'showroom' => '',
+            'newsfeed' => '',
+            'search' => '',
+            'bookmark' => '',
+            'response' => '',
+            'category' => '',
+            'reporting' => '',
+
         ],
 
         'personal buyer' => [
-            'newsfeed'   => 'r',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
-            'evaluating' => '',
-            'profile'    => 'r,u',
+            'showroom' => '',
+            'newsfeed' => '',
+            'profile' => 'r,u',
+            'search' => '',
         ],
 
         'buyer' => [
-            'newsfeed'   => 'r',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
-            'evaluating' => '',
-            'profile'    => 'r,u',
+            'newsfeed' => '',
+            'posting' => '',
+            'messaging' => '',
+            'ranking' => '',
+            'profile' => 'r,u',
+            'showroom' => '',
+            'search' => '',
+            'bookmark' => '',
+            'response' => '',
         ],
 
         'supplier' => [
-            'showroom'   => '',
-            'newsfeed'   => 'r',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
-            'evaluating' => '',
-            'profile'    => 'r,u',
+            'showroom' => '',
+            'newsfeed' => '',
+            'profile' => 'r,u',
+            'search' => '',
+            'bookmark' => '',
         ],
 
         'paid supplier' => [
-            'showroom'   => '',
-            'newsfeed'   => 'r',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
-            'evaluating' => '',
-            'profile'    => 'r,u',
+            'showroom' => '',
+            'newsfeed' => '',
+            'posting' => '',
+            'messaging' => '',
+            'ranking' => '',
+            'profile' => 'r,u',
+            'search' => '',
+            'bookmark' => '',
+            'response' => '',
 
         ],
 
         'manufacture' => [
-            'profile'    => 'r,u',
-            'showroom'   => '',
-            'newsfeed'   => '',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
+            'profile' => 'r,u',
+            'showroom' => '',
+            'newsfeed' => '',
             'evaluating' => '',
-
+            'search' => '',
+            'bookmark' => '',
         ],
 
         'paid manufacture' => [
-            'profile'    => 'r,u',
-            'showroom'   => '',
-            'newsfeed'   => '',
-            'posting'    => '',
-            'ordering'   => '',
-            'messaging'  => '',
-            'evaluating' => '',
+            'profile' => 'r,u',
+            'showroom' => '',
+            'newsfeed' => '',
+            'posting' => '',
+            'messaging' => '',
+            'ranking' => '',
+            'search' => '',
+            'bookmark' => '',
+            'response' => '',
         ],
 
         'human resource' => [
             'profile' => 'r,u',
-            'apply'   => ''
+            'apply' => '',
+            'newsfeed' => '',
         ],
     ],
     'permission_structure' => [
@@ -82,7 +90,7 @@ return [
             'profile' => 'c,r,u'
         ],
     ],
-    'permissions_map'      => [
+    'permissions_map' => [
         'c' => 'create',
         'r' => 'read',
         'u' => 'update',

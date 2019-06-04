@@ -20,7 +20,7 @@ class CreateJobPostsTable extends Migration
             $table->string('division');
             $table->string('amount');
             $table->string('salary');
-            $table->string('welfare');
+            $table->text('welfare');
             $table->string('position');
             $table->text('description')->nullable();
             $table->timestamps();

@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use JWTAuth;
 
 /**
  * Class JobPostsController
@@ -60,10 +61,33 @@ class JobPostsAPIController extends AppBaseController
 //        $this->jobPostsRepository->pushCriteria(new RequestCriteria($request));
 //        $this->jobPostsRepository->pushCriteria(new LimitOffsetCriteria($request));
 
+        $text_search   = $request->text_search ? $request->text_search : "";
+        $list_post_IDS = $this->jobPostsRepository->findWhere([['title', 'like', "%" . $text_search . "%"]])->pluck('id')->all();
 
-        $jobPosts = $this->jobPostsRepository->all();
-        foreach ($jobPosts as $jobPost){
+        if(isset($request->creator)){
+            if ($request->creator == "me") {
+                $post_IDs3     = $this->jobPostsRepository->findWhereIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
+                $list_post_IDS = array_intersect($list_post_IDS, $post_IDs3);
+            } elseif ($request->creator == "other") {
+                $post_IDs4     = $this->jobPostsRepository->findWhereNotIn('creator_id', [JWTAuth::parseToken()->authenticate()->id])->pluck('id')->all();
+                $list_post_IDS = array_intersect($list_post_IDS, $post_IDs4);
+            }
+        }
+
+//        $jobPosts = $this->jobPostsRepository->all();
+//        foreach ($jobPosts as $jobPost){
+//            $jobPost['creator'] = $jobPost->creator()->select('id', 'first_name', 'last_name', 'company_name', 'avatar')->first();
+//        }
+
+        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $direction = (is_null($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
+
+        $jobPosts = $this->jobPostsRepository->findWhereInAndPaginate('id', $list_post_IDS, $order_by, $direction, $limit, true, ['*']);
+
+        foreach ($jobPosts as $jobPost) {
             $jobPost['creator'] = $jobPost->creator()->select('id', 'first_name', 'last_name', 'company_name', 'avatar')->first();
+            unset($jobPost['creator_id']);
         }
 
         return $this->sendResponse($jobPosts->toArray(), 'Job Posts retrieved successfully');

@@ -36,7 +36,6 @@ Route::resource('countries', 'CountriesAPIController');
 
 Route::resource('bookmarks', 'BookmarksAPIController');
 
-Route::resource('product_posts', 'ProductPostsAPIController');
 
 Route::get('response_user', 'ResponsesAPIController@getUserResponses')->middleware(['jwt.verify']);
 
@@ -117,6 +116,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::delete('/delete_message/{id}', 'MessageAPIController@deleteMessage');
 });
 
+Route::post('/update_post/{id}', 'ProductPostsAPIController@updatePost');
+
+Route::resource('product_posts', 'ProductPostsAPIController');
+
 Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@getOwnPosts');
 
 Route::resource('products', 'ProductsAPIController');
@@ -131,4 +134,5 @@ Route::resource('job_posts', 'JobPostsAPIController');
 Route::resource('apply_cv', 'AppliedCVAPIController');
 
 Route::get('/cvs/job_post/{job_post_id}', 'AppliedCVAPIController@getAllCVInAPost');
+Route::get('/report', 'ReportAPIController@index');
 Route::get('/cvs/getAllCVApplied', 'AppliedCVAPIController@getAllCVApplied');

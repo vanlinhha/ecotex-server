@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateProductPostsAPIRequest;
 use App\Http\Requests\API\UpdateProductPostsAPIRequest;
+use App\Models\AttachedFiles;
+use App\Models\AttachedImages;
 use App\Models\ProductPosts;
 use App\Repositories\ProductPostsRepository;
 use App\Repositories\AttachedFilesRepository;
@@ -177,6 +179,7 @@ class ProductPostsAPIController extends AppBaseController
             if (!is_dir(storage_path('app/public/images'))) {
                 mkdir(storage_path('app/public/images'), 0777);
             }
+
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $extension = $image->getClientOriginalName();
@@ -313,9 +316,8 @@ class ProductPostsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, Request $request)
+    public function updatePost($id, Request $request)
     {
-        $input = $request->all();
 
         /** @var ProductPosts $productPosts */
         $productPosts = $this->productPostsRepository->findWithoutFail($id);
@@ -324,7 +326,92 @@ class ProductPostsAPIController extends AppBaseController
             return $this->sendError(__('Product Posts not found'));
         }
 
+        $input = $request->all();
+
         $productPosts = $this->productPostsRepository->update($input, $id);
+
+        $delete_images = array_map('intval', explode(',', $request->delete_images ));
+        if(count($delete_images)){
+            foreach ($productPosts->attachedImages()->get() as &$item) {
+
+                if(in_array($item['id'], $delete_images )){
+
+//                    unlink(substr($item['url'], 1));
+                            $item->delete();
+//                    AttachedImages::find($item['id'])->delete();
+                }
+            }
+        }
+
+
+        DB::beginTransaction();
+        try{
+
+            if(isset($request->delete_images)){
+
+                $delete_images = array_map('intval', explode(',', $request->delete_images ));
+                if(count($delete_images)){
+                    foreach ($productPosts->attachedImages()->get() as &$item) {
+                        if(in_array($item['id'], $delete_images )){
+//                            unlink(substr($item['url'], 1));
+                            $item->delete();
+//                            AttachedImages::find($item['id'])->delete();
+                        }
+                    }
+                }
+            }
+
+            if(isset($request->delete_files)){
+                $delete_files = array_map('intval', explode(',', $request->delete_files ));
+                if(count($delete_files)){
+                    foreach ($productPosts->attachedFiles()->get() as &$item) {
+                        if(in_array($item['id'], $delete_files )){
+//                            unlink(substr($item['url'], 1));
+                            $item->delete();
+//                            AttachedFiles::find($item['id'])->delete();
+                        }
+                    }
+
+                }
+
+            }
+
+//            $productPosts->attachedFiles()->delete();
+//            $productPosts->attachedImages()->delete();
+
+            if ($request->hasFile('new_images')) {
+                foreach ($request->file('new_images') as $image) {
+                    $extension = $image->getClientOriginalName();
+                    $filename  = uniqid() . '-' . $extension;
+                    $image->move(storage_path('app/public/images'), $filename);
+
+                    $productPosts->attachedImages()->create(['url' => '/storage/images/' . $filename, 'name' => $extension]);
+                }
+            }
+
+            if ($request->hasFile('new_files')) {
+                foreach ($request->file('new_files') as $file) {
+
+                    $extension = $file->getClientOriginalName();
+                    $filename  = uniqid() . '-' . $extension;
+                    $file->move(storage_path('app/public/files'), $filename);
+
+                    $productPosts->attachedFiles()->create(['url' => '/storage/files/' . $filename, 'name' => $extension]);
+                }
+            }
+            DB::commit();
+        }
+        catch (\Exception $exception){
+            DB::rollBack();
+            $this->sendError(__("Can not update posts, please try again later!"), 500);
+        }
+
+
+        $attachedFiles                  = $productPosts->attachedFiles()->get();
+        $productPosts['attached_files'] = $attachedFiles;
+        $attachedImages                 = $productPosts->attachedImages()->get();
+        $productPosts['images']         = $attachedImages;
+        $productPosts['creator']        = $productPosts->creator()->select('first_name', 'last_name', 'company_name', 'avatar')->first();
 
         return $this->sendResponse($productPosts->toArray(), 'ProductPosts updated successfully');
     }

@@ -37,4 +37,25 @@ class JobPostsRepository extends BaseRepository
     {
         return JobPosts::class;
     }
+
+    public function findWhereInAndPaginate($field, array $values, $group_by, $direction, $limit, $paginate = true, $columns = ['*'])
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $this->model = $this->model->whereIn($field, $values)->orderBy($group_by, $direction);
+
+        if ($paginate != true) {
+            $results = $this->model->get($columns);
+            $this->resetScope();
+        } else {
+            $limit   = is_null($limit) ? config('repository.pagination.limit', 15) : $limit;
+            $results = $this->model->paginate($limit, $columns);
+            $results->appends(app('request')->query());
+        }
+
+        $this->resetModel();
+
+        return $this->parserResult($results);
+    }
 }
