@@ -327,7 +327,6 @@ class ProductPostsAPIController extends AppBaseController
         }
 
         $input = $request->all();
-        return $input;
 
         $productPosts = $this->productPostsRepository->update($input, $id);
 
