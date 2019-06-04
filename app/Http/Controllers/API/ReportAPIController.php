@@ -112,7 +112,7 @@ class ReportAPIController extends AppBaseController
         }
         $arr['last_6_month'] = $months;
 
-        return $arr;
+        return $this->sendResponse($arr, 'Report successfully');
 
     }
 
