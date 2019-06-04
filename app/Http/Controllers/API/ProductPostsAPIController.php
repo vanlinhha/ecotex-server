@@ -316,7 +316,7 @@ class ProductPostsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, Request $request)
+    public function update($id, UpdateProductPostsAPIRequest $request)
     {
 
         /** @var ProductPosts $productPosts */
