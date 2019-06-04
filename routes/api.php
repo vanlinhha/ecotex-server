@@ -36,7 +36,6 @@ Route::resource('countries', 'CountriesAPIController');
 
 Route::resource('bookmarks', 'BookmarksAPIController');
 
-Route::resource('product_posts', 'ProductPostsAPIController');
 
 Route::get('response_user', 'ResponsesAPIController@getUserResponses')->middleware(['jwt.verify']);
 
@@ -116,6 +115,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('/chat_history/{user_id}', 'MessageAPIController@chatHistory');
     Route::delete('/delete_message/{id}', 'MessageAPIController@deleteMessage');
 });
+
+Route::post('/update_post/{id}', 'ProductPostsAPIController@updatePost');
+
+Route::resource('product_posts', 'ProductPostsAPIController');
 
 Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@getOwnPosts');
 

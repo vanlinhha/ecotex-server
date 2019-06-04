@@ -316,7 +316,7 @@ class ProductPostsAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, Request $request)
+    public function updatePost($id, Request $request)
     {
 
         /** @var ProductPosts $productPosts */
@@ -327,6 +327,7 @@ class ProductPostsAPIController extends AppBaseController
         }
 
         $input = $request->all();
+        return $input;
 
         $productPosts = $this->productPostsRepository->update($input, $id);
 
