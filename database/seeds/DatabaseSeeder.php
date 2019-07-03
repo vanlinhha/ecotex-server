@@ -327,21 +327,39 @@ class DatabaseSeeder extends Seeder
 
         DB::table('categories')->insert([
                 [
-                    'name'      => 'Fabric Production',
+                    'name'      => 'Sợi - Dệt vải',
                     'role_id' => 1,
                     'parent_id' => 0,
                     'type' => 'service',
                 ],
 
                 [
-                    'name'      => 'Garment Production',
+                    'name'      => 'Vải - Phụ kiện',
                     'role_id' => 2,
                     'parent_id' => 0,
                     'type' => 'service',
                 ],
 
                 [
-                    'name'      => 'Finishing and Logistics',
+                    'name'      => 'Cắt may',
+                    'role_id' => 3,
+                    'parent_id' => 0,
+                    'type' => 'service',
+                ],
+                [
+                    'name'      => 'Máy móc-Thiết bị',
+                    'role_id' => 3,
+                    'parent_id' => 0,
+                    'type' => 'service',
+                ],
+                [
+                    'name'      => 'Kinh doanh thời trang',
+                    'role_id' => 3,
+                    'parent_id' => 0,
+                    'type' => 'service',
+                ],
+                [
+                    'name'      => 'Khác',
                     'role_id' => 3,
                     'parent_id' => 0,
                     'type' => 'service',
