@@ -212,7 +212,7 @@ class ProductPostsAPIController extends AppBaseController
         $productPosts['attached_files'] = $attachedFiles;
         $attachedImages                 = $productPosts->attachedImages()->get();
         $productPosts['images']         = $attachedImages;
-        $productPosts['creator']        = $productPosts->creator()->select('first_name', 'last_name', 'company_name', 'avatar')->first();
+        $productPosts['creator']        = $productPosts->creator()->select('id', 'first_name', 'last_name', 'company_name', 'avatar')->first();
 
 
         return $this->sendResponse($productPosts->toArray(), 'Product Posts saved successfully');
