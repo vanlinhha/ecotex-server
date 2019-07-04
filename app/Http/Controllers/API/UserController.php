@@ -344,7 +344,7 @@ class UserController extends RestController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => ($validator->errors()->toJson()), 'success' => false], 422);
+            return response()->json(['message' => $validator->errors()->toJson(), 'success' => false], 422);
         }
 
         $user = Users::create([
