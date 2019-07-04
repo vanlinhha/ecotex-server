@@ -342,9 +342,8 @@ class UserController extends RestController
             'first_name' => 'required|string',
             'last_name' => 'required|string',
         ]);
-
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->toJson(), 'success' => false], 422);
+            return response()->json(['message' => $validator->errors(), 'success' => false], 422);
         }
 
         $user = Users::create([
@@ -417,7 +416,7 @@ class UserController extends RestController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => __($validator->errors()->toJson()), 'success' => false], 422);
+            return response()->json(['message' => __($validator->errors()), 'success' => false], 422);
         }
 
         $user = Users::create([
