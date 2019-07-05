@@ -136,6 +136,10 @@ class BookmarksAPIController extends AppBaseController
 
         $bookmarks = $this->bookmarksRepository->create($input);
 
+        $bookmarks['follower'] = Users::find($bookmarks['follower_id']);
+        UsersAPIController::makeInstance($this->usersRepository,$this->categoryRepository, $this->mainCategoryRepository  )->getInfo($bookmarks['follower']);
+        unset($bookmarks['follower_id']);
+
         return $this->sendResponse($bookmarks->toArray(), 'Bookmarks saved successfully');
     }
 
@@ -185,6 +189,8 @@ class BookmarksAPIController extends AppBaseController
         if (empty($bookmarks)) {
             return $this->sendError(__('Bookmarks not found'));
         }
+
+
 
         return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
     }
