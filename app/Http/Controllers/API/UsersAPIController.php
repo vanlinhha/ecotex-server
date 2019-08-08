@@ -208,7 +208,7 @@ class UsersAPIController extends AppBaseController
         if (isset($request->main_services)) {
             $main_sercvice_IDs = json_decode($request->main_services);
             if (count($main_sercvice_IDs)) {
-                $user_IDs4 = $mainCategoryRepo->findWhereIn('category_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $user_IDs4 = $mainCategoryRepo->findWhereIn('category_id', $main_sercvice_IDs, ['user_id'])->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs4);
             }
         }
