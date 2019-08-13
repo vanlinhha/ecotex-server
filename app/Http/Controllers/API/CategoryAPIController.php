@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\CreateBookmarksAPIRequest;
-use App\Http\Requests\API\UpdateBookmarksAPIRequest;
-use App\Models\Bookmarks;
-use App\Models\Users;
-use App\Repositories\BookmarksRepository;
+use App\Criteria\CategoryTypeCriteria;
+//use App\Http\Requests\API\CreateCategoryAPIRequest;
+//use App\Http\Requests\API\UpdateCategoryAPIRequest;
+use App\Models\Category;
 use App\Repositories\CategoryRepository;
-use App\Repositories\MainCategoryRepository;
-use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -17,23 +14,22 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class BookmarksController
+ * Class CategoryController
  * @package App\Http\Controllers\API
  */
-class BookmarksAPIController extends AppBaseController
-{
-    /** @var  BookmarksRepository */
-    private $bookmarksRepository;
-    private $usersRepository;
-    private $categoryRepository;
-    private $mainCategoryRepository;
 
-    public function __construct(BookmarksRepository $bookmarksRepo, UsersRepository $usersRepo, CategoryRepository $categoryRepository, MainCategoryRepository $mainCategoryRepo)
+
+class CategoryAPIController extends AppBaseController
+{
+//    protected $type = ['material', 'segment', 'product', 'target', 'service', 'quantity', 'country'];
+    /** @var  CategoryRepository */
+    private $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepo, Request $request)
     {
-        $this->bookmarksRepository = $bookmarksRepo;
-        $this->usersRepository = $usersRepo;
-        $this->categoryRepository = $categoryRepository;
-        $this->mainCategoryRepository = $mainCategoryRepo;
+        $this->categoryRepository = $categoryRepo;
+        $this->categoryRepository->pushCriteria(new CategoryTypeCriteria($request));
+
     }
 
     /**
@@ -41,18 +37,11 @@ class BookmarksAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/bookmarks/user/{user_id}/",
-     *      summary="Get a listing of the Bookmarks.",
-     *      tags={"Bookmarks"},
-     *      description="Get all Bookmarks",
+     *      path="/categories",
+     *      summary="Get a listing of the Categories.",
+     *      tags={"Category"},
+     *      description="Get all Categories",
      *      produces={"application/json"},
-     *     @SWG\Parameter(
-     *          name="user_id",
-     *          description="id of users",
-     *          type="integer",
-     *          required=false,
-     *          in="path"
-     *      ),
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
@@ -65,7 +54,7 @@ class BookmarksAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Bookmarks")
+     *                  @SWG\Items(ref="#/definitions/Category")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -77,37 +66,29 @@ class BookmarksAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-//        $this->bookmarksRepository->pushCriteria(new RequestCriteria($request));
-//        $this->bookmarksRepository->pushCriteria(new LimitOffsetCriteria($request));
-        if (isset($request->user_id)) {
-            $bookmarks = $this->bookmarksRepository->findByField([['user_id', $request->user_id]]);
-            foreach ($bookmarks as $bookmark){
+        $this->categoryRepository->pushCriteria(new RequestCriteria($request));
+        $this->categoryRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $categories = $this->categoryRepository->all();
 
-                $bookmark['follower'] = Users::find($bookmark['follower_id']);
-                UsersAPIController::makeInstance($this->usersRepository,$this->categoryRepository, $this->mainCategoryRepository  )->getInfo($bookmark['follower']);
-                unset($bookmark['follower_id']);
-            }
-            return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
-        } else {
-            return $this->sendError(__('User not found'));
-        }
-
+        return $this->sendResponse($categories->toArray(), 'Categories retrieved successfully');
     }
 
     /**
+     * @param CreateCategoryAPIRequest $request
+     * @return Response
      *
      * @SWG\Post(
-     *      path="/bookmarks",
-     *      summary="Store a newly created Bookmarks in storage",
-     *      tags={"Bookmarks"},
-     *      description="Store Bookmarks",
+     *      path="/categories",
+     *      summary="Store a newly created Category in storage",
+     *      tags={"Category"},
+     *      description="Store Category",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Bookmarks that should be stored",
+     *          description="Category that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Bookmarks")
+     *          @SWG\Schema(ref="#/definitions/Category")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -120,7 +101,7 @@ class BookmarksAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Bookmarks"
+     *                  ref="#/definitions/Category"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -134,13 +115,13 @@ class BookmarksAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $bookmarks = $this->bookmarksRepository->create($input);
+        if (!in_array($request->type, $this->type)) {
+            return $this->sendError('Category type not found');
+        }
 
-        $bookmarks['follower'] = Users::find($bookmarks['follower_id']);
-        UsersAPIController::makeInstance($this->usersRepository,$this->categoryRepository, $this->mainCategoryRepository  )->getInfo($bookmarks['follower']);
-        unset($bookmarks['follower_id']);
+        $categories = $this->categoryRepository->create($input);
 
-        return $this->sendResponse($bookmarks->toArray(), 'Bookmarks saved successfully');
+        return $this->sendResponse($categories->toArray(), 'Category saved successfully');
     }
 
     /**
@@ -148,14 +129,14 @@ class BookmarksAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/bookmarks/{id}",
-     *      summary="Display the specified Bookmarks",
-     *      tags={"Bookmarks"},
-     *      description="Get Bookmarks",
+     *      path="/categories/{id}",
+     *      summary="Display the specified Category",
+     *      tags={"Category"},
+     *      description="Get Category",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Bookmarks",
+     *          description="id of Category",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -171,7 +152,7 @@ class BookmarksAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Bookmarks"
+     *                  ref="#/definitions/Category"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -183,32 +164,30 @@ class BookmarksAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Bookmarks $bookmarks */
-        $bookmarks = $this->bookmarksRepository->findWithoutFail($id);
+        /** @var Category $category */
+        $category = $this->categoryRepository->findWithoutFail($id);
 
-        if (empty($bookmarks)) {
-            return $this->sendError(__('Bookmarks not found'));
+        if (empty($category)) {
+            return $this->sendError('Category not found');
         }
 
-
-
-        return $this->sendResponse($bookmarks->toArray(), 'Bookmarks retrieved successfully');
+        return $this->sendResponse($category->toArray(), 'Category retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateBookmarksAPIRequest $request
+     * @param UpdateCategoryAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/bookmarks/{id}",
-     *      summary="Update the specified Bookmarks in storage",
-     *      tags={"Bookmarks"},
-     *      description="Update Bookmarks",
+     *      path="/categories/{id}",
+     *      summary="Update the specified Category in storage",
+     *      tags={"Category"},
+     *      description="Update Category",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Bookmarks",
+     *          description="id of Category",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -216,9 +195,9 @@ class BookmarksAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Bookmarks that should be updated",
+     *          description="Category that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Bookmarks")
+     *          @SWG\Schema(ref="#/definitions/Category")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -231,7 +210,7 @@ class BookmarksAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Bookmarks"
+     *                  ref="#/definitions/Category"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -245,16 +224,15 @@ class BookmarksAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        /** @var Bookmarks $bookmarks */
-        $bookmarks = $this->bookmarksRepository->findWithoutFail($id);
+        $category = $this->categoryRepository->findWithoutFail($id);
 
-        if (empty($bookmarks)) {
-            return $this->sendError(__('Bookmarks not found'));
+        if (empty($category)) {
+            return $this->sendError('Category not found');
         }
 
-        $bookmarks = $this->bookmarksRepository->update($input, $id);
+        $category = $this->categoryRepository->update($input, $id);
 
-        return $this->sendResponse($bookmarks->toArray(), 'Bookmarks updated successfully');
+        return $this->sendResponse($category->toArray(), 'Category updated successfully');
     }
 
     /**
@@ -262,14 +240,14 @@ class BookmarksAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/bookmarks/{id}",
-     *      summary="Remove the specified Bookmarks from storage",
-     *      tags={"Bookmarks"},
-     *      description="Delete Bookmarks",
+     *      path="/categories/{id}",
+     *      summary="Remove the specified Category from storage",
+     *      tags={"Category"},
+     *      description="Delete Category",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Bookmarks",
+     *          description="id of Category",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -297,17 +275,39 @@ class BookmarksAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Bookmarks $bookmarks */
-        $bookmarks = $this->bookmarksRepository->findWithoutFail($id);
+        /** @var Category $category */
+        $category = $this->categoryRepository->findWithoutFail($id);
 
-        if (empty($bookmarks)) {
-            return $this->sendError(__('Bookmarks not found'));
+        if (empty($category)) {
+            return $this->sendError('Category not found');
         }
 
-        $bookmarks->delete();
+        $category->delete();
 
-        return $this->sendResponse($id, 'Bookmarks deleted successfully');
+        return $this->sendResponse($id, 'Category deleted successfully');
     }
 
+    public function showParentCategories(Request $request)
+    {
+//        $this->categoryRepository->pushCriteria(new RequestCriteria($request));
+//        $this->categoryRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $categories = $this->categoryRepository->findWhere([['parent_id', '=', 0], ['type', '=', $request->type]], ['*']);
 
+        return $this->sendResponse($categories->toArray(), 'Categories retrieved successfully');
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $categories = $this->categoryRepository->findWhere([['parent_id', '=', 0], ['type', '=', $request->type]], ['*']);
+        $arr_data = [];
+
+        foreach ($categories as &$category){
+            $children = $this->categoryRepository->findWhere([['parent_id', '=', $category['id']]]);
+            $category['children'] = $children;
+
+        }
+
+        return $this->sendResponse($categories, 'Categories retrieved successfully');
+    }
+    
 }

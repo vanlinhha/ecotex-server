@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Permission;
 use App\Repositories\AttachedFilesRepository;
+use App\Repositories\CategoryRepository;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,9 +25,20 @@ class UserController extends RestController
 
     private $attachedFilesRepository;
 
-    public function __construct(AttachedFilesRepository $attachedFilesRepo)
+    public $mainType = [
+        'material' => 'main_material_groups',
+        'segment' => 'main_segment_groups',
+        'product' => 'main_product_groups',
+        'target' => 'main_target_groups',
+        'service' => 'main_services',
+        'country' => 'main_export_countries',
+        'quantity' => 'minimum_order_quantity'];
+
+    public function __construct(AttachedFilesRepository $attachedFilesRepo, CategoryRepository $categoryRepository)
     {
         $this->attachedFilesRepository = $attachedFilesRepo;
+        $this->categoryRepository = $categoryRepository;
+
     }
 
     /**
@@ -80,6 +92,67 @@ class UserController extends RestController
      */
 
     protected $user;
+    private $categoryRepository;
+
+
+    public function getMainCategoryByType($mainCategories = array(), $type = "")
+    {
+        if (trim($type) == "") {
+            return $mainCategories;
+        }
+
+        $temp = [];
+        foreach ($mainCategories as $item) {
+            $category_type = $this->categoryRepository->findWithoutFail(intval($item['category_id']))['type'];
+            if ($category_type == $type) {
+                $temp[] = $item;
+            }
+        }
+        return $temp;
+    }
+
+    public function getInfo(&$user)
+    {
+        $locations           = $user->locations()->get();
+        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
+        $role                = $user->roles()->first();
+        $bookmarks           = $user->bookmarks()->get();
+
+        $mainCategories = $user->categories()->get();
+        foreach ($this->mainType as $type => $mainType) {
+            if (trim($mainType) != 'minimum_order_quantity') {
+                $user[$mainType] = $this->getMainCategoryByType($mainCategories, $type);
+            }
+        }
+        $user['role_type_ids']         = $role_type_ids;
+        $user['role']                  = $role;
+        $user['bookmarks']             = $bookmarks;
+        $user['locations']             = $locations;
+    }
+
+    public function getCategoryByType($categories = array(), $type = "")
+    {
+        if (trim($type) == "") {
+            return $categories;
+        }
+        $temp = [];
+        foreach ($categories as $item) {
+            if ($item['type'] == $type) {
+                $temp[] = $item;
+            }
+        }
+        return $temp;
+    }
+
+    public function getProductsOfUser(&$user)
+    {
+        $products = $user->products()->get();
+        foreach ($products as $product) {
+            $productImages = $product->productImages()->get();
+            $product['images'] = $productImages;
+        }
+        return $products;
+    }
 
     public function authenticate(Request $request)
     {
@@ -103,37 +176,8 @@ class UserController extends RestController
             return response()->json(['success' => false, 'message' => __('account_not_verified')], 403);
         }
 
-        $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
-        $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
-        $role = $user->roles()->first();
-        $bookmarks = $user->bookmarks()->get();
-        $locations = $user->locations()->get();
-
-        $products = $user->products()->get();
-
-        foreach ($products as $product) {
-            $productImages = $product->productImages()->get();
-            $product['images'] = $productImages;
-        }
-
-        $user['bookmarks'] = $bookmarks;
-        $user['locations'] = $locations;
-        $user['products'] = $products;
-        $user['role'] = $role;
-        $user['role_type_ids'] = $role_type_ids;
-        $user['main_product_groups'] = $mainProductGroups;
-        $user['main_services'] = $mainServices;
-        $user['main_material_groups'] = $mainMaterialGroups;
-        $user['main_segment_groups'] = $mainSegmentGroups;
-        $user['main_target_groups'] = $mainTargets;
-        $user['main_export_countries'] = $mainExportCountries;
-        //        $user['role_id']               = $roles;
-
+        $this->getInfo($user);
+        $user['products'] = $this->getProductsOfUser($user);
 
         return response()->json(['success' => true, 'data' => ['token' => $token, 'user' => $user, 'expired_at' => $timeExp], 'message' => 'Log in successfully'], 201, []);
     }
@@ -286,10 +330,10 @@ class UserController extends RestController
 
     public function register(Request $request)
     {
-        $main_product_group_IDs = json_decode($request->main_product_groups);
-        $main_material_group_IDs = json_decode($request->main_material_groups);
-        $main_segment_group_IDs = json_decode($request->main_segment_groups);
-        $main_target_group_IDs = json_decode($request->main_target_groups);
+        $main_category_IDs = json_decode($request->main_categories);
+//        $main_material_group_IDscategory = json_decode($request->main_material_groups);
+//        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+//        $main_target_group_IDs = json_decode($request->main_target_groups);
         $role_types = json_decode($request->role_types);
 
         $validator = Validator::make($request->all(), [
@@ -298,9 +342,8 @@ class UserController extends RestController
             'first_name' => 'required|string',
             'last_name' => 'required|string',
         ]);
-
         if ($validator->fails()) {
-            return response()->json(['message' => __($validator->errors()->toJson()), 'success' => false], 422);
+            return response()->json(['message' => $validator->errors(), 'success' => false], 422);
         }
 
         $user = Users::create([
@@ -344,10 +387,10 @@ class UserController extends RestController
             $user->roles()->attach(intval($request->role_id));
         }
 
-        $user->mainProductGroups()->sync($main_product_group_IDs);
-        $user->mainMaterialGroups()->sync($main_material_group_IDs);
-        $user->mainTargets()->sync($main_target_group_IDs);
-        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
+        $user->mainCategories()->sync($main_category_IDs);
+//        $user->mainMaterialGroups()->sync($main_material_group_IDs);
+//        $user->mainTargets()->sync($main_target_group_IDs);
+//        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
         $user->roleTypes()->sync($role_types);
 
         $token = JWTAuth::fromUser($user);
@@ -357,10 +400,12 @@ class UserController extends RestController
 
     public function createUser(Request $request)
     {
-        $main_product_group_IDs = json_decode($request->main_product_groups);
-        $main_material_group_IDs = json_decode($request->main_material_groups);
-        $main_segment_group_IDs = json_decode($request->main_segment_groups);
-        $main_target_group_IDs = json_decode($request->main_target_groups);
+        $main_category_IDs = json_decode($request->main_categories);
+
+//        $main_product_group_IDs = json_decode($request->main_product_groups);
+//        $main_material_group_IDs = json_decode($request->main_material_groups);
+//        $main_segment_group_IDs = json_decode($request->main_segment_groups);
+//        $main_target_group_IDs = json_decode($request->main_target_groups);
         $role_types = json_decode($request->role_types);
 
         $validator = Validator::make($request->all(), [
@@ -371,7 +416,7 @@ class UserController extends RestController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => __($validator->errors()->toJson()), 'success' => false], 422);
+            return response()->json(['message' => __($validator->errors()), 'success' => false], 422);
         }
 
         $user = Users::create([
@@ -406,11 +451,12 @@ class UserController extends RestController
         if (intval($request->role_id)) {
             $user->roles()->attach(intval($request->role_id));
         }
+        $user->mainCategories()->sync($main_category_IDs);
 
-        $user->mainProductGroups()->sync($main_product_group_IDs);
-        $user->mainMaterialGroups()->sync($main_material_group_IDs);
-        $user->mainTargets()->sync($main_target_group_IDs);
-        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
+//        $user->mainProductGroups()->sync($main_product_group_IDs);
+//        $user->mainMaterialGroups()->sync($main_material_group_IDs);
+//        $user->mainTargets()->sync($main_target_group_IDs);
+//        $user->mainSegmentGroups()->sync($main_segment_group_IDs);
         $user->roleTypes()->sync($role_types);
 
         $token = JWTAuth::fromUser($user);
@@ -611,14 +657,18 @@ class UserController extends RestController
 
     public function updatePermissions(Request $request)
     {
-        $role = Role::find($request->role_id);
-        if (empty($role)) {
-            return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+        foreach ($request->roles_permissions as $roles_permission){
+            $role = Role::find($roles_permission['id']);
+            if (empty($role)) {
+                return response()->json(['success' => false, 'data' => [], 'message' => 'Role not found'], 404);
+            }
+//            $permission_ids = json_decode($roles_permission['permission_ids']);
+            $role->syncPermissions($roles_permission['permission_ids']);
+//            $permissions = $role->permissions()->get();
         }
-        $permission_ids = json_decode($request->permission_ids);
-        $role->syncPermissions($permission_ids);
-        $permissions = $role->permissions()->get();
-        return response()->json(['success' => true, 'data' => $permissions, 'message' => 'Update permissions successfully'], 200);
+
+        return $this->getAllRolesAndPermissions();
+//        return response()->json(['success' => true, 'data' => $permissions, 'message' => 'Update permissions successfully'], 200);
     }
 
     public function getRolePermissions($id, Request $request)

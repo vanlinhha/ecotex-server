@@ -30,47 +30,16 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
 });
 
-
-//Route::resource('main_product_groups', 'MainProductGroupsAPIController');
-//
-//Route::resource('main_segment_groups', 'MainSegmentGroupsAPIController');
-//
-//Route::resource('main_targets', 'MainTargetsAPIController')->middleware('jwt.verify');
-//
-//Route::resource('main_services', 'MainServicesAPIController');
-//
-//Route::resource('main_export_countries', 'MainExportCountriesAPIController');
-
-Route::get('/product_groups/all_parent/', 'ProductGroupsAPIController@showParentProductGroups');
-
-Route::get('/product_groups/parent_with_children/', 'ProductGroupsAPIController@getProductCategoryByParent');
-
-Route::resource('product_groups', 'ProductGroupsAPIController');
-
-Route::resource('segment_groups', 'SegmentGroupsAPIController');
-
-Route::resource('role_types', 'RoleTypesAPIController');
-
-Route::resource('target_groups', 'TargetGroupsAPIController');
-
 Route::resource('minimum_order_quantities', 'MinimumOrderQuantityAPIController');
-
-Route::resource('services', 'ServicesAPIController');
 
 Route::resource('countries', 'CountriesAPIController');
 
-Route::resource('material_groups', 'MaterialGroupsAPIController');
-
 Route::resource('bookmarks', 'BookmarksAPIController');
 
-Route::resource('product_posts', 'ProductPostsAPIController');
 
 Route::get('response_user', 'ResponsesAPIController@getUserResponses')->middleware(['jwt.verify']);
 
 Route::resource('responses', 'ResponsesAPIController');
-
-
-
 
 
 
@@ -97,7 +66,16 @@ Route::post('/resetPassword/{id}/', 'UsersAPIController@resetPassword');
 
 
 //                         MODULE PROFILE
-Route::post('/upload_avatar', 'UsersAPIController@uploadAvatar');
+
+Route::get('/categories/all_parent', 'CategoryAPIController@showParentCategories');
+
+Route::get('/categories/parent_with_children', 'CategoryAPIController@getCategoriesByParent');
+
+
+Route::resource('categories', 'CategoryAPIController');
+
+//Route::resource('main_categories', 'MainCategoryAPIController');
+
 
 
 //Update user profile
@@ -106,34 +84,21 @@ Route::group(['middleware' => ['jwt.verify', 'ability:,update-profile']], functi
 
     Route::put('/users/brands/{id}', 'UserController@updateBrands');
 
-    Route::put('/users/main_segment_groups/{id}', 'MainSegmentGroupsAPIController@updateMainSegmentGroups');
-
-    Route::put('/users/main_product_groups/{id}', 'MainProductGroupsAPIController@updateMainProductGroups');
-
-    Route::put('/users/main_material_groups/{id}', 'MainMaterialGroupsAPIController@updateMainMaterialGroups');
-
-    Route::put('/users/main_target_groups/{id}', 'MainTargetsAPIController@updateMainTargets');
-
-    Route::put('/users/main_export_countries/{id}', 'MainExportCountriesAPIController@updateMainExportCountries');
-
-    Route::put('/users/main_services/{id}', 'MainServicesAPIController@updateMainServices');
+    Route::put('/users/main_categories/{id}', 'UsersAPIController@updateMainCategories');
 
 
 
-
+    Route::post('/upload_avatar', 'UsersAPIController@uploadAvatar');
 });
 
 Route::get('/roles', 'UserController@getAllRoles');
 
-
 //                               MODULE ACL
-
 Route::group(['middleware' => ['jwt.verify', 'permission:manage-acl']], function () {
 // update permissions of role
     Route::put('/roles/update_permissions', 'UserController@updatePermissions');
 //sync role to user
     Route::put('/roles/sync_role_user', 'UserController@syncRoleUser');
-// Get all roles of system
 // Get all permissions of role
     Route::get('/roles/{id}/permissions', 'UserController@getRolePermissions');
 // Get all permissions of system
@@ -153,20 +118,27 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::delete('/delete_message/{id}', 'MessageAPIController@deleteMessage');
 });
 
+Route::post('/update_post/{id}', 'ProductPostsAPIController@updatePost');
 
-Route::post('/uploads_test', 'UserController@uploads_test');
-
+Route::resource('product_posts', 'ProductPostsAPIController');
 
 Route::get('/product_posts/get_own_posts/{user_id}', 'ProductPostsAPIController@getOwnPosts');
-
-//Route::resource('attached_files', 'AttachedFilesAPIController');
-//
-//Route::resource('attached_images', 'AttachedImagesAPIController');
 
 Route::resource('products', 'ProductsAPIController');
 Route::get('/product_user/{user_id}', 'ProductsAPIController@product_user');
 
-
-
-
 Route::resource('locations', 'LocationsAPIController');
+
+
+
+Route::resource('job_posts', 'JobPostsAPIController');
+
+Route::resource('apply_cv', 'AppliedCVAPIController');
+
+Route::get('/report', 'ReportAPIController@index');
+
+Route::get('/cvs/job_post/{job_post_id}', 'AppliedCVAPIController@getAllCVInAPost');
+
+Route::get('/cvs/getAllCVApplied', 'AppliedCVAPIController@getAllCVApplied');
+
+Route::get('/cvs/getAllPostApplied', 'AppliedCVAPIController@getAllPostApplied');

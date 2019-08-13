@@ -16,264 +16,396 @@ class DatabaseSeeder extends Seeder
 //        $faker = Faker\Factory::create();
 
 
-        DB::table('target_groups')->insert([
-                [
-                    'name' => 'baby',
-                ],
-
-                [
-                    'name' => 'kids',
-                ],
-                [
-                    'name' => 'men',
-                ],
-                [
-                    'name' => 'women',
-                ]
-            ]
-
-        );
-
-
-        DB::table('segment_groups')->insert([
-                [
-                    'name' => 'active',
-                ],
-
-                [
-                    'name' => 'casual',
-                ],
-                [
-                    'name' => 'formal',
-                ],
-                [
-                    'name' => 'workwear',
-                ]
-            ]
-
-        );
-
-        DB::table('product_groups')->insert([
+        DB::table('categories')->insert([
                 [
                     'name'      => 'Áo',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Quần',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Váy',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Đồ lót',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Vest & jacket',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
                 [
                     'name'      => 'Phụ kiện',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'product',
+                    'role_id' => 0
                 ]
             ]
         );
 
-        DB::table('product_groups')->insert([
+        DB::table('categories')->insert([
+                [
+                    'name' => 'baby',
+                    'parent_id' => 0,
+                    'type' => 'target',
+                    'role_id' => 0
+                ],
+
+                [
+                    'name' => 'kids',
+                    'parent_id' => 0,
+                    'type' => 'target',
+                    'role_id' => 0
+                ],
+                [
+                    'name' => 'men',
+                    'parent_id' => 0,
+                    'type' => 'target',
+                    'role_id' => 0
+                ],
+                [
+                    'name' => 'women',
+                    'parent_id' => 0,
+                    'type' => 'target',
+                    'role_id' => 0
+                ]
+            ]
+
+        );
+
+
+        DB::table('categories')->insert([
+                [
+                    'name' => 'active',
+                    'parent_id' => 0,
+                    'type' => 'segment',
+                    'role_id' => 0
+                ],
+
+                [
+                    'name' => 'casual',
+                    'parent_id' => 0,
+                    'type' => 'segment',
+                    'role_id' => 0
+                ],
+                [
+                    'name' => 'formal',
+                    'parent_id' => 0,
+                    'type' => 'segment',
+                    'role_id' => 0
+                ],
+                [
+                    'name' => 'workwear',
+                    'parent_id' => 0,
+                    'type' => 'segment',
+                    'role_id' => 0
+                ]
+            ]
+
+        );
+
+
+
+        DB::table('categories')->insert([
                 [
                     'name'      => 'Áo thun dài tay',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Áo len',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Áo khoác',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Áo blazer',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Áo Polo',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
                 [
                     'name'      => 'Áo Thun ',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'product',
+                    'role_id' => 0
                 ]
             ]
         );
 
-        DB::table('product_groups')->insert([
+        DB::table('categories')->insert([
                 [
                     'name'      => 'Quần Âu ',
-                    'parent_id' => 2
+                    'parent_id' => 2,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Quần Kaki',
-                    'parent_id' => 2
+                    'parent_id' => 2,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Quần Thể thao',
-                    'parent_id' => 2
+                    'parent_id' => 2,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Quần Short',
-                    'parent_id' => 2
+                    'parent_id' => 2,
+                    'type' => 'product',
+                    'role_id' => 0
                 ]
             ]
         );
 
-        DB::table('product_groups')->insert([
+        DB::table('categories')->insert([
                 [
                     'name'      => 'Thắt lưng',
-                    'parent_id' => 6
+                    'parent_id' => 6,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Ví nam',
-                    'parent_id' => 6
+                    'parent_id' => 6,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Ví nữ ',
-                    'parent_id' => 6
+                    'parent_id' => 6,
+                    'type' => 'product',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Cà vạt ',
-                    'parent_id' => 6
+                    'parent_id' => 6,
+                    'type' => 'product',
+                    'role_id' => 0
                 ]
             ]
         );
 
-        DB::table('material_groups')->insert([
+        DB::table('categories')->insert([
                 [
                     'name'      => 'Vải',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'material',
+                    'role_id' => 0
+
                 ],
 
                 [
                     'name'      => 'Chỉ',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Cúc',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Dây kéo',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Vật liệu dựng',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
                 [
                     'name'      => 'Phụ kiện',
-                    'parent_id' => 0
+                    'parent_id' => 0,
+                    'type' => 'material',
+                    'role_id' => 0
                 ]
             ]
         );
 
-        DB::table('material_groups')->insert([
+        DB::table('categories')->insert([
                 [
                     'name'      => 'Vải loại 1',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Vải loại 2',
-                    'parent_id' => 1
+                    'parent_id' => 1,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Chỉ bông',
-                    'parent_id' => 2
+                    'parent_id' => 2,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Chỉ tơ tằm',
-                    'parent_id' => 2
+                    'parent_id' => 2,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Cúc gỗ',
-                    'parent_id' => 3
+                    'parent_id' => 3,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
 
                 [
                     'name'      => 'Cúc nhựa',
-                    'parent_id' => 3
+                    'parent_id' => 3,
+                    'type' => 'material',
+                    'role_id' => 0
                 ],
                 [
                     'name'      => 'Cúc kim loại',
-                    'parent_id' => 3
+                    'parent_id' => 3,
+                    'type' => 'material',
+                    'role_id' => 0
                 ]
             ]
         );
 
-        DB::table('services')->insert([
+        DB::table('categories')->insert([
                 [
-                    'name'      => 'Fabric Production',
-                    'role_id' => 1
+                    'name'      => 'Sợi - Dệt vải',
+                    'role_id' => 1,
+                    'parent_id' => 0,
+                    'type' => 'service',
                 ],
 
                 [
-                    'name'      => 'Garment Production',
-                    'role_id' => 2
+                    'name'      => 'Vải - Phụ kiện',
+                    'role_id' => 2,
+                    'parent_id' => 0,
+                    'type' => 'service',
                 ],
 
                 [
-                    'name'      => 'Finishing and Logistics',
-                    'role_id' => 3
+                    'name'      => 'Cắt may',
+                    'role_id' => 3,
+                    'parent_id' => 0,
+                    'type' => 'service',
+                ],
+                [
+                    'name'      => 'Máy móc-Thiết bị',
+                    'role_id' => 3,
+                    'parent_id' => 0,
+                    'type' => 'service',
+                ],
+                [
+                    'name'      => 'Kinh doanh thời trang',
+                    'role_id' => 3,
+                    'parent_id' => 0,
+                    'type' => 'service',
+                ],
+                [
+                    'name'      => 'Khác',
+                    'role_id' => 3,
+                    'parent_id' => 0,
+                    'type' => 'service',
                 ]
             ]
         );
 
 
-        DB::table('minimum_order_quantities')->insert(
+        DB::table('categories')->insert(
             [
                 'name' => '100 - 500',
+                'role_id' => 0,
+                'parent_id' => 0,
+                'type' => 'quantity',
             ]
         );
-        DB::table('minimum_order_quantities')->insert(
+        DB::table('categories')->insert(
             [
                 'name' => '500 - 1000',
+                'role_id' => 0,
+                'parent_id' => 0,
+                'type' => 'quantity',
             ]
         );
-        DB::table('minimum_order_quantities')->insert(
+        DB::table('categories')->insert(
             [
                 'name' => '1000 - 5000',
+                'role_id' => 0,
+                'parent_id' => 0,
+                'type' => 'quantity',
             ]
         );
-        DB::table('minimum_order_quantities')->insert(
+        DB::table('categories')->insert(
             [
                 'name' => '5000 - 20000',
+                'role_id' => 0,
+                'parent_id' => 0,
+                'type' => 'quantity',
             ]
         );
-        DB::table('minimum_order_quantities')->insert(
+        DB::table('categories')->insert(
             [
                 'name' => 'more than 20000',
+                'role_id' => 0,
+                'parent_id' => 0,
+                'type' => 'quantity',
             ]
         );
 
@@ -329,7 +461,6 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Colombia', 'code' => 'CO'],
             ['name' => 'Comoros', 'code' => 'KM'],
             ['name' => 'Congo', 'code' => 'CG'],
-            ['name' => 'Congo, the Democratic Republic of the', 'code' => 'CD'],
             ['name' => 'Cook Islands', 'code' => 'CK'],
             ['name' => 'Costa Rica', 'code' => 'CR'],
             ['name' => 'Côte d\'Ivoire', 'code' => 'CI'],
@@ -395,8 +526,8 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Kazakhstan', 'code' => 'KZ'],
             ['name' => 'Kenya', 'code' => 'KE'],
             ['name' => 'Kiribati', 'code' => 'KI'],
-            ['name' => 'Korea, Democratic People\'s Republic of', 'code' => 'KP'],
-            ['name' => 'Korea, Republic of', 'code' => 'KR'],
+            ['name' => 'North Korea', 'code' => 'KP'],
+            ['name' => 'South Korea', 'code' => 'KR'],
             ['name' => 'Kuwait', 'code' => 'KW'],
             ['name' => 'Kyrgyzstan', 'code' => 'KG'],
             ['name' => 'Lao People\'s Democratic Republic', 'code' => 'LA'],
@@ -529,7 +660,11 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Zimbabwe', 'code' => 'ZW'],
         ];
 
-        DB::table('countries')->insert($countries);
+        foreach ($countries as $country){
+            DB::table('categories')->insert(['name' => $country['name'], 'parent_id' => 0, 'role_id' => 0, 'type' => 'country']);
+        }
+
+//        DB::table('countries')->insert($countries);
 
 
 //        );
