@@ -11,6 +11,7 @@ use App\Repositories\MainTargetsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Mail;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use JWTAuth;
@@ -23,6 +24,8 @@ class UsersAPIController extends AppBaseController
 {
     /** @var  UsersRepository */
     private $usersRepository;
+    protected $user;
+
 
     public function __construct(UsersRepository $usersRepo)
     {
@@ -158,42 +161,41 @@ class UsersAPIController extends AppBaseController
             $paginate = true;
         }
 
-        $text_search   = $request->text_search ? $request->text_search : "";
-        if(trim($text_search)){
+        $text_search = $request->text_search ? $request->text_search : "";
+        if (trim($text_search)) {
             $list_user_IDs = $this->usersRepository->findWhere([['company_name', 'like', "%" . $text_search . "%"], ['is_activated', '=', 1]])->pluck('id')->all();
-        }
-        else{
-            $list_user_IDs = $this->usersRepository->findWhere([ ['is_activated', '=', 1]])->pluck('id')->all();
+        } else {
+            $list_user_IDs = $this->usersRepository->findWhere([['is_activated', '=', 1]])->pluck('id')->all();
 
         }
 
         if (isset($request->main_product_groups)) {
             $main_product_group_IDs = json_decode($request->main_product_groups);
             if (count($main_product_group_IDs)) {
-                $user_IDs      = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
+                $user_IDs = $mainProductGroupsRepository->findWhereIn('product_group_id', $main_product_group_IDs)->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs);
             }
         }
 
-        if(isset($request->main_target_groups)){
+        if (isset($request->main_target_groups)) {
             $main_target_group_IDs = json_decode($request->main_target_groups);
             if (count($main_target_group_IDs)) {
-                $user_IDs2     = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $user_IDs2 = $mainTargetsRepository->findWhereIn('target_group_id', $main_target_group_IDs, ['user_id'])->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs2);
             }
         }
 
-        if(isset($request->main_segment_groups)){
+        if (isset($request->main_segment_groups)) {
             $main_segment_group_IDs = json_decode($request->main_segment_groups);
             if (count($main_segment_group_IDs)) {
-                $user_IDs3     = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
+                $user_IDs3 = $mainSegmentGroupsRepository->findWhereIn('segment_group_id', $main_segment_group_IDs, ['user_id'])->pluck('user_id')->all();
                 $list_user_IDs = array_intersect($list_user_IDs, $user_IDs3);
             }
         }
 
 
-        $limit     = isset($request->limit) ? intval($request->limit)  : 5 ;
-        $order_by  = isset($request->order_by) ? $request->order_by : 'id';
+        $limit = isset($request->limit) ? intval($request->limit) : 5;
+        $order_by = isset($request->order_by) ? $request->order_by : 'id';
         $direction = (isset($request->direction) || $request->direction !== 'desc') ? 'asc' : $request->direction;
 
         $users = $this->usersRepository->findWhereInAndPaginate('id', $list_user_IDs, $order_by, $direction, $limit, $paginate, ['*']);
@@ -242,34 +244,34 @@ class UsersAPIController extends AppBaseController
 
     public function getInfo(&$user)
     {
-        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
         $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
-        $role                = $user->roles()->first();
-        $bookmarks           = $user->bookmarks()->get();
-        $locations           = $user->locations()->get();
+        $mainMaterialGroups = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
+        $role = $user->roles()->first();
+        $bookmarks = $user->bookmarks()->get();
+        $locations = $user->locations()->get();
 
         $products = $user->products()->get();
 
         foreach ($products as $product) {
-            $productImages     = $product->productImages()->get();
+            $productImages = $product->productImages()->get();
             $product['images'] = $productImages;
         }
 
-        $user['bookmarks']             = $bookmarks;
-        $user['locations']             = $locations;
-        $user['products']              = $products;
-        $user['role']                  = $role;
-        $user['role_type_ids']         = $role_type_ids;
-        $user['main_product_groups']   = $mainProductGroups;
-        $user['main_services']         = $mainServices;
-        $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegmentGroups;
-        $user['main_target_groups']    = $mainTargets;
+        $user['bookmarks'] = $bookmarks;
+        $user['locations'] = $locations;
+        $user['products'] = $products;
+        $user['role'] = $role;
+        $user['role_type_ids'] = $role_type_ids;
+        $user['main_product_groups'] = $mainProductGroups;
+        $user['main_services'] = $mainServices;
+        $user['main_material_groups'] = $mainMaterialGroups;
+        $user['main_segment_groups'] = $mainSegmentGroups;
+        $user['main_target_groups'] = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
     }
 
@@ -327,24 +329,24 @@ class UsersAPIController extends AppBaseController
             return $this->sendError(__('User not found'), 404);
         }
 
-        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
         $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
-        $role                = $user->roles()->get();
-        $bookmarks           = $user->bookmarks()->get();
+        $mainMaterialGroups = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
+        $role = $user->roles()->get();
+        $bookmarks = $user->bookmarks()->get();
 
-        $user['bookmarks']             = $bookmarks;
-        $user['role']                  = $role;
-        $user['role_type_ids']         = $role_type_ids;
-        $user['main_product_groups']   = $mainProductGroups;
-        $user['main_services']         = $mainServices;
-        $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegmentGroups;
-        $user['main_target_groups']    = $mainTargets;
+        $user['bookmarks'] = $bookmarks;
+        $user['role'] = $role;
+        $user['role_type_ids'] = $role_type_ids;
+        $user['main_product_groups'] = $mainProductGroups;
+        $user['main_services'] = $mainServices;
+        $user['main_material_groups'] = $mainMaterialGroups;
+        $user['main_segment_groups'] = $mainSegmentGroups;
+        $user['main_target_groups'] = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
 
         return $this->sendResponse($user->toArray(), 'Users retrieved successfully');
@@ -417,21 +419,21 @@ class UsersAPIController extends AppBaseController
             $roles = 0;
         }
 
-        $mainProductGroups   = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
-        $mainServices        = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
+        $mainProductGroups = $user->mainProductGroups()->get(['*', 'name', 'product_group_id', 'percent']);
+        $mainServices = $user->services()->get(['*', 'name', 'service_id', 'role_id']);
         $mainExportCountries = $user->mainExportCountries()->get(['*', 'country_id', 'percent']);
-        $mainMaterialGroups  = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
-        $mainTargets         = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
-        $mainSegmentGroups   = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
-        $role_type_ids       = $user->roleTypes()->pluck('role_type_id');
+        $mainMaterialGroups = $user->mainMaterialGroups()->get(['*', 'name', 'material_group_id', 'percent']);
+        $mainTargets = $user->mainTargets()->get(['*', 'name', 'target_group_id', 'percent']);
+        $mainSegmentGroups = $user->mainSegmentGroups()->get(['*', 'name', 'segment_group_id', 'percent']);
+        $role_type_ids = $user->roleTypes()->pluck('role_type_id');
 
-        $user['role_type_ids']         = $role_type_ids;
-        $user['role_id']               = $roles;
-        $user['main_product_groups']   = $mainProductGroups;
-        $user['main_services']         = $mainServices;
-        $user['main_material_groups']  = $mainMaterialGroups;
-        $user['main_segment_groups']   = $mainSegmentGroups;
-        $user['main_target_groups']    = $mainTargets;
+        $user['role_type_ids'] = $role_type_ids;
+        $user['role_id'] = $roles;
+        $user['main_product_groups'] = $mainProductGroups;
+        $user['main_services'] = $mainServices;
+        $user['main_material_groups'] = $mainMaterialGroups;
+        $user['main_segment_groups'] = $mainSegmentGroups;
+        $user['main_target_groups'] = $mainTargets;
         $user['main_export_countries'] = $mainExportCountries;
 
         return $this->sendResponse($user->toArray(), 'Users updated successfully');
@@ -573,8 +575,8 @@ class UsersAPIController extends AppBaseController
             $paginate = true;
         }
 
-        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
-        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $limit = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = is_null($request->direction) ? 'asc' : $request->direction;
 
 //        $this->usersRepository->pushCriteria(new RequestCriteria($request));
@@ -656,8 +658,8 @@ class UsersAPIController extends AppBaseController
      */
     public function getAllUser(Request $request)
     {
-        $limit     = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
-        $order_by  = is_null($request->order_by) ? 'id' : $request->order_by;
+        $limit = is_null($request->limit) ? config('repository.pagination.limit', 10) : intval($request->limit);
+        $order_by = is_null($request->order_by) ? 'id' : $request->order_by;
         $direction = is_null($request->direction) ? 'asc' : $request->direction;
 
         if (isset($request->paginate)) {
@@ -729,7 +731,7 @@ class UsersAPIController extends AppBaseController
 
         if ($request->hasFile('avatar')) {
             $extension = $request->file('avatar')->getClientOriginalName();
-            $filename  = uniqid() . '-' . $extension;
+            $filename = uniqid() . '-' . $extension;
             $request->file('avatar')->move(storage_path('app/public/avatars'), $filename);
             $user = $this->usersRepository->update(['avatar' => '/storage/avatars/' . $filename], JWTAuth::parseToken()->authenticate()->id);
         }
@@ -737,5 +739,38 @@ class UsersAPIController extends AppBaseController
 
     }
 
+    public function forgotPassword(Request $request)
+    {
+        if (isset($request->email)) {
+            $user = $this->usersRepository->findWhere([['email', '=', $request->email], ['is_activated', '=', 1]]);
+            if (!$user) {
+                return $this->sendError('User not found', 404);
+            }
+            $this->user = $user;
+            Mail::raw(__("Please click on this link to reset your password, ") .
+                env('APP_CLIENT_BASE_PATH') . '/forgot/' . $this->user->id, function ($mail) {
+                $mail->to($this->user->email)
+                    ->from('support@ecotexvietnam.com', 'Ecotex')
+                    ->subject(__("Ecotex: Reset your password "));
+            });
+            return response()->json(['success' => true, 'data' => [], 'message' => "Sent email successfully"], 200);
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $input = $request->only(['id, password']);
+        $user = $this->usersRepository->findWithoutFail($input['id']);
+
+        if (empty($user)) {
+            return $this->sendError(__('User not found'), 404);
+        }
+        if (trim($input['password']) != '') {
+            $input['password'] = bcrypt($input['password']);
+        }
+        $this->usersRepository->update($input, $user->id);
+
+        return response()->json(['success' => true, 'data' => [], 'message' => "Reset password successfully"], 200);
+    }
 
 }

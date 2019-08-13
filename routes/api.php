@@ -91,7 +91,9 @@ Route::group(['middleware' => ['jwt.verify', 'ability:administrator,manage-users
 
 });
 
-Route::put('/verify/{user_id}/{activation_code}', 'UsersAPIController@verify');
+Route::post('/forgotPassword', 'UsersAPIController@forgotPassword');
+
+Route::post('/resetPassword/{id}/', 'UsersAPIController@resetPassword');
 
 
 //                         MODULE PROFILE
