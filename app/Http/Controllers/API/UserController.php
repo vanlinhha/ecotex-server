@@ -168,9 +168,9 @@ class UserController extends RestController
         }
         $user = JWTAuth::user();
 
-        if (trim($user['activation_code'])) {
-            return response()->json(['success' => false, 'message' => __('invalid_credentials')], 403);
-        }
+        // if (trim($user['activation_code'])) {
+        //     return response()->json(['success' => false, 'message' => __('invalid_credentials')], 403);
+        // }
 
         if ($user['is_activated'] !== 1) {
             return response()->json(['success' => false, 'message' => __('account_not_verified')], 403);
@@ -370,18 +370,18 @@ class UserController extends RestController
             'revenue_per_year' => $request->post('revenue_per_year'),
             'pieces_per_year' => $request->post('pieces_per_year'),
             'compliance' => $request->post('compliance'),
-            'activation_code' => str_random(50),
-            'is_activated' => 0,
+            'activation_code' => null,
+            'is_activated' => 1,
         ]);
 
         $this->user = $user;
 
-        Mail::raw(__("Sign up successfully, click on this link to complete your registration, ") .
-            env('APP_CLIENT_BASE_PATH') . '/verify/' . $this->user->id . '/' . $this->user->activation_code, function ($mail) {
-            $mail->to($this->user->email)
-                ->from('support@ecotexvietnam.com', 'Ecotex')
-                ->subject(__("Ecotex: Please verify your email, ") . $this->user->first_name . '!');
-        });
+        // Mail::raw(__("Sign up successfully, click on this link to complete your registration, ") .
+        //     env('APP_CLIENT_BASE_PATH') . '/verify/' . $this->user->id . '/' . $this->user->activation_code, function ($mail) {
+        //     $mail->to($this->user->email)
+        //         ->from('support@ecotexvietnam.com', 'Ecotex')
+        //         ->subject(__("Ecotex: Please verify your email, ") . $this->user->first_name . '!');
+        // });
 
         if (intval($request->role_id)) {
             $user->roles()->attach(intval($request->role_id));
